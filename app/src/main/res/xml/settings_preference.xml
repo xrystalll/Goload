@@ -1,0 +1,85 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:layout="@layout/preference_category_material"
+        app:title="@string/theme_header"
+        app:iconSpaceReserved="false"
+        tools:ignore="PrivateResource">
+
+        <SwitchPreferenceCompat
+            app:key="switch_theme"
+            app:layout="@layout/preference_material"
+            android:widgetLayout="@layout/preference_widget_switch_compat"
+            app:title="@string/settings_theme_title"
+            app:summary="@string/settings_theme_description"
+            app:defaultValue="true"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        app:layout="@layout/preference_category_material"
+        app:title="@string/lang_header"
+        app:iconSpaceReserved="false"
+        tools:ignore="PrivateResource">
+
+        <ListPreference
+            app:key="lang"
+            app:layout="@layout/preference_material"
+            app:title="@string/settings_lang_title"
+            app:summary="@string/settings_lang_description"
+            app:dialogTitle="@string/select_lang_title"
+            app:entries="@array/lang_titles"
+            app:entryValues="@array/lang_values"
+            app:defaultValue="@string/lang_value"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        app:layout="@layout/preference_category_material"
+        app:title="@string/data_header"
+        app:iconSpaceReserved="false"
+        tools:ignore="PrivateResource">
+
+        <Preference
+            app:key="clear_cache"
+            app:layout="@layout/preference_material"
+            app:title="@string/settings_cache_title"
+            app:summary="@string/settings_cache_description"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        app:layout="@layout/preference_category_material"
+        app:title="@string/about_header"
+        app:iconSpaceReserved="false"
+        tools:ignore="PrivateResource">
+
+        <Preference
+            app:key="open_rules_webview"
+            app:layout="@layout/preference_material"
+            app:title="@string/rules_title"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            app:key="open_licences_webview"
+            app:layout="@layout/preference_material"
+            app:title="@string/licenses_title"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+
+    <Preference
+        app:layout="@layout/preference_about"
+        app:enabled="false"
+        app:iconSpaceReserved="false" />
+
+</PreferenceScreen>

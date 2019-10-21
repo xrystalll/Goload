@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Goload</string>
+    <string name="app_version" translatable="false">version 4.0</string>
+    <string name="file_title">View file</string>
+    <string name="picker_title">Choose file</string>
+    <string name="rules_title">Terms of use</string>
+    <string name="licenses_title">Licenses</string>
+
+    <string name="text_home">Home</string>
+    <string name="text_upload">Upload</string>
+    <string name="text_settings">Settings</string>
+
+    <!-- Settings Strings -->
+    <string name="theme_header">THEME</string>
+    <string name="lang_header">LANGUAGE</string>
+    <string name="data_header">DATA</string>
+    <string name="about_header">ABOUT</string>
+
+    <string name="settings_theme_title">Dark mode</string>
+    <string name="settings_lang_title">English</string>
+    <string name="settings_cache_title">Clear cache</string>
+
+    <string name="settings_theme_description">Use dark mode in the app</string>
+    <string name="settings_lang_description">Language used in the app</string>
+    <string name="settings_cache_description">Delete all images, videos, files saved in storage</string>
+
+    <string name="select_lang_title">Select language</string>
+    <string name="lang_value">en</string>
+    <string name="select_lang_en" translatable="false">English</string>
+    <string name="select_lang_ru" translatable="false">Русский</string>
+    <string name="value_lang_en" translatable="false">en</string>
+    <string name="value_lang_ru" translatable="false">ru</string>
+
+    <!-- Upload Strings -->
+    <string name="choose_a_file">CHOOSE A FILE</string>
+    <string name="storage_header">FILE STORAGE</string>
+    <string name="enter_name_header">ENTER YOUR NAME</string>
+    <string name="upload_btn">UPLOAD</string>
+    <string name="hint_name">Name</string>
+    <string name="storage_time_1">1 day</string>
+    <string name="storage_time_10">10 days</string>
+    <string name="storage_time_180">180 days</string>
+
+    <string name="enter_name_error">Enter your name</string>
+    <string name="choose_file_error">Choose file</string>
+
+    <!-- File Picker Strings -->
+    <string name="action_close">Close</string>
+    <string name="empty_directory_hint">Empty folder</string>
+    <string name="type_apk" translatable="false">APK</string>
+    <string name="type_archive">Archive</string>
+    <string name="type_certificate">Certificate</string>
+    <string name="type_directory">Folder</string>
+    <string name="type_document">File</string>
+    <string name="type_drawing">Picture</string>
+    <string name="type_excel">Spreadsheet</string>
+    <string name="type_image">Image</string>
+    <string name="type_music">Music</string>
+    <string name="type_pdf">PDF document</string>
+    <string name="type_power_point">Presentation</string>
+    <string name="type_video">Video</string>
+    <string name="type_word">Document</string>
+
+    <!-- File Strings -->
+    <string name="download_btn">Download file</string>
+    <string name="file_not_found">File not found</string>
+    <string name="downloading_notification">Downloading…</string>
+    <string name="at">at</string>
+    <string name="today">today at</string>
+    <string name="yesterday">yesterday at</string>
+</resources>

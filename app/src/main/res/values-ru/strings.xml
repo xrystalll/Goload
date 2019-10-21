@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="file_title">Просмотр файла</string>
+    <string name="picker_title">Выберите файл</string>
+    <string name="rules_title">Правила использования</string>
+    <string name="licenses_title">Лицензии</string>
+
+    <string name="text_home">Главная</string>
+    <string name="text_upload">Загрузить</string>
+    <string name="text_settings">Настройки</string>
+
+    <!-- Settings Strings -->
+    <string name="theme_header">ТЕМА</string>
+    <string name="lang_header">ЯЗЫК</string>
+    <string name="data_header">ДАННЫЕ</string>
+    <string name="about_header">О ПРИЛОЖЕНИИ</string>
+
+    <string name="settings_theme_title">Тёмная тема</string>
+    <string name="settings_lang_title">Русский</string>
+    <string name="settings_cache_title">Очистить кэш</string>
+
+    <string name="settings_theme_description">Использовать тёмную тему</string>
+    <string name="settings_lang_description">Язык используемый в приложении</string>
+    <string name="settings_cache_description">Удалить все изображения, видео, файлы из кэша</string>
+
+    <string name="select_lang_title">Выберите язык</string>
+    <string name="lang_value">ru</string>
+
+    <!-- Upload Strings -->
+    <string name="choose_a_file">ВЫБЕРИТЕ ФАЙЛ</string>
+    <string name="storage_header">СРОК ХРАНЕНИЯ</string>
+    <string name="enter_name_header">ВВЕДИТЕ ВАШЕ ИМЯ</string>
+    <string name="upload_btn">ЗАГРУЗИТЬ</string>
+    <string name="hint_name">Имя</string>
+    <string name="storage_time_1">1 день</string>
+    <string name="storage_time_10">10 дней</string>
+    <string name="storage_time_180">180 дней</string>
+
+    <string name="enter_name_error">Введите ваше имя</string>
+    <string name="choose_file_error">Выберите файл</string>
+
+    <!-- File Picker Strings -->
+    <string name="action_close">Закрыть</string>
+    <string name="empty_directory_hint">Файлов нет</string>
+    <string name="type_archive">Архив</string>
+    <string name="type_certificate">Сертификат</string>
+    <string name="type_directory">Папка</string>
+    <string name="type_document">Файл</string>
+    <string name="type_drawing">Рисунок</string>
+    <string name="type_excel">Таблица</string>
+    <string name="type_image">Изображение</string>
+    <string name="type_music">Аудио</string>
+    <string name="type_pdf">Документ PDF</string>
+    <string name="type_power_point">Презентация</string>
+    <string name="type_video">Видео</string>
+    <string name="type_word">Документ</string>
+
+    <!-- File Strings -->
+    <string name="download_btn">Скачать файл</string>
+    <string name="file_not_found">Файл не найден</string>
+    <string name="downloading_notification">Скачивание…</string>
+    <string name="at">в</string>
+    <string name="today">сегодня в</string>
+    <string name="yesterday">вчера в</string>
+</resources>

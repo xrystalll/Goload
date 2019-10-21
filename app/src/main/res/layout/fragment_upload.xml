@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="12dp">
+
+            <LinearLayout
+                android:id="@+id/fileInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorCard"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingTop="0dp"
+                android:paddingBottom="16dp"
+                android:orientation="vertical"
+                tools:ignore="UnusedAttribute">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:adjustViewBounds="true"
+                    android:alpha="0.5"
+                    android:contentDescription="upload"
+                    android:src="@drawable/ic_upload_white_24dp"
+                    android:tint="?attr/colorText"
+                    android:layout_marginBottom="-16dp"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/fileName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.5"
+                    android:gravity="center"
+                    android:text="@string/choose_a_file"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="?attr/colorText"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingStart="16dp"
+                android:paddingRight="16dp"
+                android:paddingEnd="16dp"
+                android:background="?attr/colorCard"
+                android:baselineAligned="false"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                tools:ignore="RtlHardcoded">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="viewStart"
+                        android:text="@string/storage_header"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorAccent"
+                        style="@style/TextAppearance.AppCompat.Medium" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/storage_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="?attr/colorCard"
+                android:paddingTop="8dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:checkedButton="@id/storage_10">
+
+                <RadioButton
+                    android:id="@+id/storage_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/storage_time_1"
+                    android:textColor="?attr/colorText"
+                    android:layout_marginEnd="16dp"
+                    android:alpha="0.8"
+                    tools:ignore="UnusedAttribute" />
+
+                <RadioButton
+                    android:id="@+id/storage_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/storage_time_10"
+                    android:textColor="?attr/colorText"
+                    android:alpha="0.8"
+                    tools:ignore="UnusedAttribute" />
+
+                <RadioButton
+                    android:id="@+id/storage_180"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/storage_time_180"
+                    android:textColor="?attr/colorText"
+                    android:layout_marginEnd="16dp"
+                    android:alpha="0.8"
+                    tools:ignore="UnusedAttribute" />
+
+            </RadioGroup>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingStart="16dp"
+                android:paddingRight="16dp"
+                android:paddingEnd="16dp"
+                android:background="?attr/colorCard"
+                android:baselineAligned="false"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                tools:ignore="RtlHardcoded">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="viewStart"
+                        android:text="@string/enter_name_header"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorAccent"
+                        style="@style/TextAppearance.AppCompat.Medium" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorCard"
+                android:paddingBottom="12dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <EditText
+                    android:id="@+id/userName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_name"
+                    android:autofillHints="@string/hint_name"
+                    android:inputType="text"
+                    android:textSize="15sp"
+                    android:textColor="?attr/colorText"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:maxLines="1"
+                    android:alpha="0.8"
+                    tools:ignore="UnusedAttribute" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/upload"
+                    android:layout_width="130dp"
+                    android:layout_height="36dp"
+                    android:text="@string/upload_btn"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rounded_button" />
+
+                <ProgressBar
+                    android:id="@+id/uploadLoader"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

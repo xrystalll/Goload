@@ -3,6 +3,7 @@ bin
 gen
 libs
 obj
+release
 lint.xml
 *.apk
 *.iml

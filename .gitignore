@@ -6,6 +6,10 @@ obj
 lint.xml
 *.apk
 *.iml
+*.jks
+*.keystore
+*.pepk
+
 # IntelliJ IDEA
 .idea
 *.iml
@@ -13,28 +17,32 @@ lint.xml
 *.iws
 classes
 gen-external-apklibs
+
 # Eclipse
 .project
 .classpath
 .settings
 .checkstyle
 .cproject
+
 # Gradle
 .gradle
 build
 buildout
 out
+
 # Maven
 target
 release.properties
 pom.xml.*
+
 # Ant
 ant.properties
 local.properties
 proguard.cfg
 proguard-project.txt
+
 # Other
 .DS_Store
-cmake-build-debug
 dist
 tmp

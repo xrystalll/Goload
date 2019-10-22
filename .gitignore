@@ -3,7 +3,9 @@ bin
 gen
 libs
 obj
-release
+/release
+/androidTest
+/test
 lint.xml
 *.apk
 *.iml

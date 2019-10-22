@@ -5,17 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -68,6 +71,8 @@ public class FileActivity extends AppCompatActivity {
     SimpleExoPlayerView exoPlayerView;
     SimpleExoPlayer exoPlayer;
     private SharedPreferences sharedPref;
+    private ImageView fullscreenButton;
+    boolean fullscreen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +104,40 @@ public class FileActivity extends AppCompatActivity {
         }
 
         loadData(fileId);
+
+        fullscreenButton = exoPlayerView.findViewById(R.id.exo_fullscreen_icon);
+        fullscreenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (fullscreen) {
+                    fullscreenButton.setImageDrawable(ContextCompat.getDrawable(FileActivity.this, R.drawable.ic_fullscreen_open_white_24dp));
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().show();
+                    }
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) exoPlayerView.getLayoutParams();
+                    params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    params.height = (int) (200 * getApplicationContext().getResources().getDisplayMetrics().density);
+                    exoPlayerView.setLayoutParams(params);
+                    fullscreen = false;
+                } else {
+                    fullscreenButton.setImageDrawable(ContextCompat.getDrawable(FileActivity.this, R.drawable.ic_fullscreen_close_white_24dp));
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN |
+                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
+                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().hide();
+                    }
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) exoPlayerView.getLayoutParams();
+                    params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    exoPlayerView.setLayoutParams(params);
+                    fullscreen = true;
+                }
+            }
+        });
     }
 
     private void loadData(String fileId) {
@@ -394,4 +433,9 @@ public class FileActivity extends AppCompatActivity {
         return sharedPref.getBoolean("Like" + id, false);
     }
 
+    @Override
+    public void onDestroy() {
+        exoPlayer.release();
+        super.onDestroy();
+    }
 }

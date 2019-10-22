@@ -63,6 +63,26 @@
             android:textColor="@color/colorSecondaryLight"
             tools:ignore="RtlHardcoded" />
 
+            <FrameLayout
+                android:id="@+id/exo_fullscreen_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="right"
+                tools:ignore="RtlHardcoded">
+
+                <ImageView
+                    android:id="@+id/exo_fullscreen_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_fullscreen_open_white_24dp"
+                    android:tint="@android:color/white"
+                    tools:ignore="ContentDescription" />
+
+            </FrameLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

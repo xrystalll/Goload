@@ -3,15 +3,16 @@ bin
 gen
 libs
 obj
-/release
-/androidTest
-/test
+release
+androidTest
+test
 lint.xml
 *.apk
 *.iml
 *.jks
 *.keystore
 *.pepk
+.idea/workspace.xml
 
 # IntelliJ IDEA
 .idea

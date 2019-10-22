@@ -110,7 +110,8 @@ public class FileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (fullscreen) {
-                    fullscreenButton.setImageDrawable(ContextCompat.getDrawable(FileActivity.this, R.drawable.ic_fullscreen_open_white_24dp));
+                    fullscreenButton.setImageDrawable(ContextCompat.getDrawable(FileActivity.this,
+                            R.drawable.ic_fullscreen_open_white_24dp));
                     getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                     if (getSupportActionBar() != null) {
                         getSupportActionBar().show();
@@ -122,7 +123,8 @@ public class FileActivity extends AppCompatActivity {
                     exoPlayerView.setLayoutParams(params);
                     fullscreen = false;
                 } else {
-                    fullscreenButton.setImageDrawable(ContextCompat.getDrawable(FileActivity.this, R.drawable.ic_fullscreen_close_white_24dp));
+                    fullscreenButton.setImageDrawable(ContextCompat.getDrawable(FileActivity.this,
+                            R.drawable.ic_fullscreen_close_white_24dp));
                     getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN |
                             View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
                             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);

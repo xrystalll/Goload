@@ -100,7 +100,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void restart() {
-        ((MainActivity) getContext()).restartFragment();
+        try {
+            Intent i = new Intent(getActivity(), MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void deleteCache(Context context) {

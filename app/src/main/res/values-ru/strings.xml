@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="file_title">Просмотр файла</string>
+    <string name="search_title">Поиск</string>
     <string name="picker_title">Выберите файл</string>
     <string name="rules_title">Правила использования</string>
     <string name="licenses_title">Лицензии</string>
@@ -62,4 +63,6 @@
     <string name="at">в</string>
     <string name="today">сегодня в</string>
     <string name="yesterday">вчера в</string>
+
+    <string name="alert_cache">Кэш успешно очишен</string>
 </resources>

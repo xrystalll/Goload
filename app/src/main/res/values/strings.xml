@@ -3,6 +3,7 @@
     <string name="app_name" translatable="false">Goload</string>
     <string name="app_version" translatable="false">version 4.0</string>
     <string name="file_title">View file</string>
+    <string name="search_title">Search</string>
     <string name="picker_title">Choose file</string>
     <string name="rules_title">Terms of use</string>
     <string name="licenses_title">Licenses</string>
@@ -69,4 +70,6 @@
     <string name="at">at</string>
     <string name="today">today at</string>
     <string name="yesterday">yesterday at</string>
+
+    <string name="alert_cache">Cache is cleared</string>
 </resources>

@@ -21,5 +21,4 @@
         android:icon="@drawable/ic_settings_white_24dp"
         android:title="@string/text_settings"
         app:showAsAction="ifRoom" />
-
 </menu>

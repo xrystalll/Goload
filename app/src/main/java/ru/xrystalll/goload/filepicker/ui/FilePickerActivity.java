@@ -55,7 +55,7 @@ public class FilePickerActivity extends AppCompatActivity implements DirectoryFr
     protected void onCreate(Bundle savedInstanceState) {
 
         ThemePreference themePref = new ThemePreference(getBaseContext());
-        setTheme(themePref.loadNightModeState() ? R.style.ToolbarTheme_LightTheme : R.style.ToolbarTheme_AppTheme);
+        setTheme(themePref.loadNightModeState() ? R.style.LightTheme : R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_picker);

@@ -1,15 +1,18 @@
 package ru.xrystalll.goload;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -40,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle(R.string.app_name);
+
         LocaleUtils localeUtils = new LocaleUtils(getBaseContext());
         String localeState = localeUtils.getLocaleString();
         String lang = localeState != null ? localeState : "en";
@@ -48,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         setLocale(locale);
 
         if (getPermission("WRITE_EXTERNAL_STORAGE")) {
-            ActivityCompat.requestPermissions(MainActivity.this,
+            ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
 
@@ -81,6 +88,21 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_search) {
+            Intent i = new Intent(this, SearchActivity.class);
+            startActivity(i);
+        }
+        return true;
     }
 
     private void setLocale(Locale locale) {

@@ -30,7 +30,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 deleteCache(getActivity());
-                Toast.makeText(getActivity(), "Cache is cleared", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.alert_cache), Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -62,10 +62,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        getActivity().setTitle(R.string.text_settings);
+//        getActivity().setTitle(R.string.text_settings);
 
-        themePref = new ThemePreference(Objects.requireNonNull(getContext()));
-        localeUtils = new LocaleUtils(Objects.requireNonNull(getContext()));
+        themePref = new ThemePreference(getActivity());
+        localeUtils = new LocaleUtils(getActivity());
 
         setPreferencesFromResource(R.xml.settings_preference, rootKey);
 

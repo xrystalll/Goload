@@ -26,7 +26,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import ru.xrystalll.goload.support.FilesAdapter;
 import ru.xrystalll.goload.support.ItemModel;
@@ -43,7 +42,8 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().setTitle(R.string.app_name);
+//        getActivity().setTitle(R.string.app_name);
+
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         loader = view.findViewById(R.id.recyclerLoader);

@@ -35,7 +35,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -53,7 +52,8 @@ public class UploadFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().setTitle(R.string.text_upload);
+//        getActivity().setTitle(R.string.text_upload);
+
         View view = inflater.inflate(R.layout.fragment_upload, container, false);
 
         Button btnUpload = view.findViewById(R.id.upload);

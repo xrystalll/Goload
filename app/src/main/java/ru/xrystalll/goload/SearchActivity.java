@@ -7,7 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import ru.xrystalll.goload.support.ThemePreference;
 
-class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

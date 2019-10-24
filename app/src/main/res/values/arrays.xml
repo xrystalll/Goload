@@ -5,7 +5,7 @@
         <item>@string/select_lang_ru</item>
     </string-array>
     <string-array name="lang_values">
-        <item>en</item>
-        <item>ru</item>
+        <item>@string/value_lang_en</item>
+        <item>@string/value_lang_ru</item>
     </string-array>
 </resources>

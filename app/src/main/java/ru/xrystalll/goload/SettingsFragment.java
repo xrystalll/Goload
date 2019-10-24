@@ -62,8 +62,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-//        getActivity().setTitle(R.string.text_settings);
-
         themePref = new ThemePreference(getActivity());
         localeUtils = new LocaleUtils(getActivity());
 

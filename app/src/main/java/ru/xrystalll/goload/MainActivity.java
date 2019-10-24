@@ -43,10 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle(R.string.app_name);
-
         LocaleUtils localeUtils = new LocaleUtils(getBaseContext());
         String localeState = localeUtils.getLocaleString();
         String lang = localeState != null ? localeState : "en";
@@ -61,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle(R.string.app_name);
+
         fragmentManager = getSupportFragmentManager();
         fragment = new HomeFragment();
         final FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -74,12 +74,15 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.action_home:
+                            setTitle(R.string.app_name);
                             fragment = new HomeFragment();
                             break;
                         case R.id.action_upload:
+                            setTitle(R.string.text_upload);
                             fragment = new UploadFragment();
                             break;
                         case R.id.action_settings:
+                            setTitle(R.string.text_settings);
                             fragment = new SettingsFragment();
                             break;
                     }
@@ -88,6 +91,15 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             });
+    }
+
+    private void setLocale(Locale locale) {
+        Locale.setDefault(locale);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = locale;
+        res.updateConfiguration(conf, dm);
     }
 
     @Override
@@ -103,15 +115,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         }
         return true;
-    }
-
-    private void setLocale(Locale locale) {
-        Locale.setDefault(locale);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = locale;
-        res.updateConfiguration(conf, dm);
     }
 
 }

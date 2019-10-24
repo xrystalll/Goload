@@ -52,8 +52,6 @@ public class UploadFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        getActivity().setTitle(R.string.text_upload);
-
         View view = inflater.inflate(R.layout.fragment_upload, container, false);
 
         Button btnUpload = view.findViewById(R.id.upload);

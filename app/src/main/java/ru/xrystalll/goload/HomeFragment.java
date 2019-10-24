@@ -42,8 +42,6 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        getActivity().setTitle(R.string.app_name);
-
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         loader = view.findViewById(R.id.recyclerLoader);

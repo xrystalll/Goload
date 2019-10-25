@@ -63,7 +63,7 @@ public class FullscreenActivity extends AppCompatActivity {
             ImageView fullscreenButton = exoPlayerView.findViewById(R.id.exo_fullscreen_icon);
 
             try {
-                fullscreenButton.setImageDrawable(ContextCompat.getDrawable(ImageViewerActivity.this,
+                fullscreenButton.setImageDrawable(ContextCompat.getDrawable(FullscreenActivity.this,
                         R.drawable.exo_controls_fullscreen_exit));
                 BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
                 TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
@@ -139,4 +139,14 @@ public class FullscreenActivity extends AppCompatActivity {
         }
         return result;
     }
+
+    @Override
+    public void onDestroy() {
+        if (exoPlayer != null) {
+            exoPlayer.stop();
+            exoPlayer.release();
+        }
+        super.onDestroy();
+    }
+
 }

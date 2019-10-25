@@ -19,6 +19,7 @@
         android:textColorHint="@color/toolbar_input_hint"
         android:textColor="@android:color/white"
         android:inputType="textShortMessage"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        android:theme="@style/ToolbarInputTheme" />
 
 </androidx.appcompat.widget.Toolbar>

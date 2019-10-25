@@ -35,7 +35,6 @@ public class SearchActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private List<ItemModel> listItems = new ArrayList<>();
     private View loader;
-    private View itemLoader;
     private LinearLayoutManager layoutManager;
     private String query = null;
 
@@ -60,7 +59,6 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         loader = findViewById(R.id.recyclerLoader);
-        itemLoader = findViewById(R.id.itemLoader);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
@@ -70,27 +68,30 @@ public class SearchActivity extends AppCompatActivity {
         adapter = new FilesAdapter(listItems, this);
         recyclerView.setAdapter(adapter);
 
+        input.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
+                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    if (query != null) {
+                        listItems.clear();
+                        adapter.notifyDataSetChanged();
+                        showLoader();
+                        query = input.getText().toString();
+                        loadData(query, 0);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == listItems.size()-1) {
                     if (query != null) {
-                        showItemLoader();
                         loadData(query, layoutManager.getItemCount());
                     }
                 }
-            }
-        });
-
-        input.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
-                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    showLoader();
-                    query = input.getText().toString();
-                    loadData(query, 0);
-                    return true;
-                }
-                return false;
             }
         });
 
@@ -127,10 +128,8 @@ public class SearchActivity extends AppCompatActivity {
 
                             adapter.notifyDataSetChanged();
                             hideLoader();
-                            hideItemLoader();
 
                         } catch (JSONException e) {
-                            hideItemLoader();
                             e.printStackTrace();
                         }
                     }
@@ -139,7 +138,6 @@ public class SearchActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         hideLoader();
-                        hideItemLoader();
                         Toast.makeText(SearchActivity.this, volleyError.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
@@ -156,14 +154,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private void hideLoader() {
         loader.setVisibility(View.GONE);
-    }
-
-    private void showItemLoader() {
-        itemLoader.setVisibility(View.VISIBLE);
-    }
-
-    private void hideItemLoader() {
-        itemLoader.setVisibility(View.GONE);
     }
 
 }

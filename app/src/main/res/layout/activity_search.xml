@@ -20,23 +20,22 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="46dp"
+        android:paddingBottom="16dp"
         android:clipToPadding="false" />
 
-    <ProgressBar
-        android:id="@+id/itemLoader"
-        style="?android:attr/progressBarStyle"
-        android:visibility="gone"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:layout_gravity="bottom|center_horizontal" />
-
-    <ProgressBar
+    <RelativeLayout
         android:id="@+id/recyclerLoader"
-        style="?android:attr/progressBarStyle"
-        android:visibility="gone"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:layout_gravity="center" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:visibility="visible"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center" />
+
+    </RelativeLayout>
 
 </LinearLayout>

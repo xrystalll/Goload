@@ -43,6 +43,7 @@
                     android:padding="6dp"
                     android:text="username"
                     android:textColor="?attr/colorText"
+                    android:maxLength="24"
                     android:ellipsize="end"
                     android:textSize="15sp"
                     android:alpha="0.8" />

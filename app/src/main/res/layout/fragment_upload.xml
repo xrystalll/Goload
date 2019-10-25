@@ -177,7 +177,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_name"
                     android:autofillHints="@string/hint_name"
-                    android:inputType="text"
+                    android:inputType="textShortMessage"
                     android:textSize="15sp"
                     android:textColor="?attr/colorText"
                     android:paddingLeft="10dp"

@@ -56,7 +56,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import ru.xrystalll.goload.imageviewer.ImageViewerActivity;
+import ru.xrystalll.goload.fullviewer.FullscreenActivity;
 import ru.xrystalll.goload.support.ThemePreference;
 
 public class FileActivity extends AppCompatActivity {
@@ -252,7 +252,7 @@ public class FileActivity extends AppCompatActivity {
             imageViewImagePreview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(FileActivity.this, ImageViewerActivity.class);
+                    Intent i = new Intent(FileActivity.this, FullscreenActivity.class);
                     i.putExtra("passingImage", file);
 
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -276,6 +276,20 @@ public class FileActivity extends AppCompatActivity {
                         null);
                 exoPlayerView.setPlayer(exoPlayer);
                 exoPlayer.prepare(mediaSource);
+
+                View controlView = exoPlayerView.findViewById(R.id.exo_controller);
+                controlView.findViewById(R.id.exo_fullscreen_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(FileActivity.this, FullscreenActivity.class);
+                        i.putExtra("passingVideo", file);
+
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                FileActivity.this, findViewById(R.id.videoPreview), "video");
+                        startActivity(i, options.toBundle());
+                    }
+                });
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,6 +1,7 @@
-package ru.xrystalll.goload.imageviewer;
+package ru.xrystalll.goload.fullviewer;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -9,26 +10,43 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.squareup.picasso.Picasso;
 
 import ru.xrystalll.goload.R;
 
-public class ImageViewerActivity extends AppCompatActivity {
+public class FullscreenActivity extends AppCompatActivity {
 
     private float xCoOrdinate, yCoOrdinate;
     private double screenCenterX, screenCenterY;
     private int alpha;
     ImageView imageView;
     View view;
+    SimpleExoPlayerView exoPlayerView;
+    SimpleExoPlayer exoPlayer;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_imageviewer);
+        setContentView(R.layout.activity_fullscreen);
 
         imageView = findViewById(R.id.imagePreview);
+        exoPlayerView = findViewById(R.id.videoPreview);
         view = findViewById(R.id.layout);
         view.getBackground().setAlpha(255);
 
@@ -38,6 +56,36 @@ public class ImageViewerActivity extends AppCompatActivity {
             Picasso.get()
                     .load(file)
                     .into(imageView);
+        } else if (getIntent().hasExtra("passingVideo")) {
+            imageView.setVisibility(View.GONE);
+            exoPlayerView.setVisibility(View.VISIBLE);
+            String file = getIntent().getStringExtra("passingVideo");
+            ImageView fullscreenButton = exoPlayerView.findViewById(R.id.exo_fullscreen_icon);
+
+            try {
+                fullscreenButton.setImageDrawable(ContextCompat.getDrawable(ImageViewerActivity.this,
+                        R.drawable.exo_controls_fullscreen_exit));
+                BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+                TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
+                exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
+                Uri uri = Uri.parse(file);
+                DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("goload_video");
+                ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+                MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null,
+                        null);
+                exoPlayerView.setPlayer(exoPlayer);
+                exoPlayer.prepare(mediaSource);
+                exoPlayer.setPlayWhenReady(true);
+
+                fullscreenButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onBackPressed();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         final DisplayMetrics display = getResources().getDisplayMetrics();

@@ -85,11 +85,11 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity
-            android:name=".imageviewer.ImageViewerActivity"
+            android:name=".fullviewer.FullscreenActivity"
             android:configChanges="orientation|screenSize|locale"
             android:label="@string/file_title"
             android:launchMode="singleTask"
-            android:theme="@style/ImageViewerTheme">
+            android:theme="@style/FullscreenTheme">
         </activity>
         <activity
             android:name=".WebViewActivity"

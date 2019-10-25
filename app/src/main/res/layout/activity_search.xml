@@ -20,18 +20,18 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
+        android:paddingBottom="12dp"
         android:clipToPadding="false" />
 
     <RelativeLayout
         android:id="@+id/recyclerLoader"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center">
 
         <ProgressBar
             style="?android:attr/progressBarStyle"
-            android:visibility="visible"
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:layout_gravity="center" />

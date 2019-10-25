@@ -3,7 +3,9 @@ package ru.xrystalll.goload;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -68,16 +70,15 @@ public class SearchActivity extends AppCompatActivity {
         adapter = new FilesAdapter(listItems, this);
         recyclerView.setAdapter(adapter);
 
-        input.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
-                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    if (query != null) {
-                        listItems.clear();
-                        adapter.notifyDataSetChanged();
-                        showLoader();
-                        query = input.getText().toString();
-                        loadData(query, 0);
-                    }
+        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    listItems.clear();
+                    adapter.notifyDataSetChanged();
+                    showLoader();
+                    query = input.getText().toString();
+                    loadData(query, 0);
                     return true;
                 }
                 return false;
@@ -98,7 +99,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void loadData(String query, int offset) {
-        String URL_DATA = "https://goload.ru/api/search.php?q=" + query + "&limit=10&offset=" + offset;
+        String URL_DATA = "https://goload.ru/api/search.php?q=" + query + "&limit=20&offset=" + offset;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
                 new Response.Listener<String>() {
@@ -130,6 +131,7 @@ public class SearchActivity extends AppCompatActivity {
                             hideLoader();
 
                         } catch (JSONException e) {
+                            hideLoader();
                             e.printStackTrace();
                         }
                     }

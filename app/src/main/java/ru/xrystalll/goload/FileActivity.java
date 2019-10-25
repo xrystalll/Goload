@@ -102,9 +102,8 @@ public class FileActivity extends AppCompatActivity {
             List<String> params = data.getPathSegments();
             String id = params.get(params.size() - 1).replace("file", "");
             fileId = !id.isEmpty() ? id : "";
-        }
-        else {
-            Intent i = new Intent(getBaseContext(), MainActivity.class);
+        } else {
+            Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         }
 
@@ -136,19 +135,24 @@ public class FileActivity extends AppCompatActivity {
                     String load = o.getString("load");
                     String views = o.getString("views");
                     String format = o.getString("format");
+                    String password = o.getString("password");
 
                     fillCard(author, time, name, text, file, like, comments, load, views, format);
 
                     downloadBtn = findViewById(R.id.downloadBtn);
-                    downloadBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(getApplicationContext(),
-                                    getString(R.string.downloading_notification), Toast.LENGTH_SHORT).show();
-                            String filename = file.substring(file.lastIndexOf("/")+1);
-                            download("https://goload.ru/up" + id, name, filename);
-                        }
-                    });
+                    if (password.equals("false")) {
+                        downloadBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(getApplicationContext(),
+                                        getString(R.string.downloading_notification), Toast.LENGTH_SHORT).show();
+                                String filename = file.substring(file.lastIndexOf("/")+1);
+                                download("https://goload.ru/up" + id, name, filename);
+                            }
+                        });
+                    } else {
+                        downloadBtn.setVisibility(View.GONE);
+                    }
 
                     shareButton = findViewById(R.id.share);
                     shareButton.setOnClickListener(new View.OnClickListener() {
@@ -248,13 +252,12 @@ public class FileActivity extends AppCompatActivity {
             imageViewImagePreview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(FileActivity.this, ImageViewerActivity.class);
-
-                    intent.putExtra("passingImage", file);
+                    Intent i = new Intent(FileActivity.this, ImageViewerActivity.class);
+                    i.putExtra("passingImage", file);
 
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                             FileActivity.this, findViewById(R.id.imagePreview), "image");
-                    startActivity(intent, options.toBundle());
+                    startActivity(i, options.toBundle());
                 }
             });
 
@@ -303,7 +306,7 @@ public class FileActivity extends AppCompatActivity {
             DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
             manager.enqueue(request);
         } else {
-            ActivityCompat.requestPermissions(FileActivity.this,
+            ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
     }
@@ -330,7 +333,7 @@ public class FileActivity extends AppCompatActivity {
             String format = sdt.format(netDate);
             return getString(R.string.today) + " " + format;
         } else if (now.get(Calendar.DATE) - unix.get(Calendar.DATE) == 1) {
-            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", Locale.US);
+            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", Locale.getDefault());
             String format = sdt.format(netDate);
             return getString(R.string.yesterday) + " " + format;
         } else if (now.get(Calendar.YEAR) == unix.get(Calendar.YEAR)) {

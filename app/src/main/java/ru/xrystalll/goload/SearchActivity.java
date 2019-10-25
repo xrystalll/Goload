@@ -99,7 +99,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void loadData(String query, int offset) {
-        String URL_DATA = "https://goload.ru/api/search.php?q=" + query + "&limit=20&offset=" + offset;
+        String URL_DATA = "https://goload.ru/api/search.php?q=" + query + "&limit=10&offset=" + offset;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
                 new Response.Listener<String>() {

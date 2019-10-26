@@ -3,7 +3,6 @@ package ru.xrystalll.goload;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 
@@ -23,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +68,7 @@ public class FileActivity extends AppCompatActivity {
     private LinearLayout likeBtn;
     private ImageView likeIcon;
     private TextView likeCount;
+    private ScrollView fileView;
     SimpleExoPlayerView exoPlayerView;
     SimpleExoPlayer exoPlayer;
     private SharedPreferences sharedPref;
@@ -91,6 +92,7 @@ public class FileActivity extends AppCompatActivity {
 
         sharedPref = getSharedPreferences("SharedSettings", Context.MODE_PRIVATE);
         loader = findViewById(R.id.fileLoader);
+        fileView = findViewById(R.id.fileView);
         likeCount = findViewById(R.id.likeCount);
 
         Intent intent = getIntent();
@@ -193,19 +195,14 @@ public class FileActivity extends AppCompatActivity {
 
 
                 } catch (JSONException e) {
-                    CardView fileCard = findViewById(R.id.fileCardExtended);
-                    LinearLayout btnBlock = findViewById(R.id.downloadBtnBlock);
-                    LinearLayout fileError = findViewById(R.id.fileError);
-                    fileCard.setVisibility(View.GONE);
-                    btnBlock.setVisibility(View.GONE);
-                    fileError.setVisibility(View.VISIBLE);
+                    showError();
                 }
             }
         },
         new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                hideLoader();
+                showError();
                 Toast.makeText(getApplicationContext(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -281,6 +278,7 @@ public class FileActivity extends AppCompatActivity {
                 controlView.findViewById(R.id.exo_fullscreen_button).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        exoPlayer.stop();
                         Intent i = new Intent(FileActivity.this, FullscreenActivity.class);
                         i.putExtra("passingVideo", file);
 
@@ -302,7 +300,6 @@ public class FileActivity extends AppCompatActivity {
         textViewCommentsCount.setText(counter(commentsCount));
         textViewDownloadCount.setText(counter(downloadCount));
         textViewViewsCount.setText(counter(viewsCount));
-
     }
 
     private void download(String link, String name, String filename) {
@@ -360,11 +357,20 @@ public class FileActivity extends AppCompatActivity {
     }
 
     private void showLoader() {
+        fileView.setVisibility(View.GONE);
         loader.setVisibility(View.VISIBLE);
     }
 
     private void hideLoader() {
+        fileView.setVisibility(View.VISIBLE);
         loader.setVisibility(View.GONE);
+    }
+
+    private void showError() {
+        fileView.setVisibility(View.GONE);
+        loader.setVisibility(View.GONE);
+        RelativeLayout fileError = findViewById(R.id.fileError);
+        fileError.setVisibility(View.VISIBLE);
     }
 
     private boolean getPermission() {

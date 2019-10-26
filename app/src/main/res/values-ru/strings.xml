@@ -65,4 +65,5 @@
     <string name="yesterday">вчера в</string>
 
     <string name="alert_cache">Кэш успешно очишен</string>
+    <string name="nothing_found">Ничего не найдено</string>
 </resources>

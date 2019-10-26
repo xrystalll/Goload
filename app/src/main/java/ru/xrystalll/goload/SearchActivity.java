@@ -1,9 +1,11 @@
 package ru.xrystalll.goload;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,9 +36,11 @@ import ru.xrystalll.goload.support.ThemePreference;
 
 public class SearchActivity extends AppCompatActivity {
 
+    private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<ItemModel> listItems = new ArrayList<>();
     private View loader;
+    private View error;
     private LinearLayoutManager layoutManager;
     private String query = null;
 
@@ -61,8 +65,8 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         loader = findViewById(R.id.recyclerLoader);
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        error = findViewById(R.id.searchError);
+        recyclerView = findViewById(R.id.recyclerView);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -74,6 +78,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    hideKeyboard(SearchActivity.this);
                     listItems.clear();
                     adapter.notifyDataSetChanged();
                     showLoader();
@@ -106,40 +111,42 @@ public class SearchActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String s) {
 
-                        try {
-                            JSONObject jsonObject = new JSONObject(s);
-                            JSONArray array = jsonObject.getJSONArray("data");
+                        if (s.contains("nulltag")) {
+                            showError();
+                        } else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(s);
+                                JSONArray array = jsonObject.getJSONArray("data");
 
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject o = array.getJSONObject(i);
-                                ItemModel item = new ItemModel(
-                                        o.getString("id"),
-                                        o.getString("author"),
-                                        o.getString("time"),
-                                        o.getString("name"),
-                                        o.getString("file"),
-                                        o.getString("like"),
-                                        o.getString("comments"),
-                                        o.getString("load"),
-                                        o.getString("views"),
-                                        o.getString("format")
-                                );
-                                listItems.add(item);
+                                for (int i = 0; i < array.length(); i++) {
+                                    JSONObject o = array.getJSONObject(i);
+                                    ItemModel item = new ItemModel(
+                                            o.getString("id"),
+                                            o.getString("author"),
+                                            o.getString("time"),
+                                            o.getString("name"),
+                                            o.getString("file"),
+                                            o.getString("like"),
+                                            o.getString("comments"),
+                                            o.getString("load"),
+                                            o.getString("views"),
+                                            o.getString("format")
+                                    );
+                                    listItems.add(item);
+                                }
+
+                                hideLoader();
+                                adapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-
-                            adapter.notifyDataSetChanged();
-                            hideLoader();
-
-                        } catch (JSONException e) {
-                            hideLoader();
-                            e.printStackTrace();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        hideLoader();
+                        showError();
                         Toast.makeText(SearchActivity.this, volleyError.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
@@ -151,11 +158,25 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void showLoader() {
+        recyclerView.setVisibility(View.GONE);
+        error.setVisibility(View.GONE);
         loader.setVisibility(View.VISIBLE);
     }
 
     private void hideLoader() {
         loader.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    private void showError() {
+        recyclerView.setVisibility(View.GONE);
+        loader.setVisibility(View.GONE);
+        error.setVisibility(View.VISIBLE);
+    }
+
+    public static void hideKeyboard(@NonNull Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
 }

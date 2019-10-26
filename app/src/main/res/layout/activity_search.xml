@@ -19,7 +19,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:paddingBottom="12dp"
         android:clipToPadding="false" />
 
@@ -35,6 +35,36 @@
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:layout_gravity="center" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/searchError"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/ic_error"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_error_white_24dp"
+            android:tint="?attr/colorText"
+            android:alpha="0.8" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?attr/colorSecondary"
+            android:text="@string/nothing_found"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/ic_error" />
 
     </RelativeLayout>
 

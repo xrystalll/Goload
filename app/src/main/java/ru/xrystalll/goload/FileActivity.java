@@ -69,8 +69,7 @@ public class FileActivity extends AppCompatActivity {
     private ImageView likeIcon;
     private TextView likeCount;
     private ScrollView fileView;
-    SimpleExoPlayerView exoPlayerView;
-    SimpleExoPlayer exoPlayer;
+    private SimpleExoPlayer exoPlayer;
     private SharedPreferences sharedPref;
 
     @Override
@@ -220,7 +219,7 @@ public class FileActivity extends AppCompatActivity {
         TextView textViewFileName = findViewById(R.id.fileName);
         TextView textViewDescription = findViewById(R.id.description);
         final ImageView imageViewImagePreview = findViewById(R.id.imagePreview);
-        exoPlayerView = findViewById(R.id.videoPreview);
+        SimpleExoPlayerView exoPlayerView = findViewById(R.id.videoPreview);
         TextView textViewLikeCount = findViewById(R.id.likeCount);
         TextView textViewCommentsCount = findViewById(R.id.commentsCount);
         TextView textViewDownloadCount = findViewById(R.id.downloadCount);

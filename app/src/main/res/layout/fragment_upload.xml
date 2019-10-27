@@ -185,6 +185,7 @@
                     android:paddingRight="10dp"
                     android:maxLines="1"
                     android:alpha="0.8"
+                    android:imeOptions="actionDone|flagNoExtractUi"
                     tools:ignore="UnusedAttribute" />
 
             </LinearLayout>

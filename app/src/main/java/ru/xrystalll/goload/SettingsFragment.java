@@ -11,12 +11,11 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import java.io.File;
-import java.util.Objects;
 
 import ru.xrystalll.goload.support.ThemePreference;
 import ru.xrystalll.goload.support.LocaleUtils;
 
-public class SettingsFragment extends PreferenceFragmentCompat {
+class SettingsFragment extends PreferenceFragmentCompat {
 
     private ThemePreference themePref;
     private LocaleUtils localeUtils;

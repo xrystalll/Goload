@@ -38,7 +38,7 @@ import java.net.URL;
 
 import static android.app.Activity.RESULT_OK;
 
-public class UploadFragment extends Fragment {
+class UploadFragment extends Fragment {
 
     private TextView fileName;
     private EditText userName;
@@ -263,7 +263,7 @@ public class UploadFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public class UploadFile extends AsyncTask<Void, Void, Void> {
+    class UploadFile extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

@@ -38,7 +38,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private List<ItemModel> listItems = new ArrayList<>();
+    private final List<ItemModel> listItems = new ArrayList<>();
     private View loader;
     private View error;
     private LinearLayoutManager layoutManager;
@@ -174,7 +174,7 @@ public class SearchActivity extends AppCompatActivity {
         error.setVisibility(View.VISIBLE);
     }
 
-    public static void hideKeyboard(@NonNull Activity activity) {
+    private static void hideKeyboard(@NonNull Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager)activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }

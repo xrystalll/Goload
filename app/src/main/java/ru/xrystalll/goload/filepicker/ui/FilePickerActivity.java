@@ -67,7 +67,6 @@ public class FilePickerActivity extends AppCompatActivity implements DirectoryFr
         initFragment();
     }
 
-    @SuppressWarnings("unchecked")
     private void initArguments(Bundle savedInstanceState) {
         if (getIntent().hasExtra(ARG_FILTER)) {
             Serializable filter = getIntent().getSerializableExtra(ARG_FILTER);

@@ -35,10 +35,9 @@ public class FullscreenActivity extends AppCompatActivity {
     private float xCoOrdinate, yCoOrdinate;
     private double screenCenterX, screenCenterY;
     private int alpha;
-    ImageView imageView;
-    View view;
-    SimpleExoPlayerView exoPlayerView;
-    SimpleExoPlayer exoPlayer;
+    private ImageView imageView;
+    private View view;
+    private SimpleExoPlayer exoPlayer;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -47,7 +46,7 @@ public class FullscreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fullscreen);
 
         imageView = findViewById(R.id.imagePreview);
-        exoPlayerView = findViewById(R.id.videoPreview);
+        SimpleExoPlayerView exoPlayerView = findViewById(R.id.videoPreview);
         view = findViewById(R.id.layout);
         view.getBackground().setAlpha(255);
 
@@ -134,7 +133,7 @@ public class FullscreenActivity extends AppCompatActivity {
         });
     }
 
-    public int getStatusBarHeight() {
+    private int getStatusBarHeight() {
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {

@@ -33,7 +33,6 @@ public class DirectoryFragment extends Fragment {
     private DirectoryAdapter mDirectoryAdapter;
     private FileClickListener mFileClickListener;
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -92,7 +91,6 @@ public class DirectoryFragment extends Fragment {
         mDirectoryRecyclerView.setEmptyView(mEmptyView);
     }
 
-    @SuppressWarnings("unchecked")
     private void initArgs() {
         if (getArguments().getString(ARG_FILE_PATH) != null) {
             mPath = getArguments().getString(ARG_FILE_PATH);

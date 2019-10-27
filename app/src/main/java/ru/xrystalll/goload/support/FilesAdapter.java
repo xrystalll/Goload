@@ -37,8 +37,8 @@ import ru.xrystalll.goload.R;
 
 public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> {
 
-    private List<ItemModel> listItems;
-    private Context context;
+    private final List<ItemModel> listItems;
+    private final Context context;
     private SharedPreferences sharedPref;
 
     public FilesAdapter(List<ItemModel> listItems, Context context) {
@@ -176,17 +176,17 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewAuthor;
-        TextView textViewTime;
-        TextView textViewFileName;
-        ImageView imageViewImagePreview;
-        TextView textViewLikeCount;
-        TextView textViewCommentsCount;
-        TextView textViewDownloadCount;
-        TextView textViewViewsCount;
-        CardView fileCard;
-        LinearLayout like;
-        ImageView likeIcon;
+        final TextView textViewAuthor;
+        final TextView textViewTime;
+        final TextView textViewFileName;
+        final ImageView imageViewImagePreview;
+        final TextView textViewLikeCount;
+        final TextView textViewCommentsCount;
+        final TextView textViewDownloadCount;
+        final TextView textViewViewsCount;
+        final CardView fileCard;
+        final LinearLayout like;
+        final ImageView likeIcon;
 
         ViewHolder(View itemView) {
             super(itemView);

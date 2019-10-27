@@ -26,9 +26,9 @@ public class FileTypeUtils {
         ARCHIVE(R.drawable.ic_zip_box, R.string.type_archive, "cab", "7z", "alz", "arj", "bzip2", "bz2", "dmg", "gzip", "gz", "jar", "lz", "lzip", "lzma", "zip", "rar", "tar", "tgz"),
         APK(R.drawable.ic_apk_box, R.string.type_apk, "apk");
 
-        private int icon;
-        private int description;
-        private String[] extensions;
+        private final int icon;
+        private final int description;
+        private final String[] extensions;
 
         FileType(int icon, int description, String... extensions) {
             this.icon = icon;
@@ -36,7 +36,7 @@ public class FileTypeUtils {
             this.extensions = extensions;
         }
 
-        public String[] getExtensions() {
+        String[] getExtensions() {
             return extensions;
         }
 
@@ -49,7 +49,7 @@ public class FileTypeUtils {
         }
     }
 
-    private static Map<String, FileType> fileTypeExtensions = new HashMap<>();
+    private static final Map<String, FileType> fileTypeExtensions = new HashMap<>();
 
     static {
         for (FileType fileType : FileType.values()) {

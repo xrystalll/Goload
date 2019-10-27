@@ -23,12 +23,12 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
         void onItemClick(View view, int position);
     }
 
-    public class DirectoryViewHolder extends RecyclerView.ViewHolder {
-        private ImageView mFileImage;
-        private TextView mFileTitle;
-        private TextView mFileSubtitle;
+    class DirectoryViewHolder extends RecyclerView.ViewHolder {
+        private final ImageView mFileImage;
+        private final TextView mFileTitle;
+        private final TextView mFileSubtitle;
 
-        public DirectoryViewHolder(View itemView, final OnItemClickListener clickListener) {
+        DirectoryViewHolder(View itemView, final OnItemClickListener clickListener) {
             super(itemView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -44,16 +44,16 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
         }
     }
 
-    private List<File> mFiles;
-    private Context mContext;
+    private final List<File> mFiles;
+    private final Context mContext;
     private OnItemClickListener mOnItemClickListener;
 
-    public DirectoryAdapter(Context context, List<File> files) {
+    DirectoryAdapter(Context context, List<File> files) {
         mContext = context;
         mFiles = files;
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    void setOnItemClickListener(OnItemClickListener listener) {
         mOnItemClickListener = listener;
     }
 
@@ -97,7 +97,7 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
         return mFiles.size();
     }
 
-    public File getModel(int index) {
+    File getModel(int index) {
         return mFiles.get(index);
     }
 }

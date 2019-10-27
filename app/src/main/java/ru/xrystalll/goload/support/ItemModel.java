@@ -2,16 +2,16 @@ package ru.xrystalll.goload.support;
 
 public class ItemModel {
 
-    private String id;
-    private String author;
-    private String time;
-    private String fileName;
-    private String filePreview;
-    private String likeCount;
-    private String commentsCount;
-    private String downloadCount;
-    private String viewsCount;
-    private String format;
+    private final String id;
+    private final String author;
+    private final String time;
+    private final String fileName;
+    private final String filePreview;
+    private final String likeCount;
+    private final String commentsCount;
+    private final String downloadCount;
+    private final String viewsCount;
+    private final String format;
 
     public ItemModel(
             String id, String author, String time, String fileName, String filePreview,

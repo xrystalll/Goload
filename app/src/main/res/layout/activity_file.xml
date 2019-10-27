@@ -274,7 +274,7 @@
             <LinearLayout
                 android:id="@+id/downloadBtnBlock"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="96dp"
                 android:gravity="center"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
@@ -285,6 +285,7 @@
                     android:layout_width="160dp"
                     android:layout_height="36dp"
                     android:text="@string/download_btn"
+                    android:elevation="16dp"
                     android:textColor="@android:color/white"
                     android:background="@drawable/rounded_button" />
 

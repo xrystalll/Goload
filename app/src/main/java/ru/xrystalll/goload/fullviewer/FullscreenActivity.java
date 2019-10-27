@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -57,6 +58,8 @@ public class FullscreenActivity extends AppCompatActivity {
                     .load(file)
                     .into(imageView);
         } else if (getIntent().hasExtra("passingVideo")) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
             imageView.setVisibility(View.GONE);
             exoPlayerView.setVisibility(View.VISIBLE);
             String file = getIntent().getStringExtra("passingVideo");

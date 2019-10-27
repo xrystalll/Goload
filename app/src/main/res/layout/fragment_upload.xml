@@ -13,7 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="12dp"
+            android:paddingBottom="116dp">
 
             <LinearLayout
                 android:id="@+id/fileInput"
@@ -191,7 +192,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="96dp"
                 android:gravity="center"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
@@ -202,6 +203,7 @@
                     android:layout_width="130dp"
                     android:layout_height="36dp"
                     android:text="@string/upload_btn"
+                    android:elevation="16dp"
                     android:textColor="@android:color/white"
                     android:background="@drawable/rounded_button" />
 

@@ -38,7 +38,7 @@ import java.net.URL;
 
 import static android.app.Activity.RESULT_OK;
 
-class UploadFragment extends Fragment {
+public class UploadFragment extends Fragment {
 
     private TextView fileName;
     private EditText userName;

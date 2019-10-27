@@ -31,7 +31,7 @@ import ru.xrystalll.goload.support.FilesAdapter;
 import ru.xrystalll.goload.support.ItemModel;
 import ru.xrystalll.goload.support.ThemePreference;
 
-class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
     private RecyclerView.Adapter adapter;
     private final List<ItemModel> listItems = new ArrayList<>();

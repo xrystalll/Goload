@@ -15,7 +15,7 @@ import java.io.File;
 import ru.xrystalll.goload.support.ThemePreference;
 import ru.xrystalll.goload.support.LocaleUtils;
 
-class SettingsFragment extends PreferenceFragmentCompat {
+public class SettingsFragment extends PreferenceFragmentCompat {
 
     private ThemePreference themePref;
     private LocaleUtils localeUtils;

@@ -52,9 +52,11 @@
             android:layout_centerInParent="true"
             android:src="@drawable/ic_error_white_24dp"
             android:tint="?attr/colorText"
-            android:alpha="0.8" />
+            android:alpha="0.8"
+            android:contentDescription="@string/nothing_found" />
 
         <TextView
+            android:id="@+id/text_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

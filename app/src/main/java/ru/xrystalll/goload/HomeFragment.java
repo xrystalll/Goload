@@ -1,10 +1,14 @@
 package ru.xrystalll.goload;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,8 +39,10 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView.Adapter adapter;
     private final List<ItemModel> listItems = new ArrayList<>();
+    private RecyclerView recyclerView;
     private View loader;
     private View itemLoader;
+    private RelativeLayout connError;
     private LinearLayoutManager layoutManager;
     private SwipeRefreshLayout swipeLayout;
 
@@ -44,12 +50,12 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        recyclerView = view.findViewById(R.id.recyclerView);
         loader = view.findViewById(R.id.recyclerLoader);
         itemLoader = view.findViewById(R.id.itemLoader);
+        connError = view.findViewById(R.id.connError);
 
         loadData(0);
-
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
 
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -137,7 +143,11 @@ public class HomeFragment extends Fragment {
                     public void onErrorResponse(VolleyError volleyError) {
                         hideLoader();
                         hideItemLoader();
-                        Toast.makeText(getActivity(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                        if (hasNetwork()) {
+                            Toast.makeText(getActivity(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                        } else {
+                            showError();
+                        }
                     }
                 });
 
@@ -157,6 +167,19 @@ public class HomeFragment extends Fragment {
 
     private void hideItemLoader() {
         itemLoader.setVisibility(View.GONE);
+    }
+
+    private void showError() {
+        recyclerView.setVisibility(View.GONE);
+        connError.setVisibility(View.VISIBLE);
+    }
+
+    private boolean hasNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+
     }
 
 }

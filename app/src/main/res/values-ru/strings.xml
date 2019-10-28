@@ -27,6 +27,8 @@
     <string name="select_lang_title">Выберите язык</string>
     <string name="lang_value">ru</string>
 
+    <string name="alert_cache">Кэш успешно очишен</string>
+
     <!-- Upload Strings -->
     <string name="choose_a_file">ВЫБЕРИТЕ ФАЙЛ</string>
     <string name="storage_header">СРОК ХРАНЕНИЯ</string>
@@ -39,6 +41,7 @@
 
     <string name="enter_name_error">Введите ваше имя</string>
     <string name="choose_file_error">Выберите файл</string>
+    <string name="check_connection_error">Нет подключения к интернету</string>
 
     <!-- File Picker Strings -->
     <string name="action_close">Закрыть</string>
@@ -64,6 +67,6 @@
     <string name="today">сегодня в</string>
     <string name="yesterday">вчера в</string>
 
-    <string name="alert_cache">Кэш успешно очишен</string>
+    <!-- Search Strings -->
     <string name="nothing_found">Ничего не найдено</string>
 </resources>

@@ -4,7 +4,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/actionBarSize"
-    app:layout_scrollFlags="scroll|enterAlways"
+    app:layout_scrollFlags="scroll|enterAlways|snap"
     app:theme="@style/ToolbarTheme">
 
     <EditText

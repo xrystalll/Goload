@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -101,7 +103,11 @@ public class UploadFragment extends Fragment {
                 } else if (filePath == null) {
                     Toast.makeText(getActivity(), R.string.choose_file_error, Toast.LENGTH_SHORT).show();
                 } else {
-                    new UploadFile().execute();
+                    if (hasNetwork()) {
+                        new UploadFile().execute();
+                    } else {
+                        Toast.makeText(getActivity(), R.string.check_connection_error, Toast.LENGTH_SHORT).show();
+                    }
                     setUsername(userName.getText().toString().trim());
                 }
             }
@@ -297,6 +303,14 @@ public class UploadFragment extends Fragment {
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private boolean hasNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+
     }
 
 }

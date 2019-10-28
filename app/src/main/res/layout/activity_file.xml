@@ -66,8 +66,9 @@
                             android:padding="6dp"
                             android:text="username"
                             android:textColor="?attr/colorText"
-                            android:maxLength="24"
+                            android:maxLength="20"
                             android:ellipsize="end"
+                            android:singleLine="true"
                             android:textSize="15sp"
                             android:alpha="0.8" />
 
@@ -77,6 +78,7 @@
                             android:layout_height="wrap_content"
                             android:padding="6dp"
                             android:text="1 Jan 1970 at 0:00"
+                            android:singleLine="true"
                             android:textColor="?attr/colorText"
                             android:alpha="0.6"
                             android:textSize="12sp" />
@@ -259,7 +261,8 @@
                                     android:layout_height="wrap_content"
                                     android:paddingTop="8dp"
                                     android:paddingBottom="8dp"
-                                    android:textColor="@color/colorActionIcon" />
+                                    android:textColor="@color/colorActionIcon"
+                                    android:layout_marginEnd="8dp" />
 
                             </LinearLayout>
 
@@ -324,7 +327,8 @@
             android:layout_centerInParent="true"
             android:src="@drawable/ic_error_white_24dp"
             android:tint="?attr/colorText"
-            android:alpha="0.8" />
+            android:alpha="0.8"
+            android:contentDescription="@string/file_not_found" />
 
         <TextView
             android:layout_width="wrap_content"

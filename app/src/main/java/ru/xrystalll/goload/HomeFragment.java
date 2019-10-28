@@ -179,7 +179,6 @@ public class HomeFragment extends Fragment {
         assert connectivityManager != null;
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
-
     }
 
 }

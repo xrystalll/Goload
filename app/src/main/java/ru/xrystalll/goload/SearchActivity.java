@@ -44,6 +44,7 @@ public class SearchActivity extends AppCompatActivity {
     private final List<ItemModel> listItems = new ArrayList<>();
     private View loader;
     private View error;
+    private TextView text_error;
     private LinearLayoutManager layoutManager;
     private String query = null;
 
@@ -70,6 +71,7 @@ public class SearchActivity extends AppCompatActivity {
         loader = findViewById(R.id.recyclerLoader);
         error = findViewById(R.id.searchError);
         recyclerView = findViewById(R.id.recyclerView);
+        text_error = findViewById(R.id.text_error);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -115,6 +117,7 @@ public class SearchActivity extends AppCompatActivity {
                     public void onResponse(String s) {
 
                         if (s.contains("nulltag")) {
+                            text_error.setText(R.string.nothing_found);
                             showError();
                         } else {
                             try {
@@ -149,11 +152,11 @@ public class SearchActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        if (!hasNetwork()) {
-                            TextView text_error = findViewById(R.id.text_error);
-                            text_error.setText(R.string.check_connection_error);
-                        } else {
+                        if (hasNetwork()) {
+                            text_error.setText(R.string.nothing_found);
                             Toast.makeText(SearchActivity.this, volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                        } else {
+                            text_error.setText(R.string.check_connection_error);
                         }
                         showError();
                     }

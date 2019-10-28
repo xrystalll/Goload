@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -62,6 +64,7 @@ import ru.xrystalll.goload.support.ThemePreference;
 public class FileActivity extends AppCompatActivity {
 
     private View loader;
+    private TextView text_error;
     private Button downloadBtn;
     private ImageView shareButton;
     private String fileId;
@@ -93,6 +96,7 @@ public class FileActivity extends AppCompatActivity {
         loader = findViewById(R.id.fileLoader);
         fileView = findViewById(R.id.fileView);
         likeCount = findViewById(R.id.likeCount);
+        text_error = findViewById(R.id.text_error);
 
         Intent intent = getIntent();
         Uri data = intent.getData();
@@ -194,6 +198,7 @@ public class FileActivity extends AppCompatActivity {
 
 
                 } catch (JSONException e) {
+                    text_error.setText(R.string.file_not_found);
                     showError();
                 }
             }
@@ -201,8 +206,13 @@ public class FileActivity extends AppCompatActivity {
         new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                if (hasNetwork()) {
+                    text_error.setText(R.string.file_not_found);
+                    Toast.makeText(getApplicationContext(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                } else {
+                    text_error.setText(R.string.check_connection_error);
+                }
                 showError();
-                Toast.makeText(getApplicationContext(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -450,6 +460,13 @@ public class FileActivity extends AppCompatActivity {
             startActivity(i);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean hasNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
 }

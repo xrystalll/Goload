@@ -38,4 +38,5 @@ public class ItemModel {
     String getDownloadCount() { return downloadCount; }
     String getViewsCount() { return viewsCount; }
     String getFormat() { return format; }
+
 }

@@ -35,7 +35,7 @@ import java.util.List;
 
 import ru.xrystalll.goload.support.FilesAdapter;
 import ru.xrystalll.goload.support.ItemModel;
-import ru.xrystalll.goload.support.ThemePreference;
+import ru.xrystalll.goload.support.SettingsUtils;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -51,8 +51,8 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        ThemePreference themePref = new ThemePreference(getBaseContext());
-        setTheme(themePref.loadNightModeState() ? R.style.LightTheme : R.style.AppTheme);
+        SettingsUtils settingsUtils = new SettingsUtils(getBaseContext());
+        setTheme(settingsUtils.loadThemeState() ? R.style.LightTheme : R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);

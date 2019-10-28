@@ -5,13 +5,24 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
-public class LocaleUtils {
+public class SettingsUtils {
 
     private final SharedPreferences sharedPref;
 
-    public LocaleUtils(@NonNull Context context) {
+    public SettingsUtils(@NonNull Context context) {
         sharedPref = context.getSharedPreferences("SharedSettings", Context.MODE_PRIVATE);
     }
+
+    public void setThemeState(Boolean state) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("NightMode", state);
+        editor.apply();
+    }
+
+    public Boolean loadThemeState() {
+        return sharedPref.getBoolean("NightMode", false);
+    }
+
 
     public void setLocaleString(String state) {
         SharedPreferences.Editor editor = sharedPref.edit();

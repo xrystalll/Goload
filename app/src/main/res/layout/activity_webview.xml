@@ -21,4 +21,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <RelativeLayout
+        android:id="@+id/connError"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/ic_error"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_error_white_24dp"
+            android:tint="?attr/colorText"
+            android:alpha="0.8"
+            android:contentDescription="@string/check_connection_error" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?attr/colorSecondary"
+            android:text="@string/check_connection_error"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/ic_error" />
+
+    </RelativeLayout>
+
 </LinearLayout>

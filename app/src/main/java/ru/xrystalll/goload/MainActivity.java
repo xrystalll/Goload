@@ -22,8 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Locale;
 
-import ru.xrystalll.goload.support.LocaleUtils;
-import ru.xrystalll.goload.support.ThemePreference;
+import ru.xrystalll.goload.support.SettingsUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,13 +37,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        ThemePreference themePref = new ThemePreference(getBaseContext());
-        setTheme(themePref.loadNightModeState() ? R.style.LightTheme : R.style.AppTheme);
+        SettingsUtils settingsUtils = new SettingsUtils(getBaseContext());
+        setTheme(settingsUtils.loadThemeState() ? R.style.LightTheme : R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
 
-        LocaleUtils localeUtils = new LocaleUtils(getBaseContext());
-        String localeState = localeUtils.getLocaleString();
+        String localeState = settingsUtils.getLocaleString();
         String lang = localeState != null ? localeState : "en";
 
         Locale locale = new Locale(lang);

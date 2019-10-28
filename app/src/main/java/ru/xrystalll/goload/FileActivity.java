@@ -59,7 +59,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ru.xrystalll.goload.fullviewer.FullscreenActivity;
-import ru.xrystalll.goload.support.ThemePreference;
+import ru.xrystalll.goload.support.SettingsUtils;
 
 public class FileActivity extends AppCompatActivity {
 
@@ -78,8 +78,8 @@ public class FileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        ThemePreference themePref = new ThemePreference(getBaseContext());
-        setTheme(themePref.loadNightModeState() ? R.style.LightTheme : R.style.AppTheme);
+        SettingsUtils settingsUtils = new SettingsUtils(getBaseContext());
+        setTheme(settingsUtils.loadThemeState() ? R.style.LightTheme : R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file);

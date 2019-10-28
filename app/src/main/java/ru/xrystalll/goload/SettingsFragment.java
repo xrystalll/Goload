@@ -12,13 +12,11 @@ import androidx.preference.PreferenceManager;
 
 import java.io.File;
 
-import ru.xrystalll.goload.support.ThemePreference;
-import ru.xrystalll.goload.support.LocaleUtils;
+import ru.xrystalll.goload.support.SettingsUtils;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
-    private ThemePreference themePref;
-    private LocaleUtils localeUtils;
+    private SettingsUtils settingsUtils;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,8 +59,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        themePref = new ThemePreference(getActivity());
-        localeUtils = new LocaleUtils(getActivity());
+        settingsUtils = new SettingsUtils(getActivity());
 
         setPreferencesFromResource(R.xml.settings_preference, rootKey);
 
@@ -74,10 +71,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 if (key.equals("switch_theme")) {
                     boolean theme = sharedPreferences.getBoolean(key, false);
                     if (theme) {
-                        themePref.setThemeModeState(false);
+                        settingsUtils.setThemeState(false);
                         restart();
                     } else {
-                        themePref.setThemeModeState(true);
+                        settingsUtils.setThemeState(true);
                         restart();
                     }
                 }
@@ -85,10 +82,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 if (key.equals("lang")) {
                     String value = sharedPreferences.getString(key, "lang");
                     if (value.equals("ru")) {
-                        localeUtils.setLocaleString("ru");
+                        settingsUtils.setLocaleString("ru");
                         restart();
                     } else {
-                        localeUtils.setLocaleString("en");
+                        settingsUtils.setLocaleString("en");
                         restart();
                     }
                 }

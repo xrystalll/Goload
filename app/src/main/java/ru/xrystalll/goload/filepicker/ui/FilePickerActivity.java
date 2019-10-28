@@ -18,7 +18,7 @@ import ru.xrystalll.goload.R;
 import ru.xrystalll.goload.filepicker.filter.CompositeFilter;
 import ru.xrystalll.goload.filepicker.filter.PatternFilter;
 import ru.xrystalll.goload.filepicker.utils.FileUtils;
-import ru.xrystalll.goload.support.ThemePreference;
+import ru.xrystalll.goload.support.SettingsUtils;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -54,8 +54,8 @@ public class FilePickerActivity extends AppCompatActivity implements DirectoryFr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        ThemePreference themePref = new ThemePreference(getBaseContext());
-        setTheme(themePref.loadNightModeState() ? R.style.LightTheme : R.style.AppTheme);
+        SettingsUtils settingsUtils = new SettingsUtils(getBaseContext());
+        setTheme(settingsUtils.loadThemeState() ? R.style.LightTheme : R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_picker);

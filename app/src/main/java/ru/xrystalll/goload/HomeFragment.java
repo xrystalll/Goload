@@ -33,7 +33,7 @@ import java.util.List;
 
 import ru.xrystalll.goload.support.FilesAdapter;
 import ru.xrystalll.goload.support.ItemModel;
-import ru.xrystalll.goload.support.ThemePreference;
+import ru.xrystalll.goload.support.SettingsUtils;
 
 public class HomeFragment extends Fragment {
 
@@ -80,15 +80,19 @@ public class HomeFragment extends Fragment {
                 }, 1000);
             }
         });
-        ThemePreference themePref = new ThemePreference(getActivity());
-        int progressBackground = themePref.loadNightModeState() ? R.color.colorCardLight : R.color.colorCard;
+        SettingsUtils settingsUtils = new SettingsUtils(getActivity());
+        int progressBackground = settingsUtils.loadThemeState() ? R.color.colorCardLight : R.color.colorCard;
 
         swipeLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(progressBackground));
         swipeLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerview, int dx, int dy) {
+                if (hasNetwork()) {
+                    connError.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == listItems.size()-1) {
                     showItemLoader();
                     loadData(layoutManager.getItemCount());

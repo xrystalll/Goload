@@ -66,6 +66,7 @@
     <string name="at">в</string>
     <string name="today">сегодня в</string>
     <string name="yesterday">вчера в</string>
+    <string name="comments">Комментарии</string>
 
     <!-- Search Strings -->
     <string name="nothing_found">Ничего не найдено</string>

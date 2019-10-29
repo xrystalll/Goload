@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.DownloadManager;
@@ -49,16 +51,20 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import ru.xrystalll.goload.fullviewer.FullscreenActivity;
+import ru.xrystalll.goload.support.CommentsAdapter;
+import ru.xrystalll.goload.support.CommentModel;
 import ru.xrystalll.goload.support.SettingsUtils;
 
 public class FileActivity extends AppCompatActivity {
@@ -72,8 +78,11 @@ public class FileActivity extends AppCompatActivity {
     private ImageView likeIcon;
     private TextView likeCount;
     private ScrollView fileView;
+    private TextView commentsTitle;
     private SimpleExoPlayer exoPlayer;
     private SharedPreferences sharedPref;
+    private RecyclerView.Adapter adapter;
+    private final List<CommentModel> listItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +106,8 @@ public class FileActivity extends AppCompatActivity {
         fileView = findViewById(R.id.fileView);
         likeCount = findViewById(R.id.likeCount);
         text_error = findViewById(R.id.text_error);
+        commentsTitle = findViewById(R.id.commentsTitle);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         Intent intent = getIntent();
         Uri data = intent.getData();
@@ -113,6 +124,14 @@ public class FileActivity extends AppCompatActivity {
         }
 
         loadData(fileId);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new CommentsAdapter(listItems, getBaseContext());
+        recyclerView.setAdapter(adapter);
+
+        loadComments(fileId, 0);
     }
 
     private void loadData(String fileId) {
@@ -195,7 +214,6 @@ public class FileActivity extends AppCompatActivity {
                             }
                         }
                     });
-
 
                 } catch (JSONException e) {
                     text_error.setText(R.string.file_not_found);
@@ -467,6 +485,55 @@ public class FileActivity extends AppCompatActivity {
         assert connectivityManager != null;
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private void loadComments(String fileId, int offset) {
+        String URL_DATA = "https://goload.ru/api/comments.php?id=" + fileId + "&limit=10&offset=" + offset;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
+                new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray array = jsonObject.getJSONArray("comments");
+
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject o = array.getJSONObject(i);
+                        CommentModel item = new CommentModel(
+                                o.getString("id"),
+                                o.getString("file"),
+                                o.getString("author"),
+                                o.getString("userPhoto"),
+                                o.getString("text"),
+                                o.getString("like"),
+                                o.getString("time")
+                        );
+                        listItems.add(item);
+                    }
+
+                    commentsTitle.setVisibility(View.VISIBLE);
+                    adapter.notifyDataSetChanged();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+        new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (hasNetwork()) {
+                    Toast.makeText(getApplicationContext(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.getCache().clear();
+        stringRequest.setShouldCache(false);
+        requestQueue.add(stringRequest);
     }
 
 }

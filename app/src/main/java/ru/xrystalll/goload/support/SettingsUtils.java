@@ -24,9 +24,9 @@ public class SettingsUtils {
     }
 
 
-    public void setLocaleString(String state) {
+    public void setLocaleString(String lang) {
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("AppLocale", state);
+        editor.putString("AppLocale", lang);
         editor.apply();
     }
 

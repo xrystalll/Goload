@@ -108,52 +108,52 @@ public class HomeFragment extends Fragment {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
                 new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String s) {
-                        hideLoader();
+            @Override
+            public void onResponse(String s) {
+                hideLoader();
 
-                        try {
-                            JSONObject jsonObject = new JSONObject(s);
-                            JSONArray array = jsonObject.getJSONArray("data");
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray array = jsonObject.getJSONArray("data");
 
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject o = array.getJSONObject(i);
-                                ItemModel item = new ItemModel(
-                                        o.getString("id"),
-                                        o.getString("author"),
-                                        o.getString("time"),
-                                        o.getString("name"),
-                                        o.getString("file"),
-                                        o.getString("like"),
-                                        o.getString("comments"),
-                                        o.getString("load"),
-                                        o.getString("views"),
-                                        o.getString("format")
-                                );
-                                listItems.add(item);
-                            }
-
-                            adapter.notifyDataSetChanged();
-                            hideItemLoader();
-
-                        } catch (JSONException e) {
-                            hideItemLoader();
-                            e.printStackTrace();
-                        }
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject o = array.getJSONObject(i);
+                        ItemModel item = new ItemModel(
+                                o.getString("id"),
+                                o.getString("author"),
+                                o.getString("time"),
+                                o.getString("name"),
+                                o.getString("file"),
+                                o.getString("like"),
+                                o.getString("comments"),
+                                o.getString("load"),
+                                o.getString("views"),
+                                o.getString("format")
+                        );
+                        listItems.add(item);
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        hideLoader();
-                        hideItemLoader();
-                        if (hasNetwork()) {
-                            Toast.makeText(getActivity(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
-                        } else {
-                            showError();
-                        }
-                    }
-                });
+
+                    adapter.notifyDataSetChanged();
+                    hideItemLoader();
+
+                } catch (JSONException e) {
+                    hideItemLoader();
+                    e.printStackTrace();
+                }
+            }
+        },
+        new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                hideLoader();
+                hideItemLoader();
+                if (hasNetwork()) {
+                    Toast.makeText(getActivity(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                } else {
+                    showError();
+                }
+            }
+        });
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         requestQueue.getCache().clear();

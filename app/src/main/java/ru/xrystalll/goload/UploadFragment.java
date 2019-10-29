@@ -283,10 +283,10 @@ public class UploadFragment extends Fragment {
         }
 
         @Override
-        protected  void onPostExecute(Void result) {
+        protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             hideLoader();
-            if (!jsonResponse.equals("error")) {
+            if (!jsonResponse.contains("error")) {
                 try {
                     JSONObject jsonObject = new JSONObject(jsonResponse);
                     JSONObject o = jsonObject.getJSONObject("data");

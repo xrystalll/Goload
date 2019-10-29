@@ -73,6 +73,7 @@
     <string name="at">at</string>
     <string name="today">today at</string>
     <string name="yesterday">yesterday at</string>
+    <string name="comments">Comments</string>
 
     <!-- Search Strings -->
     <string name="nothing_found">Nothing found</string>

@@ -113,54 +113,54 @@ public class SearchActivity extends AppCompatActivity {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
                 new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String s) {
+            @Override
+            public void onResponse(String s) {
 
-                        if (s.contains("nulltag")) {
-                            text_error.setText(R.string.nothing_found);
-                            showError();
-                        } else {
-                            try {
-                                JSONObject jsonObject = new JSONObject(s);
-                                JSONArray array = jsonObject.getJSONArray("data");
+                if (s.contains("nulltag")) {
+                    text_error.setText(R.string.nothing_found);
+                    showError();
+                } else {
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+                        JSONArray array = jsonObject.getJSONArray("data");
 
-                                for (int i = 0; i < array.length(); i++) {
-                                    JSONObject o = array.getJSONObject(i);
-                                    ItemModel item = new ItemModel(
-                                            o.getString("id"),
-                                            o.getString("author"),
-                                            o.getString("time"),
-                                            o.getString("name"),
-                                            o.getString("file"),
-                                            o.getString("like"),
-                                            o.getString("comments"),
-                                            o.getString("load"),
-                                            o.getString("views"),
-                                            o.getString("format")
-                                    );
-                                    listItems.add(item);
-                                }
-
-                                hideLoader();
-                                adapter.notifyDataSetChanged();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject o = array.getJSONObject(i);
+                            ItemModel item = new ItemModel(
+                                    o.getString("id"),
+                                    o.getString("author"),
+                                    o.getString("time"),
+                                    o.getString("name"),
+                                    o.getString("file"),
+                                    o.getString("like"),
+                                    o.getString("comments"),
+                                    o.getString("load"),
+                                    o.getString("views"),
+                                    o.getString("format")
+                            );
+                            listItems.add(item);
                         }
+
+                        hideLoader();
+                        adapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        if (hasNetwork()) {
-                            text_error.setText(R.string.nothing_found);
-                            Toast.makeText(SearchActivity.this, volleyError.getMessage(), Toast.LENGTH_LONG).show();
-                        } else {
-                            text_error.setText(R.string.check_connection_error);
-                        }
-                        showError();
-                    }
-                });
+                }
+            }
+        },
+        new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (hasNetwork()) {
+                    text_error.setText(R.string.nothing_found);
+                    Toast.makeText(SearchActivity.this, volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                } else {
+                    text_error.setText(R.string.check_connection_error);
+                }
+                showError();
+            }
+        });
 
         RequestQueue requestQueue = Volley.newRequestQueue(SearchActivity.this);
         requestQueue.getCache().clear();
@@ -196,7 +196,6 @@ public class SearchActivity extends AppCompatActivity {
         assert connectivityManager != null;
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
-
     }
 
 }

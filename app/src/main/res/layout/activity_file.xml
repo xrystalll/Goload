@@ -294,6 +294,22 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/commentsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/comments"
+                android:textSize="18sp"
+                android:layout_margin="8dp"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="12dp"
+                android:clipToPadding="false" />
+
         </LinearLayout>
 
     </ScrollView>

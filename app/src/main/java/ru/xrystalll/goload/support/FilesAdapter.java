@@ -103,25 +103,25 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
 
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
                             new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String s) {
-                                    try {
-                                        JSONObject o = new JSONObject(s);
-                                        String likes = o.getString("count");
+                        @Override
+                        public void onResponse(String s) {
+                            try {
+                                JSONObject o = new JSONObject(s);
+                                String likes = o.getString("count");
 
-                                        holder.textViewLikeCount.setText(counter(likes));
+                                holder.textViewLikeCount.setText(counter(likes));
 
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError volleyError) {
-                                    Toast.makeText(context, volleyError.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            Toast.makeText(context, volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
 
                     RequestQueue requestQueue = Volley.newRequestQueue(context);
                     requestQueue.add(stringRequest);
@@ -136,25 +136,25 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
 
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
                             new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String s) {
-                                    try {
-                                        JSONObject o = new JSONObject(s);
-                                        String likes = o.getString("count");
+                        @Override
+                        public void onResponse(String s) {
+                            try {
+                                JSONObject o = new JSONObject(s);
+                                String likes = o.getString("count");
 
-                                        holder.textViewLikeCount.setText(counter(likes));
+                                holder.textViewLikeCount.setText(counter(likes));
 
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError volleyError) {
-                                    Toast.makeText(context, volleyError.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            Toast.makeText(context, volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
 
                     RequestQueue requestQueue = Volley.newRequestQueue(context);
                     requestQueue.add(stringRequest);

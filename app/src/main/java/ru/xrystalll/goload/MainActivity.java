@@ -68,27 +68,27 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
             new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.action_home:
-                            setTitle(R.string.app_name);
-                            fragment = new HomeFragment();
-                            break;
-                        case R.id.action_upload:
-                            setTitle(R.string.text_upload);
-                            fragment = new UploadFragment();
-                            break;
-                        case R.id.action_settings:
-                            setTitle(R.string.text_settings);
-                            fragment = new SettingsFragment();
-                            break;
-                    }
-                    final FragmentTransaction transaction = fragmentManager.beginTransaction();
-                    transaction.replace(R.id.main_container, fragment).commit();
-                    return true;
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        setTitle(R.string.app_name);
+                        fragment = new HomeFragment();
+                        break;
+                    case R.id.action_upload:
+                        setTitle(R.string.text_upload);
+                        fragment = new UploadFragment();
+                        break;
+                    case R.id.action_settings:
+                        setTitle(R.string.text_settings);
+                        fragment = new SettingsFragment();
+                        break;
                 }
-            });
+                final FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_container, fragment).commit();
+                return true;
+            }
+        });
     }
 
     private void setLocale(Locale locale) {

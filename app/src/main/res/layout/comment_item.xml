@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/colorCard"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userPhoto"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorText"
+                android:layout_marginTop="5dp"
+                android:maxLength="20"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="15sp"
+                android:alpha="0.8" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:singleLine="true"
+                android:textColor="?attr/colorText"
+                android:layout_marginTop="4dp"
+                android:alpha="0.6"
+                android:textSize="12sp" />
+
+            <RelativeLayout
+                android:id="@+id/like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables,UselessParent">
+
+                    <ImageView
+                        android:id="@+id/likeIcon"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:padding="6dp"
+                        android:background="@color/transparent"
+                        android:src="@drawable/ic_like_white_24dp"
+                        android:tint="@color/colorActionIcon"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/likeCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/colorActionIcon"
+                        android:layout_marginEnd="8dp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textColor="?attr/colorTitle"
+            android:textSize="17sp"
+            android:textIsSelectable="true"
+            android:autoLink="web"
+            android:textColorLink="@color/colorAccent" />
+
+    </LinearLayout>
+
+</LinearLayout>

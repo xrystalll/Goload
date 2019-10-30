@@ -69,6 +69,7 @@ import ru.xrystalll.goload.support.SettingsUtils;
 
 public class FileActivity extends AppCompatActivity {
 
+    private final String BASE_API_URL = "https://goload.ru";
     private View loader;
     private TextView text_error;
     private Button downloadBtn;
@@ -83,6 +84,7 @@ public class FileActivity extends AppCompatActivity {
     private SharedPreferences sharedPref;
     private RecyclerView.Adapter adapter;
     private final List<CommentModel> listItems = new ArrayList<>();
+    private LinearLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,17 +127,27 @@ public class FileActivity extends AppCompatActivity {
 
         loadData(fileId);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+        layoutManager = new LinearLayoutManager(getBaseContext());
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new CommentsAdapter(listItems, getBaseContext());
         recyclerView.setAdapter(adapter);
 
         loadComments(fileId, 0);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerview, int dx, int dy) {
+                if (layoutManager.findLastCompletelyVisibleItemPosition() == listItems.size()-1) {
+                    loadComments(fileId, layoutManager.getItemCount());
+                }
+            }
+        });
+
     }
 
     private void loadData(String fileId) {
-        String URL_DATA = "https://goload.ru/api/file.php?id=" + fileId;
+        String URL_DATA = BASE_API_URL + "/api/file.php?id=" + fileId;
         showLoader();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
@@ -171,7 +183,7 @@ public class FileActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),
                                         getString(R.string.downloading_notification), Toast.LENGTH_SHORT).show();
                                 String filename = file.substring(file.lastIndexOf("/")+1);
-                                download("https://goload.ru/up" + id, name, filename);
+                                download(BASE_API_URL + "/up" + id, name, filename);
                             }
                         });
                     } else {
@@ -182,7 +194,7 @@ public class FileActivity extends AppCompatActivity {
                     shareButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            share("https://goload.ru/file" + id);
+                            share(BASE_API_URL + "/file" + id);
                         }
                     });
 
@@ -361,24 +373,30 @@ public class FileActivity extends AppCompatActivity {
 
     @NonNull
     private String getDate(long timestamp) {
+        SettingsUtils settingsUtils = new SettingsUtils(getBaseContext());
+        String localeState = settingsUtils.getLocaleString();
+        String lang = localeState != null ? localeState : "en";
+
+        Locale locale = new Locale(lang);
+
         Calendar unix = Calendar.getInstance();
         unix.setTimeInMillis(timestamp);
         Calendar now = Calendar.getInstance();
 
         Date netDate = (new Date(timestamp));
         if (now.get(Calendar.DATE) == unix.get(Calendar.DATE)) {
-            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", Locale.getDefault());
+            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", locale);
             String format = sdt.format(netDate);
             return getString(R.string.today) + " " + format;
         } else if (now.get(Calendar.DATE) - unix.get(Calendar.DATE) == 1) {
-            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", Locale.getDefault());
+            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", locale);
             String format = sdt.format(netDate);
             return getString(R.string.yesterday) + " " + format;
         } else if (now.get(Calendar.YEAR) == unix.get(Calendar.YEAR)) {
-            SimpleDateFormat sdt = new SimpleDateFormat("dd MMM '" + getString(R.string.at) + "' H:mm", Locale.getDefault());
+            SimpleDateFormat sdt = new SimpleDateFormat("dd MMM '" + getString(R.string.at) + "' H:mm", locale);
             return sdt.format(netDate);
         } else {
-            SimpleDateFormat sdt = new SimpleDateFormat("dd MMM yyyy '" + getString(R.string.at) + "' H:mm", Locale.getDefault());
+            SimpleDateFormat sdt = new SimpleDateFormat("dd MMM yyyy '" + getString(R.string.at) + "' H:mm", locale);
             return sdt.format(netDate);
         }
     }
@@ -415,7 +433,7 @@ public class FileActivity extends AppCompatActivity {
     }
 
     private void getLike(String id, String action) {
-        String URL_DATA = "https://goload.ru/api/like.php?id=" + id + "&" + action;
+        String URL_DATA = BASE_API_URL + "/api/like.php?id=" + id + "&" + action;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
                 new Response.Listener<String>() {
@@ -488,7 +506,7 @@ public class FileActivity extends AppCompatActivity {
     }
 
     private void loadComments(String fileId, int offset) {
-        String URL_DATA = "https://goload.ru/api/comments.php?id=" + fileId + "&limit=10&offset=" + offset;
+        String URL_DATA = BASE_API_URL + "/api/comments.php?id=" + fileId + "&limit=10&offset=" + offset;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
                 new Response.Listener<String>() {

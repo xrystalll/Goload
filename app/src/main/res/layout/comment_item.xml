@@ -49,11 +49,11 @@
                 android:textSize="12sp" />
 
             <RelativeLayout
-                android:id="@+id/like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/like"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

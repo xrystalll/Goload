@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:transitionName="image"
-        android:src="@drawable/placeholder" />
+        android:src="@drawable/placeholder"
+        android:contentDescription="@string/file_title" />
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/videoPreview"
@@ -20,6 +21,7 @@
         android:gravity="center"
         android:layout_centerInParent="true"
         android:transitionName="video"
+        android:animateLayoutChanges="true"
         android:visibility="gone" />
 
 </RelativeLayout>

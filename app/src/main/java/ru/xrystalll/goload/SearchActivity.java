@@ -39,6 +39,7 @@ import ru.xrystalll.goload.support.SettingsUtils;
 
 public class SearchActivity extends AppCompatActivity {
 
+    private final String BASE_API_URL = "https://goload.ru";
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private final List<ItemModel> listItems = new ArrayList<>();
@@ -109,7 +110,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void loadData(String query, int offset) {
-        String URL_DATA = "https://goload.ru/api/search.php?q=" + query + "&limit=10&offset=" + offset;
+        String URL_DATA = BASE_API_URL + "/api/search.php?q=" + query + "&limit=10&offset=" + offset;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
                 new Response.Listener<String>() {

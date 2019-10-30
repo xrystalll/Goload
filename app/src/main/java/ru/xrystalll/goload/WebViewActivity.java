@@ -18,6 +18,8 @@ import ru.xrystalll.goload.support.SettingsUtils;
 
 public class WebViewActivity extends AppCompatActivity {
 
+    private final String BASE_API_URL = "https://goload.ru";
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class WebViewActivity extends AppCompatActivity {
             url = getIntent().getStringExtra("url");
             title = getIntent().getStringExtra("title");
         } else {
-            url = "https://goload.ru";
+            url = BASE_API_URL;
             title = "";
         }
 

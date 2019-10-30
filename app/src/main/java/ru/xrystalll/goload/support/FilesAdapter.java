@@ -37,6 +37,7 @@ import ru.xrystalll.goload.R;
 
 public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> {
 
+    private final String BASE_API_URL = "https://goload.ru";
     private final List<ItemModel> listItems;
     private final Context context;
     private SharedPreferences sharedPref;
@@ -99,7 +100,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
             public void onClick(View view) {
                 if (!loadLikeState(listItem.getId())) {
 
-                    String URL_DATA = "https://goload.ru/api/like.php?id=" + listItem.getId() + "&like";
+                    String URL_DATA = BASE_API_URL + "/api/like.php?id=" + listItem.getId() + "&like";
 
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
                             new Response.Listener<String>() {
@@ -132,7 +133,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
                     setLikeState(true, listItem.getId());
                 } else {
 
-                    String URL_DATA = "https://goload.ru/api/like.php?id=" + listItem.getId() + "&dislike";
+                    String URL_DATA = BASE_API_URL + "/api/like.php?id=" + listItem.getId() + "&dislike";
 
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
                             new Response.Listener<String>() {
@@ -207,24 +208,30 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
 
     @NonNull
     private String getDate(long timestamp) {
+        SettingsUtils settingsUtils = new SettingsUtils(context);
+        String localeState = settingsUtils.getLocaleString();
+        String lang = localeState != null ? localeState : "en";
+
+        Locale locale = new Locale(lang);
+
         Calendar unix = Calendar.getInstance();
         unix.setTimeInMillis(timestamp);
         Calendar now = Calendar.getInstance();
 
         Date netDate = (new Date(timestamp));
         if (now.get(Calendar.DATE) == unix.get(Calendar.DATE)) {
-            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", Locale.getDefault());
+            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", locale);
             String format = sdt.format(netDate);
             return context.getString(R.string.today) + " " + format;
         } else if (now.get(Calendar.DATE) - unix.get(Calendar.DATE) == 1) {
-            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", Locale.US);
+            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", locale);
             String format = sdt.format(netDate);
             return context.getString(R.string.yesterday) + " " + format;
         } else if (now.get(Calendar.YEAR) == unix.get(Calendar.YEAR)) {
-            SimpleDateFormat sdt = new SimpleDateFormat("dd MMM '" + context.getString(R.string.at) + "' H:mm", Locale.getDefault());
+            SimpleDateFormat sdt = new SimpleDateFormat("dd MMM '" + context.getString(R.string.at) + "' H:mm", locale);
             return sdt.format(netDate);
         } else {
-            SimpleDateFormat sdt = new SimpleDateFormat("dd MMM yyyy '" + context.getString(R.string.at) + "' H:mm", Locale.getDefault());
+            SimpleDateFormat sdt = new SimpleDateFormat("dd MMM yyyy '" + context.getString(R.string.at) + "' H:mm", locale);
             return sdt.format(netDate);
         }
     }

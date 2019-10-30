@@ -37,6 +37,7 @@ import ru.xrystalll.goload.support.SettingsUtils;
 
 public class HomeFragment extends Fragment {
 
+    private final String BASE_API_URL = "https://goload.ru";
     private RecyclerView.Adapter adapter;
     private final List<ItemModel> listItems = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -104,7 +105,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadData(int offset) {
-        String URL_DATA = "https://goload.ru/api/all.php?limit=10&offset=" + offset;
+        String URL_DATA = BASE_API_URL + "/api/all.php?limit=10&offset=" + offset;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
                 new Response.Listener<String>() {

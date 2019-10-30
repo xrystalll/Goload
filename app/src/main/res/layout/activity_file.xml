@@ -131,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:layout_gravity="center_horizontal"
-                        android:contentDescription="preview"
+                        android:contentDescription="@string/file_title"
                         android:src="@drawable/placeholder" />
 
                     <RelativeLayout
@@ -146,7 +146,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="200dp"
                             android:gravity="center"
-                            android:layout_centerInParent="true" />
+                            android:layout_centerInParent="true"
+                            android:animateLayoutChanges="true" />
 
                     </RelativeLayout>
 

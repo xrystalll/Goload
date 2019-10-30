@@ -16,6 +16,7 @@ import ru.xrystalll.goload.support.SettingsUtils;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
+    private final String BASE_API_URL = "https://goload.ru";
     private SettingsUtils settingsUtils;
 
     @Override
@@ -37,7 +38,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Intent i = new Intent(getActivity(), WebViewActivity.class);
-                i.putExtra("url", "https://goload.ru/rules");
+                i.putExtra("url", BASE_API_URL + "/rules");
                 i.putExtra("title", getString(R.string.rules_title));
                 startActivity(i);
                 return true;

@@ -129,7 +129,8 @@ public class HomeFragment extends Fragment {
                                 o.getString("comments"),
                                 o.getString("load"),
                                 o.getString("views"),
-                                o.getString("format")
+                                o.getString("format"),
+                                o.getString("thumbnail")
                         );
                         listItems.add(item);
                     }

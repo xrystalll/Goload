@@ -51,10 +51,12 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        ViewHolder holder = new ViewHolder(v);
+        holder.setIsRecyclable(false);
 
         sharedPref = context.getSharedPreferences("SharedSettings", Context.MODE_PRIVATE);
 
-        return new ViewHolder(v);
+        return holder;
     }
 
     @Override
@@ -68,10 +70,25 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
 
         holder.textViewFileName.setText(listItem.getFileName());
 
-        Picasso.get()
-                .load(listItem.getFilePreview())
-                .placeholder(R.drawable.placeholder)
-                .into(holder.imageViewImagePreview);
+        if (listItem.getFormat().contains("png") ||
+            listItem.getFormat().contains("jpg") ||
+            listItem.getFormat().contains("jpeg") ||
+            listItem.getFormat().contains("gif") ||
+            listItem.getFormat().contains("ico") ||
+            listItem.getFormat().contains("bmp")) {
+
+            Picasso.get()
+                    .load(listItem.getFilePreview())
+                    .placeholder(R.drawable.placeholder)
+                    .into(holder.imageViewImagePreview);
+        } else if (listItem.getFormat().contains("mp4") ||
+            listItem.getFormat().contains("webm")) {
+            
+            Picasso.get()
+                    .load(listItem.getThumbnail())
+                    .placeholder(R.drawable.placeholder)
+                    .into(holder.imageViewImagePreview);
+        }
 
         holder.textViewLikeCount.setText(counter(listItem.getLikeCount()));
         holder.textViewCommentsCount.setText(counter(listItem.getCommentsCount()));

@@ -48,10 +48,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_item, parent, false);
+        ViewHolder holder = new ViewHolder(v);
+        holder.setIsRecyclable(false);
 
         sharedPref = context.getSharedPreferences("SharedSettings", Context.MODE_PRIVATE);
 
-        return new ViewHolder(v);
+        return holder;
     }
 
     @Override

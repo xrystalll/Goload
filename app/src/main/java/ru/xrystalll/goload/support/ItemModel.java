@@ -12,10 +12,11 @@ public class ItemModel {
     private final String downloadCount;
     private final String viewsCount;
     private final String format;
+    private final String thumbnail;
 
     public ItemModel(
             String id, String author, String time, String fileName, String filePreview,
-            String likeCount, String commentsCount, String downloadCount, String viewsCount, String format) {
+            String likeCount, String commentsCount, String downloadCount, String viewsCount, String format, String thumbnail) {
         this.id = id;
         this.author = author;
         this.time = time;
@@ -26,6 +27,7 @@ public class ItemModel {
         this.downloadCount = downloadCount;
         this.viewsCount = viewsCount;
         this.format = format;
+        this.thumbnail = thumbnail;
     }
 
     public String getId() { return id; }
@@ -38,5 +40,6 @@ public class ItemModel {
     String getDownloadCount() { return downloadCount; }
     String getViewsCount() { return viewsCount; }
     String getFormat() { return format; }
+    String getThumbnail() { return thumbnail; }
 
 }

@@ -74,6 +74,8 @@
     <string name="today">today at</string>
     <string name="yesterday">yesterday at</string>
     <string name="comments">Comments</string>
+    <string name="no_comments">No comments yet</string>
+    <string name="add_comment">Add a comment…</string>
 
     <!-- Search Strings -->
     <string name="nothing_found">Nothing found</string>

@@ -80,8 +80,10 @@ public class FileActivity extends AppCompatActivity {
     private TextView likeCount;
     private ScrollView fileView;
     private TextView commentsTitle;
+    private LinearLayout comment_input_bar;
     private SimpleExoPlayer exoPlayer;
     private SharedPreferences sharedPref;
+    private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private final List<CommentModel> listItems = new ArrayList<>();
     private LinearLayoutManager layoutManager;
@@ -109,7 +111,8 @@ public class FileActivity extends AppCompatActivity {
         likeCount = findViewById(R.id.likeCount);
         text_error = findViewById(R.id.text_error);
         commentsTitle = findViewById(R.id.commentsTitle);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
+        comment_input_bar = findViewById(R.id.comment_input_bar);
 
         Intent intent = getIntent();
         Uri data = intent.getData();
@@ -401,28 +404,6 @@ public class FileActivity extends AppCompatActivity {
         }
     }
 
-    private void showLoader() {
-        fileView.setVisibility(View.GONE);
-        loader.setVisibility(View.VISIBLE);
-    }
-
-    private void hideLoader() {
-        fileView.setVisibility(View.VISIBLE);
-        loader.setVisibility(View.GONE);
-    }
-
-    private void showError() {
-        fileView.setVisibility(View.GONE);
-        loader.setVisibility(View.GONE);
-        RelativeLayout fileError = findViewById(R.id.fileError);
-        fileError.setVisibility(View.VISIBLE);
-    }
-
-    private boolean getPermission() {
-        String permission = "android.permission.WRITE_EXTERNAL_STORAGE";
-        return checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
-    }
-
     private String counter(String count) {
         int num = Integer.parseInt(count);
         if (num > 0) {
@@ -472,6 +453,91 @@ public class FileActivity extends AppCompatActivity {
         return sharedPref.getBoolean("Like" + id, false);
     }
 
+    private void loadComments(String fileId, int offset) {
+        String URL_DATA = BASE_API_URL + "/api/comments.php?id=" + fileId + "&limit=10&offset=" + offset;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
+                new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+
+                if (s.contains("No comments yet")) {
+                    showCommentsError();
+                } else {
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+                        JSONArray array = jsonObject.getJSONArray("comments");
+
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject o = array.getJSONObject(i);
+                            CommentModel item = new CommentModel(
+                                    o.getString("id"),
+                                    o.getString("file"),
+                                    o.getString("author"),
+                                    o.getString("userPhoto"),
+                                    o.getString("text"),
+                                    o.getString("like"),
+                                    o.getString("time")
+                            );
+                            listItems.add(item);
+                        }
+
+                        commentsTitle.setVisibility(View.VISIBLE);
+                        adapter.notifyDataSetChanged();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        },
+        new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                showCommentsError();
+                if (hasNetwork()) {
+                    Toast.makeText(getApplicationContext(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.getCache().clear();
+        stringRequest.setShouldCache(false);
+        requestQueue.add(stringRequest);
+    }
+
+    private void showLoader() {
+        fileView.setVisibility(View.GONE);
+        comment_input_bar.setVisibility(View.GONE);
+        loader.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoader() {
+        fileView.setVisibility(View.VISIBLE);
+        comment_input_bar.setVisibility(View.VISIBLE);
+        loader.setVisibility(View.GONE);
+    }
+
+    private void showError() {
+        fileView.setVisibility(View.GONE);
+        comment_input_bar.setVisibility(View.GONE);
+        loader.setVisibility(View.GONE);
+        RelativeLayout fileError = findViewById(R.id.fileError);
+        fileError.setVisibility(View.VISIBLE);
+    }
+
+    private void showCommentsError() {
+        recyclerView.setVisibility(View.GONE);
+        RelativeLayout commError = findViewById(R.id.commError);
+        commError.setVisibility(View.VISIBLE);
+    }
+
+    private boolean getPermission() {
+        String permission = "android.permission.WRITE_EXTERNAL_STORAGE";
+        return checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
     @Override
     public void onDestroy() {
         if (exoPlayer != null) {
@@ -503,55 +569,6 @@ public class FileActivity extends AppCompatActivity {
         assert connectivityManager != null;
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
-    }
-
-    private void loadComments(String fileId, int offset) {
-        String URL_DATA = BASE_API_URL + "/api/comments.php?id=" + fileId + "&limit=10&offset=" + offset;
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
-                new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    JSONArray array = jsonObject.getJSONArray("comments");
-
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject o = array.getJSONObject(i);
-                        CommentModel item = new CommentModel(
-                                o.getString("id"),
-                                o.getString("file"),
-                                o.getString("author"),
-                                o.getString("userPhoto"),
-                                o.getString("text"),
-                                o.getString("like"),
-                                o.getString("time")
-                        );
-                        listItems.add(item);
-                    }
-
-                    commentsTitle.setVisibility(View.VISIBLE);
-                    adapter.notifyDataSetChanged();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        },
-        new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                if (hasNetwork()) {
-                    Toast.makeText(getApplicationContext(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        requestQueue.getCache().clear();
-        stringRequest.setShouldCache(false);
-        requestQueue.add(stringRequest);
     }
 
 }

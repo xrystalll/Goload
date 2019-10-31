@@ -309,9 +309,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="12dp"
-                android:clipToPadding="false" />
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="12dp" />
 
             <RelativeLayout
                 android:id="@+id/commError"
@@ -403,23 +404,42 @@
         android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
         android:background="?attr/colorCard"
-        app:elevation="8dp">
+        app:elevation="8dp"
+        android:weightSum="3">
 
         <EditText
-            android:id="@+id/comment_input"
-            android:layout_width="match_parent"
+            android:id="@+id/user_input"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/transparent"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="8dp"
-            android:hint="@string/add_comment"
-            android:textColorHint="@color/toolbar_input_hint"
-            android:textColor="@android:color/white"
+            android:background="?attr/rounded_input_bg"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:layout_margin="8dp"
+            android:hint="@string/add_name"
+            android:textColorHint="?attr/colorInputHint"
+            android:textColor="?attr/colorInputText"
             android:textSize="15sp"
             android:inputType="text|textLongMessage"
             android:importantForAutofill="no"
-            android:imeOptions="actionSend|flagNoExtractUi"
-            android:theme="@style/ToolbarInputTheme" />
+            android:imeOptions="actionNext|flagNoExtractUi" />
+
+        <EditText
+            android:id="@+id/comment_input"
+            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?attr/rounded_input_bg"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:layout_margin="8dp"
+            android:hint="@string/add_comment"
+            android:textColorHint="?attr/colorInputHint"
+            android:textColor="?attr/colorInputText"
+            android:textSize="15sp"
+            android:inputType="text|textLongMessage"
+            android:importantForAutofill="no"
+            android:imeOptions="actionSend|flagNoExtractUi" />
 
     </LinearLayout>
 

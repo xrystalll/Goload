@@ -7,5 +7,9 @@
         <attr name="colorTitle" format="color" />
         <attr name="colorSecondary" format="color" />
         <attr name="colorRipple" format="color" />
+        <attr name="colorInputHint" format="color" />
+        <attr name="colorInputText" format="color" />
+
+        <attr name="rounded_input_bg" format="reference" />
     </declare-styleable>
 </resources>

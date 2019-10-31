@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -32,11 +32,10 @@
                     android:layout_height="140dp"
                     android:adjustViewBounds="true"
                     android:alpha="0.5"
-                    android:contentDescription="upload"
+                    android:contentDescription="@string/text_upload"
                     android:src="@drawable/ic_upload_white_24dp"
                     android:tint="?attr/colorText"
-                    android:layout_marginBottom="-16dp"
-                    tools:ignore="HardcodedText" />
+                    android:layout_marginBottom="-16dp" />
 
                 <TextView
                     android:id="@+id/fileName"
@@ -63,8 +62,7 @@
                 android:background="?attr/colorCard"
                 android:baselineAligned="false"
                 android:layout_marginTop="12dp"
-                android:gravity="center_vertical"
-                tools:ignore="RtlHardcoded">
+                android:gravity="center_vertical">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -80,7 +78,7 @@
                         android:text="@string/storage_header"
                         android:textSize="14sp"
                         android:textColor="@color/colorAccent"
-                        style="@style/TextAppearance.AppCompat.Medium" />
+                        style="@style/TextAppearance.AppCompat.Body2" />
 
                 </RelativeLayout>
 
@@ -105,8 +103,7 @@
                     android:text="@string/storage_time_1"
                     android:textColor="?attr/colorText"
                     android:layout_marginEnd="16dp"
-                    android:alpha="0.8"
-                    tools:ignore="UnusedAttribute" />
+                    android:alpha="0.8" />
 
                 <RadioButton
                     android:id="@+id/storage_10"
@@ -115,8 +112,7 @@
                     android:layout_marginEnd="16dp"
                     android:text="@string/storage_time_10"
                     android:textColor="?attr/colorText"
-                    android:alpha="0.8"
-                    tools:ignore="UnusedAttribute" />
+                    android:alpha="0.8" />
 
                 <RadioButton
                     android:id="@+id/storage_180"
@@ -125,8 +121,7 @@
                     android:text="@string/storage_time_180"
                     android:textColor="?attr/colorText"
                     android:layout_marginEnd="16dp"
-                    android:alpha="0.8"
-                    tools:ignore="UnusedAttribute" />
+                    android:alpha="0.8" />
 
             </RadioGroup>
 
@@ -141,8 +136,7 @@
                 android:background="?attr/colorCard"
                 android:baselineAligned="false"
                 android:layout_marginTop="12dp"
-                android:gravity="center_vertical"
-                tools:ignore="RtlHardcoded">
+                android:gravity="center_vertical">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -158,7 +152,7 @@
                         android:text="@string/enter_name_header"
                         android:textSize="14sp"
                         android:textColor="@color/colorAccent"
-                        style="@style/TextAppearance.AppCompat.Medium" />
+                        style="@style/TextAppearance.AppCompat.Body2" />
 
                 </RelativeLayout>
 

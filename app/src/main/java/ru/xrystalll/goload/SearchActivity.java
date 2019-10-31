@@ -83,12 +83,12 @@ public class SearchActivity extends AppCompatActivity {
         input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_SEARCH) {
+                if (i == EditorInfo.IME_ACTION_SEARCH && input.getText().toString().trim().length() > 0) {
                     hideKeyboard(SearchActivity.this);
                     listItems.clear();
                     adapter.notifyDataSetChanged();
                     showLoader();
-                    query = input.getText().toString();
+                    query = input.getText().toString().trim();
                     loadData(query, 0);
                     return true;
                 }
@@ -112,8 +112,7 @@ public class SearchActivity extends AppCompatActivity {
     private void loadData(String query, int offset) {
         String URL_DATA = BASE_API_URL + "/api/search.php?q=" + query + "&limit=10&offset=" + offset;
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
-                new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
 
@@ -150,8 +149,7 @@ public class SearchActivity extends AppCompatActivity {
                     }
                 }
             }
-        },
-        new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 if (hasNetwork()) {

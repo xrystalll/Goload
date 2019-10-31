@@ -13,8 +13,6 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:clipToPadding="false"
     android:baselineAligned="false"
-    android:divider="@null"
-    android:dividerPadding="0dp"
     tools:ignore="RtlHardcoded,UnusedAttribute">
 
     <include layout="@layout/image_frame"
@@ -52,7 +50,6 @@
 
     </RelativeLayout>
 
-    <!-- Preference should place its actual preference widget here. -->
     <LinearLayout
         android:id="@android:id/widget_frame"
         android:layout_width="wrap_content"

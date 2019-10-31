@@ -88,8 +88,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
                     String URL_DATA = BASE_API_URL + "/api/likecomment.php?id=" + listItem.getId() + "&like";
 
-                    StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
-                            new Response.Listener<String>() {
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
                             try {
@@ -102,8 +101,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                                 e.printStackTrace();
                             }
                         }
-                    },
-                    new Response.ErrorListener() {
+                    }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
                             Toast.makeText(context, volleyError.getMessage(), Toast.LENGTH_LONG).show();
@@ -121,8 +119,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
                     String URL_DATA = BASE_API_URL + "/api/likecomment.php?id=" + listItem.getId() + "&dislike";
 
-                    StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
-                            new Response.Listener<String>() {
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
                             try {
@@ -135,8 +132,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                                 e.printStackTrace();
                             }
                         }
-                    },
-                    new Response.ErrorListener() {
+                    }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
                             Toast.makeText(context, volleyError.getMessage(), Toast.LENGTH_LONG).show();

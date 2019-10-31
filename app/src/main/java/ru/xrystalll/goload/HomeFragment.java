@@ -107,8 +107,7 @@ public class HomeFragment extends Fragment {
     private void loadData(int offset) {
         String URL_DATA = BASE_API_URL + "/api/all.php?limit=10&offset=" + offset;
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
-                new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 hideLoader();
@@ -143,8 +142,7 @@ public class HomeFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-        },
-        new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 hideLoader();

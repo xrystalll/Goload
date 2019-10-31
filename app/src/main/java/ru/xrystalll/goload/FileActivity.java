@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -19,10 +20,14 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -30,6 +35,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -59,8 +65,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import ru.xrystalll.goload.fullviewer.FullscreenActivity;
 import ru.xrystalll.goload.support.CommentsAdapter;
@@ -81,6 +89,10 @@ public class FileActivity extends AppCompatActivity {
     private ScrollView fileView;
     private TextView commentsTitle;
     private LinearLayout comment_input_bar;
+    private String author;
+    private EditText input;
+    private EditText user_input;
+    private RelativeLayout commError;
     private SimpleExoPlayer exoPlayer;
     private SharedPreferences sharedPref;
     private RecyclerView recyclerView;
@@ -113,6 +125,9 @@ public class FileActivity extends AppCompatActivity {
         commentsTitle = findViewById(R.id.commentsTitle);
         recyclerView = findViewById(R.id.recyclerView);
         comment_input_bar = findViewById(R.id.comment_input_bar);
+        input = findViewById(R.id.comment_input);
+        user_input = findViewById(R.id.user_input);
+        commError = findViewById(R.id.commError);
 
         Intent intent = getIntent();
         Uri data = intent.getData();
@@ -147,14 +162,67 @@ public class FileActivity extends AppCompatActivity {
             }
         });
 
+        final String user = sharedPref.getString("UserName", "");
+        if (!user.equalsIgnoreCase("")) {
+            comment_input_bar.setWeightSum(2f);
+            user_input.setVisibility(View.GONE);
+            author = user;
+        }
+
+        user_input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_NEXT) {
+                    if (user_input.getText().toString().trim().length() > 0) {
+                        author = user_input.getText().toString().trim();
+                        setUsername(author);
+                        comment_input_bar.setWeightSum(2f);
+                        user_input.setVisibility(View.GONE);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEND) {
+                    String text = input.getText().toString().trim();
+                    if (author != null) {
+                        if (text.length() > 1) {
+                            hideKeyboard(FileActivity.this);
+                            writeComment(fileId, author, text);
+                            input.getText().clear();
+                        }
+                    } else {
+                        if (user_input.getText().toString().trim().length() > 0) {
+                            author = user_input.getText().toString().trim();
+                            setUsername(author);
+                            comment_input_bar.setWeightSum(2f);
+                            user_input.setVisibility(View.GONE);
+
+                            if (text.length() > 1) {
+                                hideKeyboard(FileActivity.this);
+                                writeComment(fileId, author, text);
+                                input.getText().clear();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), getString(R.string.enter_name_error), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void loadData(String fileId) {
         String URL_DATA = BASE_API_URL + "/api/file.php?id=" + fileId;
         showLoader();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
-                new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 hideLoader();
@@ -235,8 +303,7 @@ public class FileActivity extends AppCompatActivity {
                     showError();
                 }
             }
-        },
-        new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 if (hasNetwork()) {
@@ -416,8 +483,7 @@ public class FileActivity extends AppCompatActivity {
     private void getLike(String id, String action) {
         String URL_DATA = BASE_API_URL + "/api/like.php?id=" + id + "&" + action;
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
-                new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -430,8 +496,7 @@ public class FileActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        },
-        new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Toast.makeText(getApplicationContext(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
@@ -456,8 +521,7 @@ public class FileActivity extends AppCompatActivity {
     private void loadComments(String fileId, int offset) {
         String URL_DATA = BASE_API_URL + "/api/comments.php?id=" + fileId + "&limit=10&offset=" + offset;
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
-                new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
 
@@ -490,8 +554,7 @@ public class FileActivity extends AppCompatActivity {
                     }
                 }
             }
-        },
-        new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 showCommentsError();
@@ -505,6 +568,65 @@ public class FileActivity extends AppCompatActivity {
         requestQueue.getCache().clear();
         stringRequest.setShouldCache(false);
         requestQueue.add(stringRequest);
+    }
+
+    private void writeComment(final String id, final String author, final String text) {
+        String URL_DATA = BASE_API_URL + "/api/writecomment.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_DATA, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                if (!s.contains("error")) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+                        JSONObject o = jsonObject.getJSONObject("data");
+
+                        CommentModel item = new CommentModel(
+                                o.getString("id"),
+                                o.getString("file"),
+                                o.getString("author"),
+                                o.getString("userPhoto"),
+                                o.getString("text"),
+                                o.getString("like"),
+                                o.getString("time")
+                        );
+                        listItems.add(0, item);
+
+                        commentsTitle.setVisibility(View.VISIBLE);
+                        hideCommentsError();
+                        adapter.notifyDataSetChanged();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getApplicationContext(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("id", id);
+                params.put("author", author);
+                params.put("text", text);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+    }
+
+    private void setUsername(String name) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("UserName", name);
+        editor.apply();
     }
 
     private void showLoader() {
@@ -529,8 +651,12 @@ public class FileActivity extends AppCompatActivity {
 
     private void showCommentsError() {
         recyclerView.setVisibility(View.GONE);
-        RelativeLayout commError = findViewById(R.id.commError);
         commError.setVisibility(View.VISIBLE);
+    }
+
+    private void hideCommentsError() {
+        recyclerView.setVisibility(View.VISIBLE);
+        commError.setVisibility(View.GONE);
     }
 
     private boolean getPermission() {
@@ -569,6 +695,12 @@ public class FileActivity extends AppCompatActivity {
         assert connectivityManager != null;
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private static void hideKeyboard(@NonNull Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        assert inputMethodManager != null;
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
 }

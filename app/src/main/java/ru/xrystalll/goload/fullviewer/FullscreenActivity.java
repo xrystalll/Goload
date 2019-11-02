@@ -65,8 +65,7 @@ public class FullscreenActivity extends AppCompatActivity {
             ImageView fullscreenButton = exoPlayerView.findViewById(R.id.exo_fullscreen_icon);
 
             try {
-                fullscreenButton.setImageDrawable(ContextCompat.getDrawable(FullscreenActivity.this,
-                        R.drawable.exo_controls_fullscreen_exit));
+                fullscreenButton.setImageDrawable(getResources().getDrawable(R.drawable.exo_controls_fullscreen_exit));
                 BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
                 TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
                 exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector);

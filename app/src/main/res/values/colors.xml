@@ -5,6 +5,8 @@
     <color name="colorPrimaryDark">#4d7199</color>
     <color name="colorAccent">#5d80a6</color>
 
+    <color name="colorActionIcon">#989898</color>
+
     <color name="colorBackground">#131A23</color>
     <color name="colorCard">#1C2733</color>
     <color name="colorText">#8E9399</color>
@@ -22,6 +24,5 @@
     <color name="compatibility_focus_color">#48000000</color>
     <color name="compatibility_pressed_color">#1a000000</color>
     <color name="empty_directory_hint">#c7c7c7</color>
-    <color name="colorActionIcon">#989898</color>
     <color name="toolbar_input_hint">#99FFFFFF</color>
 </resources>

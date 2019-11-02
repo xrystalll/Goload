@@ -52,7 +52,6 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         ViewHolder holder = new ViewHolder(v);
-        holder.setIsRecyclable(false);
 
         sharedPref = context.getSharedPreferences("SharedSettings", Context.MODE_PRIVATE);
 
@@ -88,6 +87,8 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
                     .load(listItem.getThumbnail())
                     .placeholder(R.drawable.placeholder)
                     .into(holder.imageViewImagePreview);
+        } else {
+            holder.imageViewImagePreview.setImageDrawable(context.getResources().getDrawable(R.drawable.placeholder));
         }
 
         holder.textViewLikeCount.setText(counter(listItem.getLikeCount()));
@@ -186,6 +187,16 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         return listItems.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

@@ -31,7 +31,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +77,7 @@ import ru.xrystalll.goload.support.SettingsUtils;
 public class FileActivity extends AppCompatActivity {
 
     private final String BASE_API_URL = "https://goload.ru";
+    private LinearLayout fileView;
     private View loader;
     private TextView text_error;
     private Button downloadBtn;
@@ -86,7 +86,6 @@ public class FileActivity extends AppCompatActivity {
     private LinearLayout likeBtn;
     private ImageView likeIcon;
     private TextView likeCount;
-    private ScrollView fileView;
     private TextView commentsTitle;
     private LinearLayout comment_input_bar;
     private String author;
@@ -686,6 +685,7 @@ public class FileActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.action_search) {
             Intent i = new Intent(this, SearchActivity.class);
             startActivity(i);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

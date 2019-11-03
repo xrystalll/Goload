@@ -61,7 +61,7 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
     @Override
     public DirectoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_file, parent, false);
+                .inflate(R.layout.item_path, parent, false);
 
         return new DirectoryViewHolder(view, mOnItemClickListener);
     }

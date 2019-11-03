@@ -321,7 +321,7 @@ public class FileActivity extends AppCompatActivity {
     }
 
     private void fillCard(
-            String author, String time, String fileName, String description, final String file,
+            String author, String time, String fileName, @NonNull String description, final String file,
             String likeCount, String commentsCount, String downloadCount, String viewsCount, String format) {
 
         TextView textViewAuthor = findViewById(R.id.author);

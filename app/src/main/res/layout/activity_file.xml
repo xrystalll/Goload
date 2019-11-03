@@ -318,8 +318,7 @@
                     android:nestedScrollingEnabled="false"
                     android:scrollbars="none"
                     android:paddingBottom="12dp"
-                    android:clipToPadding="false"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                    android:clipToPadding="false" />
 
                 <RelativeLayout
                     android:id="@+id/commError"
@@ -404,6 +403,12 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_above="@+id/comment_input_bar"
+        android:background="@drawable/shadow_bottom" />
 
     <LinearLayout
         android:id="@+id/comment_input_bar"

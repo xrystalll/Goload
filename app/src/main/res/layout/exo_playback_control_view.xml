@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
-    android:background="@drawable/player_shadow">
+    android:background="@drawable/shadow_player">
 
     <LinearLayout
         android:id="@+id/play_pause_layout"

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -77,7 +78,7 @@ import ru.xrystalll.goload.support.SettingsUtils;
 public class FileActivity extends AppCompatActivity {
 
     private final String BASE_API_URL = "https://goload.ru";
-    private LinearLayout fileView;
+    private NestedScrollView fileView;
     private View loader;
     private TextView text_error;
     private Button downloadBtn;

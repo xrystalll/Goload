@@ -31,10 +31,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
                     android:adjustViewBounds="true"
-                    android:alpha="0.5"
                     android:contentDescription="@string/text_upload"
                     android:src="@drawable/ic_upload_white_24dp"
                     android:tint="?attr/colorText"
+                    android:alpha="0.5"
                     android:layout_marginBottom="-16dp" />
 
                 <TextView
@@ -100,9 +100,9 @@
                     android:id="@+id/storage_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
                     android:text="@string/storage_time_1"
                     android:textColor="?attr/colorText"
-                    android:layout_marginEnd="16dp"
                     android:alpha="0.8" />
 
                 <RadioButton
@@ -118,9 +118,9 @@
                     android:id="@+id/storage_180"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
                     android:text="@string/storage_time_180"
                     android:textColor="?attr/colorText"
-                    android:layout_marginEnd="16dp"
                     android:alpha="0.8" />
 
             </RadioGroup>

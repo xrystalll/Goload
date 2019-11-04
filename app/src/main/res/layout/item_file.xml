@@ -34,7 +34,8 @@
                     android:contentDescription="user"
                     android:padding="8dp"
                     android:src="@drawable/ic_account_white_24dp"
-                    android:tint="?attr/colorText" />
+                    android:tint="?attr/colorText"
+                    android:alpha="0.8" />
 
                 <TextView
                     android:id="@+id/author"

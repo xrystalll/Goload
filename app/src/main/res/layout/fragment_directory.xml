@@ -23,7 +23,7 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_file_gray_116dp"
             android:tint="?attr/colorText"
-            android:alpha="0.8" />
+            android:alpha="0.6" />
 
         <TextView
             android:layout_width="wrap_content"

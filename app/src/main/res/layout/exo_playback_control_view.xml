@@ -16,11 +16,17 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <ImageButton android:id="@id/exo_play"
+        <ImageButton
+            android:id="@id/exo_play"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             style="@style/ExoMediaButton.Play"
             tools:ignore="ContentDescription" />
 
-        <ImageButton android:id="@id/exo_pause"
+        <ImageButton
+            android:id="@id/exo_pause"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             style="@style/ExoMediaButton.Pause"
             tools:ignore="ContentDescription" />
 
@@ -68,15 +74,15 @@
 
         <FrameLayout
             android:id="@+id/exo_fullscreen_button"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_gravity="right"
             tools:ignore="RtlHardcoded">
 
             <ImageView
                 android:id="@+id/exo_fullscreen_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"

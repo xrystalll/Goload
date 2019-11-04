@@ -16,7 +16,7 @@
 
     <color name="colorBackgroundLight">#F0F2F5</color>
     <color name="colorCardLight">#FFFFFF</color>
-    <color name="colorTextLight">#7F7F7F</color>
+    <color name="colorTextLight">#858585</color>
     <color name="colorTitleLight">#6F6F6F</color>
     <color name="colorSecondaryLight">#A0A0A0</color>
     <color name="colorRippleLight">#1A000000</color>

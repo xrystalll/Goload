@@ -14,7 +14,6 @@
         <item name="colorTitle">@color/colorTitle</item>
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorRipple">@color/colorRipple</item>
-        <item name="colorControlHighlight">@color/colorRipple</item>
         <item name="colorInputHint">@color/toolbar_input_hint</item>
         <item name="colorInputText">@android:color/white</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
@@ -37,7 +36,6 @@
         <item name="colorTitle">@color/colorTitleLight</item>
         <item name="colorSecondary">@color/colorSecondaryLight</item>
         <item name="colorRipple">@color/colorRippleLight</item>
-        <item name="colorControlHighlight">@color/colorRippleLight</item>
         <item name="colorInputHint">@color/colorSecondaryLight</item>
         <item name="colorInputText">@color/colorTextLight</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
@@ -52,9 +50,7 @@
     </style>
 
     <style name="FullscreenTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@android:color/black</item>
-        <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>

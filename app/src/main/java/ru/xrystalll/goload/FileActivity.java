@@ -41,7 +41,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
@@ -74,6 +73,7 @@ import ru.xrystalll.goload.fullviewer.FullscreenActivity;
 import ru.xrystalll.goload.support.CommentsAdapter;
 import ru.xrystalll.goload.support.CommentModel;
 import ru.xrystalll.goload.support.SettingsUtils;
+import ru.xrystalll.goload.support.VolleySingleton;
 
 public class FileActivity extends AppCompatActivity {
 
@@ -99,6 +99,7 @@ public class FileActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private final List<CommentModel> listItems = new ArrayList<>();
     private LinearLayoutManager layoutManager;
+    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +118,7 @@ public class FileActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        requestQueue = VolleySingleton.getInstance(this).getRequestQueue();
         sharedPref = getSharedPreferences("SharedSettings", Context.MODE_PRIVATE);
         loader = findViewById(R.id.fileLoader);
         fileView = findViewById(R.id.fileView);
@@ -316,7 +318,6 @@ public class FileActivity extends AppCompatActivity {
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(stringRequest);
     }
 
@@ -503,7 +504,6 @@ public class FileActivity extends AppCompatActivity {
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(stringRequest);
     }
 
@@ -564,8 +564,6 @@ public class FileActivity extends AppCompatActivity {
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        requestQueue.getCache().clear();
         stringRequest.setShouldCache(false);
         requestQueue.add(stringRequest);
     }
@@ -619,7 +617,6 @@ public class FileActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(stringRequest);
     }
 

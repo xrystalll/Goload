@@ -18,7 +18,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -38,6 +37,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     private final List<CommentModel> listItems;
     private final Context context;
     private SharedPreferences sharedPref;
+    private RequestQueue requestQueue;
 
     public CommentsAdapter(List<CommentModel> listItems, Context context) {
         this.listItems = listItems;
@@ -50,6 +50,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false);
         ViewHolder holder = new ViewHolder(v);
 
+        requestQueue = VolleySingleton.getInstance(context).getRequestQueue();
         sharedPref = context.getSharedPreferences("SharedSettings", Context.MODE_PRIVATE);
 
         return holder;
@@ -107,7 +108,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                         }
                     });
 
-                    RequestQueue requestQueue = Volley.newRequestQueue(context);
                     requestQueue.add(stringRequest);
 
                     holder.likeIcon.setColorFilter(context.getResources().getColor(R.color.colorAccent));
@@ -138,7 +138,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                         }
                     });
 
-                    RequestQueue requestQueue = Volley.newRequestQueue(context);
                     requestQueue.add(stringRequest);
 
                     holder.likeIcon.setColorFilter(context.getResources().getColor(R.color.colorActionIcon));

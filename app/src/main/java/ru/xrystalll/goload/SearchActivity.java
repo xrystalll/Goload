@@ -24,7 +24,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +35,7 @@ import java.util.List;
 import ru.xrystalll.goload.support.FilesAdapter;
 import ru.xrystalll.goload.support.ItemModel;
 import ru.xrystalll.goload.support.SettingsUtils;
+import ru.xrystalll.goload.support.VolleySingleton;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -48,6 +48,7 @@ public class SearchActivity extends AppCompatActivity {
     private TextView text_error;
     private LinearLayoutManager layoutManager;
     private String query = null;
+    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class SearchActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        requestQueue = VolleySingleton.getInstance(this).getRequestQueue();
         loader = findViewById(R.id.recyclerLoader);
         error = findViewById(R.id.searchError);
         recyclerView = findViewById(R.id.recyclerView);
@@ -162,8 +164,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(SearchActivity.this);
-        requestQueue.getCache().clear();
         stringRequest.setShouldCache(false);
         requestQueue.add(stringRequest);
     }

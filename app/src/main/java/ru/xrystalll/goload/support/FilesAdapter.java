@@ -20,7 +20,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -41,6 +40,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
     private final List<ItemModel> listItems;
     private final Context context;
     private SharedPreferences sharedPref;
+    private RequestQueue requestQueue;
 
     public FilesAdapter(List<ItemModel> listItems, Context context) {
         this.listItems = listItems;
@@ -53,6 +53,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_file, parent, false);
         ViewHolder holder = new ViewHolder(v);
 
+        requestQueue = VolleySingleton.getInstance(context).getRequestQueue();
         sharedPref = context.getSharedPreferences("SharedSettings", Context.MODE_PRIVATE);
 
         return holder;
@@ -75,6 +76,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
             listItem.getFormat().contains("gif") ||
             listItem.getFormat().contains("ico") ||
             listItem.getFormat().contains("bmp")) {
+            holder.fakePlay.setVisibility(View.GONE);
 
             Picasso.get()
                     .load(listItem.getFilePreview())
@@ -82,12 +84,14 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
                     .into(holder.imageViewImagePreview);
         } else if (listItem.getFormat().contains("mp4") ||
             listItem.getFormat().contains("webm")) {
-            
+            holder.fakePlay.setVisibility(View.VISIBLE);
+
             Picasso.get()
                     .load(listItem.getThumbnail())
                     .placeholder(R.drawable.placeholder)
                     .into(holder.imageViewImagePreview);
         } else {
+            holder.fakePlay.setVisibility(View.GONE);
             holder.imageViewImagePreview.setImageDrawable(context.getResources().getDrawable(R.drawable.placeholder));
         }
 
@@ -140,7 +144,6 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
                         }
                     });
 
-                    RequestQueue requestQueue = Volley.newRequestQueue(context);
                     requestQueue.add(stringRequest);
 
                     holder.likeIcon.setColorFilter(context.getResources().getColor(R.color.colorAccent));
@@ -171,7 +174,6 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
                         }
                     });
 
-                    RequestQueue requestQueue = Volley.newRequestQueue(context);
                     requestQueue.add(stringRequest);
 
                     holder.likeIcon.setColorFilter(context.getResources().getColor(R.color.colorActionIcon));
@@ -212,6 +214,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
         final CardView fileCard;
         final LinearLayout like;
         final ImageView likeIcon;
+        final ImageView fakePlay;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -227,6 +230,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
             fileCard = itemView.findViewById(R.id.fileCard);
             like = itemView.findViewById(R.id.like);
             likeIcon = itemView.findViewById(R.id.likeIcon);
+            fakePlay = itemView.findViewById(R.id.fakePlay);
         }
     }
 

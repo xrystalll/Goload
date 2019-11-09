@@ -187,7 +187,7 @@ public class UploadFragment extends Fragment {
                 dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
 
-                // Filename
+                // Username
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
                 dos.writeBytes("Content-Disposition: form-data; name=\"username\";" + lineEnd);
                 dos.writeBytes(lineEnd);

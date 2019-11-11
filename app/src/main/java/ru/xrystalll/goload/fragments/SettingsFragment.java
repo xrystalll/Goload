@@ -1,17 +1,22 @@
-package ru.xrystalll.goload;
+package ru.xrystalll.goload.fragments;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.net.Uri;
 import android.widget.Toast;
 
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import java.io.File;
 
+import ru.xrystalll.goload.MainActivity;
+import ru.xrystalll.goload.R;
+import ru.xrystalll.goload.WebViewActivity;
 import ru.xrystalll.goload.support.SettingsUtils;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -37,10 +42,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         openRules.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Intent i = new Intent(getActivity(), WebViewActivity.class);
-                i.putExtra("url", BASE_API_URL + "/rules");
-                i.putExtra("title", getString(R.string.rules_title));
-                startActivity(i);
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                CustomTabsIntent customTabsIntent = builder.build();
+                builder.setToolbarColor(getResources().getColor(R.color.colorAccent));
+                customTabsIntent.launchUrl(getActivity(), Uri.parse(BASE_API_URL + "/rules"));
                 return true;
             }
         });

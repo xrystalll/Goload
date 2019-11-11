@@ -70,6 +70,7 @@
     <string name="no_comments">Комментариев нет</string>
     <string name="add_comment">Введите комментарий…</string>
     <string name="add_name">Введите имя</string>
+    <string name="open_in_browser">Открыть в браузере</string>
 
     <!-- Search Strings -->
     <string name="nothing_found">Ничего не найдено</string>

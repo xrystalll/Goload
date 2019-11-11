@@ -3,6 +3,7 @@ package ru.xrystalll.goload;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.widget.NestedScrollView;
@@ -672,18 +673,24 @@ public class FileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
+        getMenuInflater().inflate(R.menu.file_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
             onBackPressed();
-        } else if (item.getItemId() == R.id.action_search) {
+        } else if (itemId == R.id.action_search) {
             Intent i = new Intent(this, SearchActivity.class);
             startActivity(i);
             finish();
+        } else if (itemId == R.id.action_open_url) {
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            CustomTabsIntent customTabsIntent = builder.build();
+            builder.setToolbarColor(getResources().getColor(R.color.colorAccent));
+            customTabsIntent.launchUrl(this, Uri.parse(BASE_API_URL + "/file" + fileId));
         }
         return super.onOptionsItemSelected(item);
     }

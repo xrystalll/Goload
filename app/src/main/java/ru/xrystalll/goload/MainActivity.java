@@ -22,6 +22,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Locale;
 
+import ru.xrystalll.goload.fragments.HomeFragment;
+import ru.xrystalll.goload.fragments.SettingsFragment;
+import ru.xrystalll.goload.fragments.UploadFragment;
 import ru.xrystalll.goload.support.SettingsUtils;
 
 public class MainActivity extends AppCompatActivity {

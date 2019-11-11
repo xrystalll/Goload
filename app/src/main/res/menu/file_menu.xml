@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/search_title"
+        android:icon="@drawable/ic_search_white_24dp"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_open_url"
+        android:title="@string/open_in_browser"
+        android:icon="@drawable/ic_more_white_24dp" />
+</menu>

@@ -9,6 +9,7 @@ import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -252,4 +253,5 @@ public class FilePickerActivity extends AppCompatActivity implements DirectoryFr
         setResult(RESULT_OK, data);
         finish();
     }
+
 }

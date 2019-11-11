@@ -62,7 +62,7 @@ public class WebViewActivity extends AppCompatActivity {
             webview.loadUrl(url);
         } else {
             assert url != null;
-            if (url.contains("https://")) {
+            if (url.contains("https://") || url.contains("http://")) {
                 webview.setVisibility(View.GONE);
                 connError.setVisibility(View.VISIBLE);
             } else if (url.contains("file:///")) {

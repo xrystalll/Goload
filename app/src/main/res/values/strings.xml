@@ -77,6 +77,7 @@
     <string name="no_comments">No comments yet</string>
     <string name="add_comment">Add a comment…</string>
     <string name="add_name">Enter name</string>
+    <string name="open_in_browser">Open in browser</string>
 
     <!-- Search Strings -->
     <string name="nothing_found">Nothing found</string>

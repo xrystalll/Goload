@@ -1,4 +1,4 @@
-package ru.xrystalll.goload;
+package ru.xrystalll.goload.fragments;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -31,6 +31,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.xrystalll.goload.R;
 import ru.xrystalll.goload.support.FilesAdapter;
 import ru.xrystalll.goload.support.ItemModel;
 import ru.xrystalll.goload.support.SettingsUtils;

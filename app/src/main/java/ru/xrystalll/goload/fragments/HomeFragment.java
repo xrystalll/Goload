@@ -33,14 +33,14 @@ import java.util.List;
 
 import ru.xrystalll.goload.R;
 import ru.xrystalll.goload.support.FilesAdapter;
-import ru.xrystalll.goload.support.ItemModel;
+import ru.xrystalll.goload.support.FilesModel;
 import ru.xrystalll.goload.support.SettingsUtils;
 
 public class HomeFragment extends Fragment {
 
     private final String BASE_API_URL = "https://goload.ru";
     private RecyclerView.Adapter adapter;
-    private final List<ItemModel> listItems = new ArrayList<>();
+    private final List<FilesModel> listItems = new ArrayList<>();
     private RecyclerView recyclerView;
     private View loader;
     private View itemLoader;
@@ -119,7 +119,7 @@ public class HomeFragment extends Fragment {
 
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject o = array.getJSONObject(i);
-                        ItemModel item = new ItemModel(
+                        FilesModel item = new FilesModel(
                                 o.getString("id"),
                                 o.getString("author"),
                                 o.getString("time"),

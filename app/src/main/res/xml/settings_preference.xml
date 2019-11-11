@@ -76,6 +76,7 @@
 
 
     <Preference
+        app:key="goload"
         app:layout="@layout/preference_about"
         app:enabled="false"
         app:iconSpaceReserved="false" />

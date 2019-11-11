@@ -37,12 +37,12 @@ import ru.xrystalll.goload.R;
 public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> {
 
     private final String BASE_API_URL = "https://goload.ru";
-    private final List<ItemModel> listItems;
+    private final List<FilesModel> listItems;
     private final Context context;
     private SharedPreferences sharedPref;
     private RequestQueue requestQueue;
 
-    public FilesAdapter(List<ItemModel> listItems, Context context) {
+    public FilesAdapter(List<FilesModel> listItems, Context context) {
         this.listItems = listItems;
         this.context = context;
     }
@@ -61,7 +61,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        final ItemModel listItem = listItems.get(position);
+        final FilesModel listItem = listItems.get(position);
 
         holder.textViewAuthor.setText(listItem.getAuthor());
 

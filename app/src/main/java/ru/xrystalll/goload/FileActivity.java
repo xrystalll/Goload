@@ -17,6 +17,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -689,6 +691,10 @@ public class FileActivity extends AppCompatActivity {
         } else if (itemId == R.id.action_open_url) {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             CustomTabsIntent customTabsIntent = builder.build();
+            builder.addDefaultShareMenuItem();
+            builder.setShowTitle(true);
+            final Bitmap backIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_white_24dp);
+            builder.setCloseButtonIcon(backIcon);
             builder.setToolbarColor(getResources().getColor(R.color.colorAccent));
             customTabsIntent.launchUrl(this, Uri.parse(BASE_API_URL + "/file" + fileId));
         }

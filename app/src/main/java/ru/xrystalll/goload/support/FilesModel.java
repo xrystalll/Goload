@@ -1,6 +1,6 @@
 package ru.xrystalll.goload.support;
 
-public class ItemModel {
+public class FilesModel {
 
     private final String id;
     private final String author;
@@ -14,7 +14,7 @@ public class ItemModel {
     private final String format;
     private final String thumbnail;
 
-    public ItemModel(
+    public FilesModel(
             String id, String author, String time, String fileName, String filePreview,
             String likeCount, String commentsCount, String downloadCount, String viewsCount, String format, String thumbnail) {
         this.id = id;

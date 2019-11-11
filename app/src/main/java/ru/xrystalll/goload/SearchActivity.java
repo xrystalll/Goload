@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.xrystalll.goload.support.FilesAdapter;
-import ru.xrystalll.goload.support.ItemModel;
+import ru.xrystalll.goload.support.FilesModel;
 import ru.xrystalll.goload.support.SettingsUtils;
 import ru.xrystalll.goload.support.VolleySingleton;
 
@@ -42,7 +42,7 @@ public class SearchActivity extends AppCompatActivity {
     private final String BASE_API_URL = "https://goload.ru";
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private final List<ItemModel> listItems = new ArrayList<>();
+    private final List<FilesModel> listItems = new ArrayList<>();
     private View loader;
     private View error;
     private TextView text_error;
@@ -128,7 +128,7 @@ public class SearchActivity extends AppCompatActivity {
 
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject o = array.getJSONObject(i);
-                            ItemModel item = new ItemModel(
+                            FilesModel item = new FilesModel(
                                     o.getString("id"),
                                     o.getString("author"),
                                     o.getString("time"),

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
@@ -19,11 +20,15 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +40,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +63,7 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -73,36 +80,58 @@ import java.util.Locale;
 import java.util.Map;
 
 import ru.xrystalll.goload.fullviewer.FullscreenActivity;
-import ru.xrystalll.goload.support.CommentsAdapter;
 import ru.xrystalll.goload.support.CommentModel;
+import ru.xrystalll.goload.support.CommentsAdapter;
 import ru.xrystalll.goload.support.SettingsUtils;
 import ru.xrystalll.goload.support.VolleySingleton;
 
 public class FileActivity extends AppCompatActivity {
 
     private final String BASE_API_URL = "https://goload.ru";
-    private NestedScrollView fileView;
-    private View loader;
-    private TextView text_error;
-    private Button downloadBtn;
-    private ImageView shareButton;
+    private SharedPreferences sharedPref;
     private String fileId;
+    private View loader;
+    private NestedScrollView fileView;
+    private RelativeLayout fileError;
+    private TextView text_error;
+
+    private TextView textViewAuthor;
+    private TextView textViewTime;
+    private TextView textViewFileName;
+    private TextView textViewDescription;
+    private ImageView imageViewImagePreview;
+    private SimpleExoPlayerView exoPlayerView;
     private LinearLayout likeBtn;
     private ImageView likeIcon;
     private TextView likeCount;
+    private TextView textViewCommentsCount;
+    private TextView textViewDownloadCount;
+    private TextView textViewViewsCount;
+    private RelativeLayout videoBlock;
+    private LinearLayout audioBlock;
+    private ImageView shareButton;
+    private Button downloadBtn;
+
     private TextView commentsTitle;
     private LinearLayout comment_input_bar;
     private String author;
-    private EditText input;
     private EditText user_input;
+    private EditText input;
     private RelativeLayout commError;
-    private SimpleExoPlayer exoPlayer;
-    private SharedPreferences sharedPref;
+
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private final List<CommentModel> listItems = new ArrayList<>();
     private LinearLayoutManager layoutManager;
     private RequestQueue requestQueue;
+
+    private SimpleExoPlayer exoPlayer;
+
+    private MediaPlayer mediaPlayer;
+    private FloatingActionButton audioBtn;
+    private SeekBar audioProgress;
+    private boolean initStage = true;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,15 +153,36 @@ public class FileActivity extends AppCompatActivity {
         requestQueue = VolleySingleton.getInstance(this).getRequestQueue();
         sharedPref = getSharedPreferences("SharedSettings", Context.MODE_PRIVATE);
         loader = findViewById(R.id.fileLoader);
+        fileError = findViewById(R.id.fileError);
         fileView = findViewById(R.id.fileView);
+        recyclerView = findViewById(R.id.recyclerView);
+        textViewAuthor = findViewById(R.id.author);
+        textViewTime = findViewById(R.id.time);
+        textViewFileName = findViewById(R.id.fileName);
+        textViewDescription = findViewById(R.id.description);
+        imageViewImagePreview = findViewById(R.id.imagePreview);
+        exoPlayerView = findViewById(R.id.videoPreview);
+        likeBtn = findViewById(R.id.like);
+        likeIcon = findViewById(R.id.likeIcon);
         likeCount = findViewById(R.id.likeCount);
+        textViewCommentsCount = findViewById(R.id.commentsCount);
+        textViewDownloadCount = findViewById(R.id.downloadCount);
+        textViewViewsCount = findViewById(R.id.viewsCount);
+        videoBlock = findViewById(R.id.videoBlock);
+        audioBlock = findViewById(R.id.audioBlock);
+        shareButton = findViewById(R.id.share);
+        downloadBtn = findViewById(R.id.downloadBtn);
         text_error = findViewById(R.id.text_error);
         commentsTitle = findViewById(R.id.commentsTitle);
-        recyclerView = findViewById(R.id.recyclerView);
         comment_input_bar = findViewById(R.id.comment_input_bar);
-        input = findViewById(R.id.comment_input);
         user_input = findViewById(R.id.user_input);
+        input = findViewById(R.id.comment_input);
         commError = findViewById(R.id.commError);
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        audioBtn = findViewById(R.id.audioPlay);
+        audioProgress = findViewById(R.id.audioProgress);
 
         Intent intent = getIntent();
         Uri data = intent.getData();
@@ -251,13 +301,14 @@ public class FileActivity extends AppCompatActivity {
 
                     fillCard(author, time, name, text, file, like, comments, load, views, format);
 
-                    downloadBtn = findViewById(R.id.downloadBtn);
                     if (password.equals("false")) {
                         downloadBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Toast.makeText(getApplicationContext(),
-                                        getString(R.string.downloading_notification), Toast.LENGTH_SHORT).show();
+                                if (getPermission()) {
+                                    Toast.makeText(getApplicationContext(),
+                                            getString(R.string.downloading_notification), Toast.LENGTH_SHORT).show();
+                                }
                                 String filename = file.substring(file.lastIndexOf("/")+1);
                                 download(BASE_API_URL + "/up" + id, name, filename);
                             }
@@ -266,16 +317,12 @@ public class FileActivity extends AppCompatActivity {
                         downloadBtn.setVisibility(View.GONE);
                     }
 
-                    shareButton = findViewById(R.id.share);
                     shareButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             share(BASE_API_URL + "/file" + id);
                         }
                     });
-
-                    likeBtn = findViewById(R.id.like);
-                    likeIcon = findViewById(R.id.likeIcon);
 
                     if (loadLikeState(id)) {
                         likeIcon.setColorFilter(getResources().getColor(R.color.colorAccent));
@@ -324,21 +371,10 @@ public class FileActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void fillCard(
             String author, String time, String fileName, @NonNull String description, final String file,
-            String likeCount, String commentsCount, String downloadCount, String viewsCount, String format) {
-
-        TextView textViewAuthor = findViewById(R.id.author);
-        TextView textViewTime = findViewById(R.id.time);
-        TextView textViewFileName = findViewById(R.id.fileName);
-        TextView textViewDescription = findViewById(R.id.description);
-        final ImageView imageViewImagePreview = findViewById(R.id.imagePreview);
-        SimpleExoPlayerView exoPlayerView = findViewById(R.id.videoPreview);
-        TextView textViewLikeCount = findViewById(R.id.likeCount);
-        TextView textViewCommentsCount = findViewById(R.id.commentsCount);
-        TextView textViewDownloadCount = findViewById(R.id.downloadCount);
-        TextView textViewViewsCount = findViewById(R.id.viewsCount);
-        RelativeLayout videoBlock = findViewById(R.id.videoBlock);
+            String likesCount, String commentsCount, String downloadCount, String viewsCount, String format) {
 
         if (description.length() != 0) {
             textViewDescription.setVisibility(View.VISIBLE);
@@ -352,64 +388,117 @@ public class FileActivity extends AppCompatActivity {
         textViewFileName.setText(fileName);
         textViewDescription.setText(description);
 
-        if (format.equals("png") || format.equals("jpg") || format.equals("jpeg") || format.equals("gif") || format.equals("ico")) {
-            videoBlock.setVisibility(View.GONE);
+        switch (format) {
+            case "png":
+            case "jpg":
+            case "jpeg":
+            case "gif":
+            case "ico":
+                imageViewImagePreview.setVisibility(View.VISIBLE);
+                videoBlock.setVisibility(View.VISIBLE);
+                audioBlock.setVisibility(View.GONE);
 
-            Picasso.get()
-                    .load(file)
-                    .into(imageViewImagePreview);
+                Picasso.get()
+                        .load(file)
+                        .into(imageViewImagePreview);
 
-            imageViewImagePreview.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(FileActivity.this, FullscreenActivity.class);
-                    i.putExtra("passingImage", file);
-
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            FileActivity.this, findViewById(R.id.imagePreview), "image");
-                    startActivity(i, options.toBundle());
-                }
-            });
-
-        } else if (format.equals("mp4") || format.equals("3gp") || format.equals("avi") || format.equals("webm")) {
-            videoBlock.setVisibility(View.VISIBLE);
-            imageViewImagePreview.setVisibility(View.GONE);
-
-            try {
-                BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-                TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
-                exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
-                Uri uri = Uri.parse(file);
-                DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("goload_video");
-                ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-                MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null,
-                        null);
-                exoPlayerView.setPlayer(exoPlayer);
-                exoPlayer.prepare(mediaSource);
-
-                View controlView = exoPlayerView.findViewById(R.id.exo_controller);
-                controlView.findViewById(R.id.exo_fullscreen_button).setOnClickListener(new View.OnClickListener() {
+                imageViewImagePreview.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        exoPlayer.stop();
                         Intent i = new Intent(FileActivity.this, FullscreenActivity.class);
-                        i.putExtra("passingVideo", file);
+                        i.putExtra("passingImage", file);
 
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                FileActivity.this, findViewById(R.id.videoPreview), "video");
+                                FileActivity.this, findViewById(R.id.imagePreview), "image");
                         startActivity(i, options.toBundle());
                     }
                 });
+                break;
+            case "mp4":
+            case "3gp":
+            case "avi":
+            case "webm":
+                imageViewImagePreview.setVisibility(View.GONE);
+                videoBlock.setVisibility(View.VISIBLE);
+                audioBlock.setVisibility(View.GONE);
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            imageViewImagePreview.setVisibility(View.GONE);
-            videoBlock.setVisibility(View.GONE);
+                try {
+                    BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+                    TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
+                    exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
+                    Uri uri = Uri.parse(file);
+                    DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("goload_video");
+                    ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+                    MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null,
+                            null);
+                    exoPlayerView.setPlayer(exoPlayer);
+                    exoPlayer.prepare(mediaSource);
+
+                    View controlView = exoPlayerView.findViewById(R.id.exo_controller);
+                    controlView.findViewById(R.id.exo_fullscreen_button).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            exoPlayer.stop();
+                            Intent i = new Intent(FileActivity.this, FullscreenActivity.class);
+                            i.putExtra("passingVideo", file);
+
+                            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                    FileActivity.this, findViewById(R.id.videoPreview), "video");
+                            startActivity(i, options.toBundle());
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "mp3":
+            case "ogg":
+            case "wav":
+                imageViewImagePreview.setVisibility(View.GONE);
+                videoBlock.setVisibility(View.GONE);
+                audioBlock.setVisibility(View.VISIBLE);
+
+                audioBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (!mediaPlayer.isPlaying()) {
+                            if (initStage) {
+                                new Player().execute(file);
+                            } else {
+                                mediaPlayer.start();
+                                handler.postDelayed(updateProgress, 0);
+                            }
+                            audioBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_white_24dp));
+                        } else {
+                            mediaPlayer.pause();
+                            handler.removeCallbacks(updateProgress);
+                            audioBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_white_24dp));
+                        }
+                    }
+                });
+
+                audioProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        if (fromUser) {
+                            mediaPlayer.seekTo(progress);
+                        }
+                    }
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {}
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {}
+                });
+                break;
+            default:
+                imageViewImagePreview.setVisibility(View.GONE);
+                videoBlock.setVisibility(View.GONE);
+                audioBlock.setVisibility(View.GONE);
+                break;
         }
 
-        textViewLikeCount.setText(counter(likeCount));
+        likeCount.setText(counter(likesCount));
         textViewCommentsCount.setText(counter(commentsCount));
         textViewDownloadCount.setText(counter(downloadCount));
         textViewViewsCount.setText(counter(viewsCount));
@@ -623,6 +712,57 @@ public class FileActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    @SuppressLint("StaticFieldLeak")
+    class Player extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            boolean prepared = false;
+            try {
+                mediaPlayer.setDataSource(strings[0]);
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        initStage = true;
+                        audioBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_white_24dp));
+                        mediaPlayer.stop();
+                        mediaPlayer.reset();
+                    }
+                });
+                mediaPlayer.prepare();
+                prepared = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return prepared;
+        }
+        @Override
+        protected void onPostExecute(Boolean bool) {
+            super.onPostExecute(bool);
+            audioProgress.setMax(mediaPlayer.getDuration());
+            mediaPlayer.start();
+            handler.postDelayed(updateProgress, 0);
+            initStage = false;
+        }
+    }
+
+    private Runnable updateProgress = new Runnable() {
+        @Override
+        public void run() {
+            if (mediaPlayer != null) {
+                audioProgress.setProgress(mediaPlayer.getCurrentPosition());
+                handler.postDelayed(this, 50);
+            }
+        }
+    };
+
+    private void clearMediaPlayer() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
     private void setUsername(String name) {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("UserName", name);
@@ -645,7 +785,6 @@ public class FileActivity extends AppCompatActivity {
         fileView.setVisibility(View.GONE);
         comment_input_bar.setVisibility(View.GONE);
         loader.setVisibility(View.GONE);
-        RelativeLayout fileError = findViewById(R.id.fileError);
         fileError.setVisibility(View.VISIBLE);
     }
 
@@ -665,12 +804,19 @@ public class FileActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
+        super.onDestroy();
         if (exoPlayer != null) {
             exoPlayer.stop();
             exoPlayer.release();
         }
-        super.onDestroy();
+        clearMediaPlayer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        clearMediaPlayer();
     }
 
     @Override

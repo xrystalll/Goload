@@ -759,7 +759,6 @@ public class FileActivity extends AppCompatActivity {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
-            mediaPlayer = null;
         }
     }
 
@@ -810,12 +809,6 @@ public class FileActivity extends AppCompatActivity {
             exoPlayer.stop();
             exoPlayer.release();
         }
-        clearMediaPlayer();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
         clearMediaPlayer();
     }
 

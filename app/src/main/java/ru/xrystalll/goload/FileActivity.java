@@ -50,6 +50,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
@@ -395,7 +396,7 @@ public class FileActivity extends AppCompatActivity {
             case "gif":
             case "ico":
                 imageViewImagePreview.setVisibility(View.VISIBLE);
-                videoBlock.setVisibility(View.VISIBLE);
+                videoBlock.setVisibility(View.GONE);
                 audioBlock.setVisibility(View.GONE);
 
                 Picasso.get()
@@ -656,6 +657,8 @@ public class FileActivity extends AppCompatActivity {
             }
         });
 
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.getCache().clear();
         stringRequest.setShouldCache(false);
         requestQueue.add(stringRequest);
     }
@@ -709,6 +712,9 @@ public class FileActivity extends AppCompatActivity {
             }
         };
 
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.getCache().clear();
+        stringRequest.setShouldCache(false);
         requestQueue.add(stringRequest);
     }
 
@@ -809,7 +815,20 @@ public class FileActivity extends AppCompatActivity {
             exoPlayer.stop();
             exoPlayer.release();
         }
+        handler.removeCallbacks(updateProgress);
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
         clearMediaPlayer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (exoPlayer != null) {
+            exoPlayer.stop();
+            exoPlayer.release();
+        }
     }
 
     @Override

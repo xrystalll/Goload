@@ -70,7 +70,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefresh() {
                 listItems.clear();
-                adapter.notifyDataSetChanged();
 
                 loadData(0);
 

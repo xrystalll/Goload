@@ -61,6 +61,7 @@ public class FullscreenActivity extends AppCompatActivity {
             imageView.setVisibility(View.GONE);
             exoPlayerView.setVisibility(View.VISIBLE);
             String file = getIntent().getStringExtra("passingVideo");
+            long position = getIntent().getLongExtra("passingPosition", 0);
             ImageView fullscreenButton = exoPlayerView.findViewById(R.id.exo_fullscreen_icon);
 
             try {
@@ -75,6 +76,7 @@ public class FullscreenActivity extends AppCompatActivity {
                         null);
                 exoPlayerView.setPlayer(exoPlayer);
                 exoPlayer.prepare(mediaSource);
+                exoPlayer.seekTo(position);
                 exoPlayer.setPlayWhenReady(true);
 
                 fullscreenButton.setOnClickListener(new View.OnClickListener() {
@@ -147,13 +149,6 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     }
 
-    private void startPlayer() {
-        if (exoPlayer != null) {
-            exoPlayer.setPlayWhenReady(true);
-            exoPlayer.getPlaybackState();
-        }
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -163,7 +158,7 @@ public class FullscreenActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        startPlayer();
+        pausePlayer();
     }
 
     @Override

@@ -423,35 +423,7 @@ public class FileActivity extends AppCompatActivity {
                 videoBlock.setVisibility(View.VISIBLE);
                 audioBlock.setVisibility(View.GONE);
 
-                try {
-                    BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-                    TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
-                    exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
-                    Uri uri = Uri.parse(file);
-                    DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("goload_video");
-                    ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-                    MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null,
-                            null);
-                    exoPlayerView.setPlayer(exoPlayer);
-                    exoPlayer.prepare(mediaSource);
-
-                    View controlView = exoPlayerView.findViewById(R.id.exo_controller);
-                    controlView.findViewById(R.id.exo_fullscreen_button).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            exoPlayer.stop();
-                            Intent i = new Intent(FileActivity.this, FullscreenActivity.class);
-                            i.putExtra("passingVideo", file);
-
-                            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    FileActivity.this, findViewById(R.id.videoPreview), "video");
-                            startActivity(i, options.toBundle());
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                initExoPlayer(file);
                 break;
             case "mp3":
             case "ogg":
@@ -725,6 +697,39 @@ public class FileActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    private void initExoPlayer(final String file) {
+        try {
+            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+            TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
+            exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
+            Uri uri = Uri.parse(file);
+            DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("goload_video");
+            ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+            MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null,
+                    null);
+            exoPlayerView.setPlayer(exoPlayer);
+            exoPlayer.prepare(mediaSource);
+
+            View controlView = exoPlayerView.findViewById(R.id.exo_controller);
+            controlView.findViewById(R.id.exo_fullscreen_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    long exoPosition = exoPlayer.getCurrentPosition();
+                    Intent i = new Intent(FileActivity.this, FullscreenActivity.class);
+                    i.putExtra("passingVideo", file);
+                    i.putExtra("passingPosition", exoPosition);
+
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            FileActivity.this, findViewById(R.id.videoPreview), "video");
+                    startActivity(i, options.toBundle());
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @SuppressLint("StaticFieldLeak")
     class Player extends AsyncTask<String, Void, Boolean> {
         @Override
@@ -822,13 +827,6 @@ public class FileActivity extends AppCompatActivity {
         }
     }
 
-    private void startExoPlayer() {
-        if (exoPlayer != null) {
-            exoPlayer.setPlayWhenReady(true);
-            exoPlayer.getPlaybackState();
-        }
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -838,7 +836,7 @@ public class FileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        startExoPlayer();
+        pauseExoPlayer();
     }
 
     @Override
@@ -848,6 +846,7 @@ public class FileActivity extends AppCompatActivity {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
         }
+        pauseExoPlayer();
         clearMediaPlayer();
     }
 

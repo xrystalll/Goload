@@ -201,17 +201,24 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         Calendar now = Calendar.getInstance();
 
         Date netDate = (new Date(timestamp));
-        if (now.get(Calendar.DATE) == unix.get(Calendar.DATE)) {
-            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", locale);
-            String format = sdt.format(netDate);
-            return context.getString(R.string.today) + " " + format;
-        } else if (now.get(Calendar.DATE) - unix.get(Calendar.DATE) == 1) {
-            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", locale);
-            String format = sdt.format(netDate);
-            return context.getString(R.string.yesterday) + " " + format;
-        } else if (now.get(Calendar.YEAR) == unix.get(Calendar.YEAR)) {
-            SimpleDateFormat sdt = new SimpleDateFormat("dd MMM '" + context.getString(R.string.at) + "' H:mm", locale);
-            return sdt.format(netDate);
+        if (now.get(Calendar.YEAR) == unix.get(Calendar.YEAR)) {
+            if (now.get(Calendar.MONTH) == unix.get(Calendar.MONTH)) {
+                if (now.get(Calendar.DATE) == unix.get(Calendar.DATE)) {
+                    SimpleDateFormat sdt = new SimpleDateFormat("H:mm", locale);
+                    String format = sdt.format(netDate);
+                    return context.getString(R.string.today) + " " + format;
+                } else if (now.get(Calendar.DATE) - unix.get(Calendar.DATE) == 1) {
+                    SimpleDateFormat sdt = new SimpleDateFormat("H:mm", locale);
+                    String format = sdt.format(netDate);
+                    return context.getString(R.string.yesterday) + " " + format;
+                } else {
+                    SimpleDateFormat sdt = new SimpleDateFormat("dd MMM '" + context.getString(R.string.at) + "' H:mm", locale);
+                    return sdt.format(netDate);
+                }
+            } else {
+                SimpleDateFormat sdt = new SimpleDateFormat("dd MMM '" + context.getString(R.string.at) + "' H:mm", locale);
+                return sdt.format(netDate);
+            }
         } else {
             SimpleDateFormat sdt = new SimpleDateFormat("dd MMM yyyy '" + context.getString(R.string.at) + "' H:mm", locale);
             return sdt.format(netDate);

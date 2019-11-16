@@ -548,17 +548,24 @@ public class FileActivity extends AppCompatActivity {
         Calendar now = Calendar.getInstance();
 
         Date netDate = (new Date(timestamp));
-        if (now.get(Calendar.DATE) == unix.get(Calendar.DATE)) {
-            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", locale);
-            String format = sdt.format(netDate);
-            return getString(R.string.today) + " " + format;
-        } else if (now.get(Calendar.DATE) - unix.get(Calendar.DATE) == 1) {
-            SimpleDateFormat sdt = new SimpleDateFormat("H:mm", locale);
-            String format = sdt.format(netDate);
-            return getString(R.string.yesterday) + " " + format;
-        } else if (now.get(Calendar.YEAR) == unix.get(Calendar.YEAR)) {
-            SimpleDateFormat sdt = new SimpleDateFormat("dd MMM '" + getString(R.string.at) + "' H:mm", locale);
-            return sdt.format(netDate);
+        if (now.get(Calendar.YEAR) == unix.get(Calendar.YEAR)) {
+            if (now.get(Calendar.MONTH) == unix.get(Calendar.MONTH)) {
+                if (now.get(Calendar.DATE) == unix.get(Calendar.DATE)) {
+                    SimpleDateFormat sdt = new SimpleDateFormat("H:mm", locale);
+                    String format = sdt.format(netDate);
+                    return getString(R.string.today) + " " + format;
+                } else if (now.get(Calendar.DATE) - unix.get(Calendar.DATE) == 1) {
+                    SimpleDateFormat sdt = new SimpleDateFormat("H:mm", locale);
+                    String format = sdt.format(netDate);
+                    return getString(R.string.yesterday) + " " + format;
+                } else {
+                    SimpleDateFormat sdt = new SimpleDateFormat("dd MMM '" + getString(R.string.at) + "' H:mm", locale);
+                    return sdt.format(netDate);
+                }
+            } else {
+                SimpleDateFormat sdt = new SimpleDateFormat("dd MMM '" + getString(R.string.at) + "' H:mm", locale);
+                return sdt.format(netDate);
+            }
         } else {
             SimpleDateFormat sdt = new SimpleDateFormat("dd MMM yyyy '" + getString(R.string.at) + "' H:mm", locale);
             return sdt.format(netDate);
@@ -808,27 +815,40 @@ public class FileActivity extends AppCompatActivity {
         return checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    private void pauseExoPlayer() {
         if (exoPlayer != null) {
-            exoPlayer.stop();
-            exoPlayer.release();
+            exoPlayer.setPlayWhenReady(false);
+            exoPlayer.getPlaybackState();
         }
-        handler.removeCallbacks(updateProgress);
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
+    }
+
+    private void startExoPlayer() {
+        if (exoPlayer != null) {
+            exoPlayer.setPlayWhenReady(true);
+            exoPlayer.getPlaybackState();
         }
-        clearMediaPlayer();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (exoPlayer != null) {
-            exoPlayer.stop();
-            exoPlayer.release();
+        pauseExoPlayer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startExoPlayer();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(updateProgress);
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
         }
+        clearMediaPlayer();
     }
 
     @Override

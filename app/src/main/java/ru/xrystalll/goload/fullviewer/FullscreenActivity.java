@@ -11,7 +11,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -141,13 +140,39 @@ public class FullscreenActivity extends AppCompatActivity {
         return result;
     }
 
+    private void pausePlayer() {
+        if (exoPlayer != null) {
+            exoPlayer.setPlayWhenReady(false);
+            exoPlayer.getPlaybackState();
+        }
+    }
+
+    private void startPlayer() {
+        if (exoPlayer != null) {
+            exoPlayer.setPlayWhenReady(true);
+            exoPlayer.getPlaybackState();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pausePlayer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startPlayer();
+    }
+
     @Override
     public void onDestroy() {
+        super.onDestroy();
         if (exoPlayer != null) {
             exoPlayer.stop();
             exoPlayer.release();
         }
-        super.onDestroy();
     }
 
 }

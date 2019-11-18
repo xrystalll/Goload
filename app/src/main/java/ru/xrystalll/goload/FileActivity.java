@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.widget.NestedScrollView;
@@ -80,6 +81,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import ru.xrystalll.goload.fragments.BottomSheetFragment;
 import ru.xrystalll.goload.fullviewer.FullscreenActivity;
 import ru.xrystalll.goload.support.CommentModel;
 import ru.xrystalll.goload.support.CommentsAdapter;
@@ -90,35 +92,28 @@ public class FileActivity extends AppCompatActivity {
 
     private final String BASE_API_URL = "https://goload.ru";
     private SharedPreferences sharedPref;
-    private String fileId;
+    private String fileId, author;
     private View loader;
     private NestedScrollView fileView;
-    private RelativeLayout fileError;
+    private CardView fileCardExtended;
+    private RelativeLayout fileError, videoBlock, commError;
     private TextView text_error;
 
     private TextView textViewAuthor;
     private TextView textViewTime;
     private TextView textViewFileName;
     private TextView textViewDescription;
-    private ImageView imageViewImagePreview;
+    private ImageView imageViewImagePreview, likeIcon, shareButton;
     private SimpleExoPlayerView exoPlayerView;
-    private LinearLayout likeBtn;
-    private ImageView likeIcon;
+    private LinearLayout likeBtn, audioBlock, comment_input_bar;
     private TextView likeCount;
     private TextView textViewCommentsCount;
     private TextView textViewDownloadCount;
     private TextView textViewViewsCount;
-    private RelativeLayout videoBlock;
-    private LinearLayout audioBlock;
-    private ImageView shareButton;
     private Button downloadBtn;
 
     private TextView commentsTitle;
-    private LinearLayout comment_input_bar;
-    private String author;
-    private EditText user_input;
-    private EditText input;
-    private RelativeLayout commError;
+    private EditText user_input, input;
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -156,6 +151,7 @@ public class FileActivity extends AppCompatActivity {
         loader = findViewById(R.id.fileLoader);
         fileError = findViewById(R.id.fileError);
         fileView = findViewById(R.id.fileView);
+        fileCardExtended = findViewById(R.id.fileCardExtended);
         recyclerView = findViewById(R.id.recyclerView);
         textViewAuthor = findViewById(R.id.author);
         textViewTime = findViewById(R.id.time);
@@ -290,6 +286,7 @@ public class FileActivity extends AppCompatActivity {
                     final String id = o.getString("id");
                     String author = o.getString("author");
                     String time = o.getString("time");
+                    final String timeRemove = o.getString("time_del");
                     final String name = o.getString("name");
                     String text = o.getString("opis");
                     final String file = o.getString("file");
@@ -299,6 +296,7 @@ public class FileActivity extends AppCompatActivity {
                     String views = o.getString("views");
                     String format = o.getString("format");
                     String password = o.getString("password");
+                    final String fileSize = o.getString("file_size");
 
                     fillCard(author, time, name, text, file, like, comments, load, views, format);
 
@@ -316,6 +314,9 @@ public class FileActivity extends AppCompatActivity {
                         });
                     } else {
                         downloadBtn.setVisibility(View.GONE);
+                        comment_input_bar.setVisibility(View.GONE);
+                        commentsTitle.setVisibility(View.GONE);
+                        commError.setVisibility(View.GONE);
                     }
 
                     shareButton.setOnClickListener(new View.OnClickListener() {
@@ -348,6 +349,16 @@ public class FileActivity extends AppCompatActivity {
 
                                 setLikeState(false, id);
                             }
+                        }
+                    });
+
+                    fileCardExtended.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            long timestamp_del = Long.parseLong(timeRemove) * 1000L;
+                            new BottomSheetFragment(fileSize, getDate(timestamp_del), file)
+                                    .show(getSupportFragmentManager(), "infoDialog");
+                            return true;
                         }
                     });
 

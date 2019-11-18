@@ -72,6 +72,11 @@
     <string name="add_name">Введите имя</string>
     <string name="open_in_browser">Открыть в браузере</string>
 
+    <string name="file_info">О файле</string>
+    <string name="file_size">Размер файла:</string>
+    <string name="time_to_remove_from_server">Время удаления с вервера:</string>
+    <string name="full_file_link">Ссылка на файл:</string>
+
     <!-- Search Strings -->
     <string name="nothing_found">Ничего не найдено</string>
 </resources>

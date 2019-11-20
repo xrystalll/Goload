@@ -144,10 +144,16 @@ public class UploadFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == FILE_REQUEST && resultCode == RESULT_OK) {
-            filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-            if (filePath != null) {
-                String nameFile = new File(filePath).getName();
-                fileName.setText(nameFile);
+            String path = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            if (path != null) {
+                File sourceFile = new File(path);
+                if (sourceFile.isFile()) {
+                    filePath = path;
+                    String nameFile = new File(filePath).getName();
+                    fileName.setText(nameFile);
+                } else {
+                    Toast.makeText(getActivity(), "File not exist:" + path, Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -163,90 +169,84 @@ public class UploadFragment extends Fragment {
         int bytesRead, bytesAvailable, bufferSize;
         byte[] buffer;
         int maxBufferSize = 1024 * 1024;
-        File sourceFile = new File(sourceFileUri);
 
-        if (!sourceFile.isFile()) {
-            Toast.makeText(getActivity(), "File not exist:" + sourceFileUri, Toast.LENGTH_SHORT).show();
-        } else {
-            try {
-                FileInputStream fileInputStream = new FileInputStream(sourceFileUri);
-                URL url = new URL(URL_DATA);
+        try {
+            FileInputStream fileInputStream = new FileInputStream(sourceFileUri);
+            URL url = new URL(URL_DATA);
 
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                conn.setUseCaches(false);
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Connection", "Keep-Alive");
-                conn.setRequestProperty("ENCTYPE", "multipart/form-data");
-                conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                conn.setRequestProperty("filename", sourceFileUri);
-                conn.setRequestProperty("username", user);
-                conn.setRequestProperty("del", storageValue);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setUseCaches(false);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+            conn.setRequestProperty("filename", sourceFileUri);
+            conn.setRequestProperty("username", user);
+            conn.setRequestProperty("del", storageValue);
 
-                dos = new DataOutputStream(conn.getOutputStream());
+            dos = new DataOutputStream(conn.getOutputStream());
 
 
-                // Storage
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"del\";" + lineEnd);
-                dos.writeBytes(lineEnd);
+            // Storage
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"del\";" + lineEnd);
+            dos.writeBytes(lineEnd);
 
-                dos.write(storageValue.getBytes());
-                dos.writeBytes(lineEnd);
-                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-
-
-                // Username
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"username\";" + lineEnd);
-                dos.writeBytes(lineEnd);
-
-                dos.write(user.getBytes());
-                dos.writeBytes(lineEnd);
-                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+            dos.write(storageValue.getBytes());
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
 
-                // File
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"filename\";" +
-                        "filename=\"" + sourceFileUri + "\"" + lineEnd);
-                dos.writeBytes(lineEnd);
+            // Username
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"username\";" + lineEnd);
+            dos.writeBytes(lineEnd);
 
+            dos.write(user.getBytes());
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+
+            // File
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"filename\";" +
+                    "filename=\"" + sourceFileUri + "\"" + lineEnd);
+            dos.writeBytes(lineEnd);
+
+            bytesAvailable = fileInputStream.available();
+
+            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+            buffer = new byte[bufferSize];
+
+            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+            while (bytesRead > 0) {
+                dos.write(buffer, 0, bufferSize);
                 bytesAvailable = fileInputStream.available();
-
                 bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                buffer = new byte[bufferSize];
-
                 bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                while (bytesRead > 0) {
-                    dos.write(buffer, 0, bufferSize);
-                    bytesAvailable = fileInputStream.available();
-                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-                }
-
-                dos.writeBytes(lineEnd);
-                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-
-                int serverResponseCode = conn.getResponseCode();
-
-                if (serverResponseCode == 200) {
-                    InputStream response = conn.getInputStream();
-                    jsonResponse = convertStreamToString(response);
-                }
-
-                fileInputStream.close();
-                dos.flush();
-                dos.close();
-            } catch (MalformedURLException ex) {
-                ex.getMessage();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        }
 
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+            int serverResponseCode = conn.getResponseCode();
+
+            if (serverResponseCode == 200) {
+                InputStream response = conn.getInputStream();
+                jsonResponse = convertStreamToString(response);
+            }
+
+            fileInputStream.close();
+            dos.flush();
+            dos.close();
+        } catch (MalformedURLException ex) {
+            ex.getMessage();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @NonNull

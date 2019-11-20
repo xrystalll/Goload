@@ -27,7 +27,7 @@
     <string name="select_lang_title">Выберите язык</string>
     <string name="lang_value">ru</string>
 
-    <string name="alert_cache">Кэш успешно очишен</string>
+    <string name="alert_cache">Кэш успешно очищен</string>
 
     <!-- Upload Strings -->
     <string name="choose_a_file">ВЫБЕРИТЕ ФАЙЛ</string>
@@ -74,7 +74,7 @@
 
     <string name="file_info">О файле</string>
     <string name="file_size">Размер файла:</string>
-    <string name="time_to_remove_from_server">Время удаления с вервера:</string>
+    <string name="time_to_remove_from_server">Дата удаления с сервера:</string>
     <string name="full_file_link">Ссылка на файл:</string>
 
     <!-- Search Strings -->

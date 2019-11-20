@@ -81,7 +81,7 @@
 
     <string name="file_info">About file</string>
     <string name="file_size">File size:</string>
-    <string name="time_to_remove_from_server">Time to remove from server:</string>
+    <string name="time_to_remove_from_server">Storage date until:</string>
     <string name="full_file_link">Full file link:</string>
 
     <!-- Search Strings -->

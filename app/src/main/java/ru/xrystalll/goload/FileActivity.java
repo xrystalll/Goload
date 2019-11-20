@@ -181,18 +181,12 @@ public class FileActivity extends AppCompatActivity {
         audioBtn = findViewById(R.id.audioPlay);
         audioProgress = findViewById(R.id.audioProgress);
 
-        Intent intent = getIntent();
-        Uri data = intent.getData();
-
         if (getIntent().hasExtra("id")) {
             fileId = getIntent().getStringExtra("id");
-        } else if (data != null && data.toString().contains("file")) {
-            List<String> params = data.getPathSegments();
-            String id = params.get(params.size() - 1).replace("file", "");
-            fileId = !id.isEmpty() ? id : "";
         } else {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
+            finish();
         }
 
         loadData(fileId);

@@ -1,40 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="16dp"
     android:paddingStart="16dp"
     android:paddingRight="16dp"
     android:paddingEnd="16dp"
-    android:paddingTop="8dp"
+    android:paddingTop="16dp"
     android:paddingBottom="32dp"
     android:background="?attr/colorCard"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        tools:ignore="UselessParent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            android:text="@string/file_info"
-            android:textSize="14sp"
-            android:textColor="?attr/colorText"
-            style="@style/TextAppearance.AppCompat.Body2" />
-
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:textAlignment="viewStart"
+        android:text="@string/file_info"
+        android:textSize="14sp"
+        android:textColor="?attr/colorText"
+        style="@style/TextAppearance.AppCompat.Body2" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal">
 
         <TextView

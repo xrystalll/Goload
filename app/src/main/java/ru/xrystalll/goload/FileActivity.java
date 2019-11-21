@@ -19,8 +19,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
@@ -871,16 +869,19 @@ public class FileActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         } else if (itemId == R.id.action_open_url) {
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            CustomTabsIntent customTabsIntent = builder.build();
-            builder.addDefaultShareMenuItem();
-            builder.setShowTitle(true);
-            final Bitmap backIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_white_24dp);
-            builder.setCloseButtonIcon(backIcon);
-            builder.setToolbarColor(getResources().getColor(R.color.colorAccent));
-            customTabsIntent.launchUrl(this, Uri.parse(BASE_API_URL + "/file" + fileId));
+            openTab(BASE_API_URL + "/file" + fileId);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openTab(String url) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        CustomTabsIntent customTabsIntent = builder.build();
+        builder.addDefaultShareMenuItem();
+        builder.setShowTitle(true);
+        builder.setToolbarColor(getResources().getColor(R.color.colorAccent));
+        customTabsIntent.intent.setPackage("com.android.chrome");
+        customTabsIntent.launchUrl(this, Uri.parse(url));
     }
 
     private boolean hasNetwork() {

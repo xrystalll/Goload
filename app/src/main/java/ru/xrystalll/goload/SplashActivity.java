@@ -1,6 +1,7 @@
 package ru.xrystalll.goload;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.browser.customtabs.CustomTabsIntent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,10 +23,7 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(this, SearchActivity.class));
             finish();
         } else if (data != null && data.toString().contains("files/goload")) {
-            Intent i = new Intent(this, WebViewActivity.class);
-            i.putExtra("url", data.toString());
-            i.putExtra("title", getString(R.string.file_title));
-            startActivity(i);
+            openTab(data.toString());
             finish();
         } else if (data != null && data.toString().contains("file")) {
             List<String> params = data.getPathSegments();
@@ -41,26 +39,17 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         } else if (data != null && data.toString().contains("rules")) {
-            Intent i = new Intent(this, WebViewActivity.class);
-            i.putExtra("url", data.toString());
-            i.putExtra("title", getString(R.string.rules_title));
-            startActivity(i);
+            openTab(data.toString());
             finish();
         } else if (data != null && data.toString().contains("api")) {
-            Intent i = new Intent(this, WebViewActivity.class);
-            i.putExtra("url", BASE_API_URL + "/api");
-            i.putExtra("title", "API");
-            startActivity(i);
+            openTab(BASE_API_URL + "/api");
             finish();
         } else if (data != null && data.toString().contains("report")) {
             List<String> params = data.getPathSegments();
             String id = params.get(params.size() - 1).replace("report", "");
             String fileId = !id.isEmpty() ? id : null;
             if (fileId != null) {
-                Intent i = new Intent(this, WebViewActivity.class);
-                i.putExtra("url", BASE_API_URL + "/report" + fileId);
-                i.putExtra("title", "Report");
-                startActivity(i);
+                openTab(BASE_API_URL + "/report" + fileId);
                 finish();
             } else {
                 startActivity(new Intent(this, MainActivity.class));
@@ -70,6 +59,16 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
+    }
+
+    private void openTab(String url) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        CustomTabsIntent customTabsIntent = builder.build();
+        builder.addDefaultShareMenuItem();
+        builder.setShowTitle(true);
+        builder.setToolbarColor(getResources().getColor(R.color.colorAccent));
+        customTabsIntent.intent.setPackage("com.android.chrome");
+        customTabsIntent.launchUrl(this, Uri.parse(url));
     }
 
 }

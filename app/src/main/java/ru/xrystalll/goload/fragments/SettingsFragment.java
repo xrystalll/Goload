@@ -3,8 +3,6 @@ package ru.xrystalll.goload.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.net.Uri;
 import android.widget.Toast;
@@ -44,14 +42,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         openRules.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                CustomTabsIntent customTabsIntent = builder.build();
-                builder.addDefaultShareMenuItem();
-                builder.setShowTitle(true);
-                final Bitmap backIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_white_24dp);
-                builder.setCloseButtonIcon(backIcon);
-                builder.setToolbarColor(getResources().getColor(R.color.colorAccent));
-                customTabsIntent.launchUrl(getActivity(), Uri.parse(BASE_API_URL + "/rules"));
+                openTab(BASE_API_URL + "/rules");
                 return true;
             }
         });
@@ -139,6 +130,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         } else {
             return false;
         }
+    }
+
+    private void openTab(String url) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        CustomTabsIntent customTabsIntent = builder.build();
+        builder.addDefaultShareMenuItem();
+        builder.setShowTitle(true);
+        builder.setToolbarColor(getResources().getColor(R.color.colorAccent));
+        customTabsIntent.intent.setPackage("com.android.chrome");
+        customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
     }
 
 }

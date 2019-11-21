@@ -14,7 +14,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -35,7 +36,7 @@ public class ReceivingActivity extends AppCompatActivity {
 
     private static final String URL_DATA = "https://goload.ru/api/upload.php?from=ru.xrystalll.goload&action=shared";
     private String userName, jsonResponse, filePath;
-    private ImageView sharedImage;
+    private ProgressBar sharedUploading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class ReceivingActivity extends AppCompatActivity {
             userName = "Anonim";
         }
 
-        sharedImage = findViewById(R.id.sharedImage);
+        sharedUploading = findViewById(R.id.sharedUploading);
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -70,28 +71,50 @@ public class ReceivingActivity extends AppCompatActivity {
     private void handleSendImage(@NonNull Intent intent) {
         Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
-            sharedImage.setImageURI(imageUri);
-            filePath = getRealPathFromURI(this, imageUri);
-            File sourceFile = new File(filePath);
-            if (sourceFile.isFile()) {
-                new UploadFile().execute();
+            String pathForErr = imageUri.toString();
+            if (!imageUri.toString().contains("FileProvider")) {
+                filePath = getRealPathFromURI(imageUri);
             } else {
-                Toast.makeText(this, "It's not a file: " + filePath, Toast.LENGTH_LONG).show();
+                filePath = imageUri.toString();
+            }
+            try {
+                if (filePath != null) {
+                    File sourceFile = new File(filePath);
+                    if (sourceFile.isFile()) {
+                        new UploadFile().execute();
+                    } else {
+                        sharedUploading.setVisibility(View.GONE);
+                        Toast.makeText(this, "It's not a file: " + pathForErr, Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                } else {
+                    sharedUploading.setVisibility(View.GONE);
+                    Toast.makeText(this, "File path no exist" + pathForErr, Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            } catch (Exception e) {
+                sharedUploading.setVisibility(View.GONE);
+                Toast.makeText(this, "Error: " + pathForErr, Toast.LENGTH_LONG).show();
+                finish();
             }
         }
     }
 
-    private String getRealPathFromURI(@NonNull Context context, Uri contentUri) {
-        String result = null;
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = context.getContentResolver().query(contentUri,  projection, null, null, null);
-        if (cursor != null) {
-            int column_index = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
+    private String getRealPathFromURI(Uri contentUri) {
+        try {
+            String[] projection = { MediaStore.Images.Media.DATA };
+            Cursor cursor = getContentResolver()
+                    .query(contentUri,  projection, null, null, null);
+            assert cursor != null;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
-            result = cursor.getString(column_index);
+            String path = cursor.getString(column_index);
             cursor.close();
+            return path;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        return result;
     }
 
     private void uploadFile() {
@@ -199,7 +222,6 @@ public class ReceivingActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(getApplicationContext(), "Uploading…", Toast.LENGTH_LONG).show();
         }
 
         @Override

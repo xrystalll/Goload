@@ -25,12 +25,14 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 
 public class ReceivingActivity extends AppCompatActivity {
 
@@ -71,49 +73,21 @@ public class ReceivingActivity extends AppCompatActivity {
     private void handleSendImage(@NonNull Intent intent) {
         Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
-            String pathForErr = imageUri.toString();
-            if (!imageUri.toString().contains("FileProvider")) {
-                filePath = getRealPathFromURI(imageUri);
-            } else {
-                filePath = imageUri.toString();
-            }
+            filePath = saveImgUri(this, imageUri);
             try {
-                if (filePath != null) {
-                    File sourceFile = new File(filePath);
-                    if (sourceFile.isFile()) {
-                        new UploadFile().execute();
-                    } else {
-                        sharedUploading.setVisibility(View.GONE);
-                        Toast.makeText(this, "It's not a file: " + pathForErr, Toast.LENGTH_LONG).show();
-                        finish();
-                    }
+                File sourceFile = new File(filePath);
+                if (sourceFile.isFile()) {
+                    new UploadFile().execute();
                 } else {
                     sharedUploading.setVisibility(View.GONE);
-                    Toast.makeText(this, "File path no exist" + pathForErr, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "It's not a file", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             } catch (Exception e) {
                 sharedUploading.setVisibility(View.GONE);
-                Toast.makeText(this, "Error: " + pathForErr, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
                 finish();
             }
-        }
-    }
-
-    private String getRealPathFromURI(Uri contentUri) {
-        try {
-            String[] projection = { MediaStore.Images.Media.DATA };
-            Cursor cursor = getContentResolver()
-                    .query(contentUri,  projection, null, null, null);
-            assert cursor != null;
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            String path = cursor.getString(column_index);
-            cursor.close();
-            return path;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
     }
 
@@ -195,28 +169,6 @@ public class ReceivingActivity extends AppCompatActivity {
         }
     }
 
-    @NonNull
-    private static String convertStreamToString(InputStream is) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-
-        String line;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return sb.toString();
-    }
-
     @SuppressLint("StaticFieldLeak")
     class UploadFile extends AsyncTask<Void, Void, Void> {
         @Override
@@ -251,6 +203,75 @@ public class ReceivingActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private String getRealPathFromURI(Uri contentUri) {
+        try {
+            String[] projection = { MediaStore.Images.Media.DATA };
+            Cursor cursor = getContentResolver()
+                    .query(contentUri,  projection, null, null, null);
+            assert cursor != null;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String path = cursor.getString(column_index);
+            cursor.close();
+            return path;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @NonNull
+    private String saveImgUri(@NonNull Context context, Uri imgUri) {
+        final int chunkSize = 1024;
+        byte[] buffer = new byte[4 * chunkSize];
+
+        File imgFile = new File(context.getExternalFilesDir(null), "sharedImage.png");
+
+        FileOutputStream fos = null;
+        try {
+            InputStream in = context.getContentResolver().openInputStream(imgUri);
+            fos = new FileOutputStream(imgFile);
+            int bytesRead;
+            assert in != null;
+            while ((bytesRead = in.read(buffer)) > 0) {
+                fos.write(Arrays.copyOfRange(buffer, 0, Math.max(0, bytesRead)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return context.getExternalFilesDir(null) + "/sharedImage.png";
+    }
+
+    @NonNull
+    private static String convertStreamToString(InputStream is) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
     }
 
     private boolean hasNetwork() {

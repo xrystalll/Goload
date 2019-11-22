@@ -49,7 +49,7 @@ public class UploadFragment extends Fragment {
 
     private TextView fileName;
     private EditText userName;
-    private String filePath;
+    private String filePath, nameFile;
     private View loader;
     private static final int FILE_REQUEST = 1;
     private static final String URL_DATA = "https://goload.ru/api/upload.php?from=ru.xrystalll.goload";
@@ -149,7 +149,7 @@ public class UploadFragment extends Fragment {
                 File sourceFile = new File(path);
                 if (sourceFile.isFile()) {
                     filePath = path;
-                    String nameFile = new File(filePath).getName();
+                    nameFile = new File(filePath).getName();
                     fileName.setText(nameFile);
                 } else {
                     Toast.makeText(getActivity(), "File not exist:" + path, Toast.LENGTH_SHORT).show();
@@ -159,7 +159,6 @@ public class UploadFragment extends Fragment {
     }
 
     private void uploadFile() {
-        String sourceFileUri = filePath;
         HttpURLConnection conn;
         DataOutputStream dos;
         String lineEnd = "\r\n";
@@ -171,7 +170,7 @@ public class UploadFragment extends Fragment {
         int maxBufferSize = 1024 * 1024;
 
         try {
-            FileInputStream fileInputStream = new FileInputStream(sourceFileUri);
+            FileInputStream fileInputStream = new FileInputStream(filePath);
             URL url = new URL(URL_DATA);
 
             conn = (HttpURLConnection) url.openConnection();
@@ -182,7 +181,7 @@ public class UploadFragment extends Fragment {
             conn.setRequestProperty("Connection", "Keep-Alive");
             conn.setRequestProperty("ENCTYPE", "multipart/form-data");
             conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-            conn.setRequestProperty("filename", sourceFileUri);
+            conn.setRequestProperty("filename", nameFile);
             conn.setRequestProperty("username", user);
             conn.setRequestProperty("del", storageValue);
 
@@ -212,7 +211,7 @@ public class UploadFragment extends Fragment {
             // File
             dos.writeBytes(twoHyphens + boundary + lineEnd);
             dos.writeBytes("Content-Disposition: form-data; name=\"filename\";" +
-                    "filename=\"" + sourceFileUri + "\"" + lineEnd);
+                    "filename=\"" + nameFile + "\"" + lineEnd);
             dos.writeBytes(lineEnd);
 
             bytesAvailable = fileInputStream.available();
@@ -232,8 +231,8 @@ public class UploadFragment extends Fragment {
             dos.writeBytes(lineEnd);
             dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
-            int serverResponseCode = conn.getResponseCode();
 
+            int serverResponseCode = conn.getResponseCode();
             if (serverResponseCode == 200) {
                 InputStream response = conn.getInputStream();
                 jsonResponse = convertStreamToString(response);

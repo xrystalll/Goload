@@ -193,7 +193,7 @@ public class FilePickerActivity extends AppCompatActivity implements DirectoryFr
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem menuItem) {
         if (menuItem.getItemId() == android.R.id.home) {
             onBackPressed();
         } else if (menuItem.getItemId() == R.id.action_close) {

@@ -2,18 +2,19 @@ package ru.xrystalll.goload;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -34,6 +35,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 
+import ru.xrystalll.goload.support.SettingsUtils;
+
 public class ReceivingActivity extends AppCompatActivity {
 
     private static final String URL_DATA = "https://goload.ru/api/upload.php?from=ru.xrystalll.goload&action=shared";
@@ -42,6 +45,10 @@ public class ReceivingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SettingsUtils settingsUtils = new SettingsUtils(getBaseContext());
+        setTheme(settingsUtils.loadThemeState() ? R.style.LightTheme : R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiving);
 
@@ -61,7 +68,12 @@ public class ReceivingActivity extends AppCompatActivity {
 
         if (Intent.ACTION_SEND.equals(action) && type != null && hasNetwork()) {
             if (type.startsWith("image/")) {
-                handleSendImage(intent);
+                if (getPermission()) {
+                    handleSendImage(intent);
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }
             }
         } else {
             Intent i = new Intent(this, MainActivity.class);
@@ -205,23 +217,6 @@ public class ReceivingActivity extends AppCompatActivity {
         }
     }
 
-    private String getRealPathFromURI(Uri contentUri) {
-        try {
-            String[] projection = { MediaStore.Images.Media.DATA };
-            Cursor cursor = getContentResolver()
-                    .query(contentUri,  projection, null, null, null);
-            assert cursor != null;
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            String path = cursor.getString(column_index);
-            cursor.close();
-            return path;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     @NonNull
     private String saveImgUri(@NonNull Context context, Uri imgUri) {
         final int chunkSize = 1024;
@@ -279,6 +274,11 @@ public class ReceivingActivity extends AppCompatActivity {
         assert connectivityManager != null;
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private boolean getPermission() {
+        String permission = "android.permission.WRITE_EXTERNAL_STORAGE";
+        return checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }
 
 }

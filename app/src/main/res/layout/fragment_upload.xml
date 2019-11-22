@@ -47,7 +47,8 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textColor="?attr/colorText"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    style="@style/TextAppearance.AppCompat.Body2" />
 
             </LinearLayout>
 

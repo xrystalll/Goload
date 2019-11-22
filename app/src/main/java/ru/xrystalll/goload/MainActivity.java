@@ -32,11 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private Fragment fragment;
     private FragmentManager fragmentManager;
 
-    private boolean getPermission(String permission) {
-        String stringBuilder = "android.permission." + permission;
-        return checkCallingOrSelfPermission(stringBuilder) != PackageManager.PERMISSION_GRANTED;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -51,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         Locale locale = new Locale(lang);
         setLocale(locale);
 
-        if (getPermission("WRITE_EXTERNAL_STORAGE")) {
+        if (getPermission()) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
@@ -101,6 +96,11 @@ public class MainActivity extends AppCompatActivity {
         Configuration conf = res.getConfiguration();
         conf.locale = locale;
         res.updateConfiguration(conf, dm);
+    }
+
+    private boolean getPermission() {
+        String permission = "android.permission.WRITE_EXTERNAL_STORAGE";
+        return checkCallingOrSelfPermission(permission) != PackageManager.PERMISSION_GRANTED;
     }
 
     @Override

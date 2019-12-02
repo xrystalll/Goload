@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Goload</string>
-    <string name="app_version" translatable="false">version 4.1.2</string>
+    <string name="app_version" translatable="false">version 4.2</string>
     <string name="file_title">View file</string>
     <string name="search_title">Search</string>
     <string name="picker_title">Choose file</string>
@@ -86,4 +86,6 @@
 
     <!-- Search Strings -->
     <string name="nothing_found">Nothing found</string>
+
+    <string name="more_options">More options</string>
 </resources>

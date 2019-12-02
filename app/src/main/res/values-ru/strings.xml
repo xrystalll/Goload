@@ -79,4 +79,6 @@
 
     <!-- Search Strings -->
     <string name="nothing_found">Ничего не найдено</string>
+
+    <string name="more_options">Ещё</string>
 </resources>

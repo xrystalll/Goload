@@ -149,6 +149,13 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     }
 
+    private void playPlayer() {
+        if (exoPlayer != null) {
+            exoPlayer.setPlayWhenReady(true);
+            exoPlayer.getPlaybackState();
+        }
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -158,7 +165,7 @@ public class FullscreenActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        pausePlayer();
+        playPlayer();
     }
 
     @Override

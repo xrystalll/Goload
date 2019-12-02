@@ -127,6 +127,7 @@ public class FileActivity extends AppCompatActivity {
     private boolean initStage = true;
     private Handler handler = new Handler();
 
+    private String timeRemoveSheet, fileSizeSheet, fileSheet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -289,6 +290,10 @@ public class FileActivity extends AppCompatActivity {
                     String format = o.getString("format");
                     String password = o.getString("password");
                     final String fileSize = o.getString("file_size");
+
+                    timeRemoveSheet = timeRemove;
+                    fileSizeSheet = fileSize;
+                    fileSheet = file;
 
                     fillCard(author, time, name, text, file, like, comments, load, views, format);
 
@@ -849,7 +854,10 @@ public class FileActivity extends AppCompatActivity {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
         }
-        pauseExoPlayer();
+        if (exoPlayer != null) {
+            exoPlayer.stop();
+            exoPlayer.release();
+        }
         clearMediaPlayer();
     }
 
@@ -870,6 +878,10 @@ public class FileActivity extends AppCompatActivity {
             finish();
         } else if (itemId == R.id.action_open_url) {
             openTab(BASE_API_URL + "/file" + fileId);
+        } else if (itemId == R.id.action_about_file){
+            long timestamp_del = Long.parseLong(timeRemoveSheet) * 1000L;
+            new BottomSheetFragment(fileSizeSheet, getDate(timestamp_del), fileSheet)
+                    .show(getSupportFragmentManager(), "infoDialog");
         }
         return super.onOptionsItemSelected(item);
     }

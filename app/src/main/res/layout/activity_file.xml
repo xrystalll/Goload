@@ -99,11 +99,14 @@
                                     android:layout_height="36dp"
                                     android:padding="8dp"
                                     android:layout_alignParentEnd="true"
-                                    android:background="@color/transparent"
                                     android:contentDescription="share"
                                     android:src="@drawable/ic_share_white_24dp"
                                     android:tint="?attr/colorText"
                                     android:alpha="0.8"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                                    android:clipChildren="false"
                                     tools:ignore="UnusedAttribute" />
 
                             </RelativeLayout>
@@ -206,7 +209,11 @@
                                     android:contentDescription="likes"
                                     android:padding="8dp"
                                     android:src="@drawable/ic_like_white_24dp"
-                                    android:tint="@color/colorActionIcon" />
+                                    android:tint="@color/colorActionIcon"
+                                    android:clickable="false"
+                                    android:focusable="true"
+                                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                                    android:clipChildren="false" />
 
                                 <TextView
                                     android:id="@+id/likeCount"
@@ -279,7 +286,8 @@
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true">
+                                    android:layout_alignParentEnd="true"
+                                    tools:ignore="UselessParent">
 
                                     <ImageView
                                         android:id="@+id/viewsIcon"
@@ -288,7 +296,8 @@
                                         android:contentDescription="views"
                                         android:padding="8dp"
                                         android:src="@drawable/ic_views_white_24dp"
-                                        android:tint="@color/colorActionIcon" />
+                                        android:tint="@color/colorActionIcon"
+                                        tools:ignore="TooDeepLayout" />
 
                                     <TextView
                                         android:id="@+id/viewsCount"

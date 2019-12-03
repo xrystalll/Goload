@@ -20,6 +20,10 @@
             android:id="@id/exo_play"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clipChildren="false"
             style="@style/ExoMediaButton.Play"
             tools:ignore="ContentDescription" />
 
@@ -27,6 +31,10 @@
             android:id="@id/exo_pause"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clipChildren="false"
             style="@style/ExoMediaButton.Pause"
             tools:ignore="ContentDescription" />
 

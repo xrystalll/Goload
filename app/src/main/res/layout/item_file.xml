@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -123,7 +124,11 @@
                         android:contentDescription="likes"
                         android:padding="8dp"
                         android:src="@drawable/ic_like_white_24dp"
-                        android:tint="@color/colorActionIcon" />
+                        android:tint="@color/colorActionIcon"
+                        android:clickable="false"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:clipChildren="false" />
 
                     <TextView
                         android:id="@+id/likeCount"
@@ -196,7 +201,8 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true">
+                        android:layout_alignParentEnd="true"
+                        tools:ignore="UselessParent">
 
                         <ImageView
                             android:id="@+id/viewsIcon"

@@ -22,6 +22,7 @@
             android:label="@string/app_name"
             android:configChanges="keyboardHidden"
             android:launchMode="singleTask"
+            android:largeHeap="true"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme"
@@ -78,6 +79,15 @@
             android:configChanges="orientation|screenSize|locale"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme"
+            android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/login_title"
+            android:configChanges="orientation|screenSize|locale"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan"
             android:parentActivityName=".MainActivity">
         </activity>
         <activity

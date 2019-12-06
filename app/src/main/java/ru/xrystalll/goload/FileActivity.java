@@ -91,6 +91,7 @@ public class FileActivity extends AppCompatActivity {
     private final String BASE_API_URL = "https://goload.ru";
     private SharedPreferences sharedPref;
     private String fileId, author;
+    private String userId = "0";
     private View loader;
     private NestedScrollView fileView;
     private CardView fileCardExtended;
@@ -213,6 +214,10 @@ public class FileActivity extends AppCompatActivity {
             user_input.setVisibility(View.GONE);
             author = user;
         }
+        String sharedUserId = sharedPref.getString("UserId", "");
+        if (!user.equalsIgnoreCase("")) {
+            userId = sharedUserId;
+        }
 
         user_input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -237,7 +242,7 @@ public class FileActivity extends AppCompatActivity {
                     if (author != null) {
                         if (text.length() > 1) {
                             hideKeyboard(FileActivity.this);
-                            writeComment(fileId, author, text);
+                            writeComment(fileId, userId, author, text);
                             input.getText().clear();
                         }
                     } else {
@@ -249,7 +254,7 @@ public class FileActivity extends AppCompatActivity {
 
                             if (text.length() > 1) {
                                 hideKeyboard(FileActivity.this);
-                                writeComment(fileId, author, text);
+                                writeComment(fileId, userId, author, text);
                                 input.getText().clear();
                             }
                         } else {
@@ -650,7 +655,7 @@ public class FileActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void writeComment(final String id, final String author, final String text) {
+    private void writeComment(final String id, final String userId, final String author, final String text) {
         String URL_DATA = BASE_API_URL + "/api/writecomment.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_DATA, new Response.Listener<String>() {
@@ -693,6 +698,7 @@ public class FileActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("id", id);
+                params.put("userid", userId);
                 params.put("author", author);
                 params.put("text", text);
                 return params;

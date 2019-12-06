@@ -4,6 +4,7 @@
     <string name="app_version" translatable="false">version 4.2</string>
     <string name="file_title">View file</string>
     <string name="search_title">Search</string>
+    <string name="login_title">Login</string>
     <string name="picker_title">Choose file</string>
     <string name="rules_title">Terms of use</string>
     <string name="licenses_title">Licenses</string>
@@ -13,15 +14,18 @@
     <string name="text_settings">Settings</string>
 
     <!-- Settings Strings -->
+    <string name="account_header">ACCOUNT</string>
     <string name="theme_header">THEME</string>
     <string name="lang_header">LANGUAGE</string>
     <string name="data_header">DATA</string>
     <string name="about_header">ABOUT</string>
 
+    <string name="settings_account_title">Log in to account</string>
     <string name="settings_theme_title">Dark mode</string>
     <string name="settings_lang_title">English</string>
     <string name="settings_cache_title">Clear cache</string>
 
+    <string name="settings_account_description">Log in if you have an account</string>
     <string name="settings_theme_description">Use dark mode in the app</string>
     <string name="settings_lang_description">Language used in the app</string>
     <string name="settings_cache_description">Delete all images, videos, files saved in storage</string>
@@ -84,8 +88,13 @@
     <string name="time_to_remove_from_server">Storage date until:</string>
     <string name="full_file_link">Full file link:</string>
 
+    <string name="more_options">More options</string>
+
     <!-- Search Strings -->
     <string name="nothing_found">Nothing found</string>
 
-    <string name="more_options">More options</string>
+    <!-- Login Strings -->
+    <string name="enter_login_error">Enter login</string>
+    <string name="enter_password_error">Enter password</string>
+
 </resources>

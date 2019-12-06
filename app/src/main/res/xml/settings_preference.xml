@@ -3,6 +3,22 @@
 
     <PreferenceCategory
         app:layout="@layout/preference_category_material"
+        app:title="@string/account_header"
+        app:iconSpaceReserved="false"
+        tools:ignore="PrivateResource">
+
+        <Preference
+            app:key="log_in"
+            app:layout="@layout/preference_material"
+            app:title="@string/settings_account_title"
+            app:summary="@string/settings_account_description"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        app:layout="@layout/preference_category_material"
         app:title="@string/theme_header"
         app:iconSpaceReserved="false"
         tools:ignore="PrivateResource">

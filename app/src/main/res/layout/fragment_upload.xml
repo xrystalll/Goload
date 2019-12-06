@@ -205,12 +205,12 @@
 
                 <ProgressBar
                     android:id="@+id/uploadLoader"
-                    style="?android:attr/progressBarStyle"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="16dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    style="?android:attr/progressBarStyle" />
 
             </LinearLayout>
 

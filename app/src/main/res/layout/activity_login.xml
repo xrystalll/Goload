@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                app:elevation="0dp">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:background="?attr/colorCard"
+                    app:layout_scrollFlags="scroll|enterAlways|snap"
+                    app:theme="@style/ToolbarTheme" />
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorCard">
+
+                <LinearLayout
+                    android:id="@+id/title_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="24dp">
+
+                    <ImageView
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:scaleX="1.6"
+                        android:scaleY="1.6"
+                        android:layout_gravity="center"
+                        android:alpha="0.5"
+                        android:contentDescription="@string/login_title"
+                        android:src="@drawable/ic_logo"
+                        android:tint="?attr/colorText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/login_block"
+                    android:layout_below="@+id/title_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:gravity="bottom">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/login_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:background="?attr/rounded_input_bg"
+                            android:paddingStart="18dp"
+                            android:paddingEnd="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:inputType="textShortMessage"
+                            android:hint="@string/enter_login_error"
+                            android:textColorHint="?attr/colorInputHint"
+                            android:textColor="?attr/colorInputText"
+                            android:textSize="15sp"
+                            android:maxLines="1"
+                            android:imeOptions="actionNext|flagNoExtractUi" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/password_block"
+                    android:layout_below="@+id/login_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="24dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:gravity="bottom"
+                        app:passwordToggleEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/password_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:background="?attr/rounded_input_bg"
+                            android:paddingStart="18dp"
+                            android:paddingEnd="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:inputType="textPassword"
+                            android:hint="@string/enter_password_error"
+                            android:textColorHint="?attr/colorInputHint"
+                            android:textColor="?attr/colorInputText"
+                            android:textSize="15sp"
+                            android:maxLines="1"
+                            android:imeOptions="actionDone|flagNoExtractUi" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/auth"
+                    android:layout_width="130dp"
+                    android:layout_height="36dp"
+                    android:text="@string/login_title"
+                    android:elevation="16dp"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rounded_button" />
+
+                <ProgressBar
+                    android:id="@+id/authLoader"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:visibility="gone"
+                    style="?android:attr/progressBarStyle" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

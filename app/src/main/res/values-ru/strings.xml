@@ -2,6 +2,7 @@
 <resources>
     <string name="file_title">Просмотр файла</string>
     <string name="search_title">Поиск</string>
+    <string name="login_title">Вход</string>
     <string name="picker_title">Выберите файл</string>
     <string name="rules_title">Правила использования</string>
     <string name="licenses_title">Лицензии</string>
@@ -11,15 +12,18 @@
     <string name="text_settings">Настройки</string>
 
     <!-- Settings Strings -->
+    <string name="account_header">АККАУНТ</string>
     <string name="theme_header">ТЕМА</string>
     <string name="lang_header">ЯЗЫК</string>
     <string name="data_header">ДАННЫЕ</string>
     <string name="about_header">О ПРИЛОЖЕНИИ</string>
 
+    <string name="settings_account_title">Войти в аккаунт</string>
     <string name="settings_theme_title">Тёмная тема</string>
     <string name="settings_lang_title">Русский</string>
     <string name="settings_cache_title">Очистить кэш</string>
 
+    <string name="settings_account_description">Авторизуйтесь если у вас есть аккаунт</string>
     <string name="settings_theme_description">Использовать тёмную тему</string>
     <string name="settings_lang_description">Язык используемый в приложении</string>
     <string name="settings_cache_description">Удалить все изображения, видео, файлы из кэша</string>
@@ -77,8 +81,13 @@
     <string name="time_to_remove_from_server">Дата удаления с сервера:</string>
     <string name="full_file_link">Ссылка на файл:</string>
 
+    <string name="more_options">Ещё</string>
+
     <!-- Search Strings -->
     <string name="nothing_found">Ничего не найдено</string>
 
-    <string name="more_options">Ещё</string>
+    <!-- Login Strings -->
+    <string name="enter_login_error">Введите логин</string>
+    <string name="enter_password_error">Введите пароль</string>
+
 </resources>

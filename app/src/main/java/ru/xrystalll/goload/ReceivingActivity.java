@@ -41,6 +41,7 @@ public class ReceivingActivity extends AppCompatActivity {
 
     private static final String URL_DATA = "https://goload.ru/api/upload.php?from=ru.xrystalll.goload&action=shared";
     private String userName, jsonResponse, filePath;
+    private String userId = "0";
     private ProgressBar sharedUploading;
 
     @Override
@@ -58,6 +59,10 @@ public class ReceivingActivity extends AppCompatActivity {
             userName = user;
         } else {
             userName = "Anonim";
+        }
+        String sharedUserId = sharedPref.getString("UserId", "");
+        if (!user.equalsIgnoreCase("")) {
+            userId = sharedUserId;
         }
 
         sharedUploading = findViewById(R.id.sharedUploading);
@@ -126,9 +131,20 @@ public class ReceivingActivity extends AppCompatActivity {
             conn.setRequestProperty("ENCTYPE", "multipart/form-data");
             conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
             conn.setRequestProperty("filename", filePath);
+            conn.setRequestProperty("userid", userId);
             conn.setRequestProperty("username", userName);
 
             dos = new DataOutputStream(conn.getOutputStream());
+
+
+            // UserId
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"userid\";" + lineEnd);
+            dos.writeBytes(lineEnd);
+
+            dos.write(userId.getBytes());
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
 
             // Username

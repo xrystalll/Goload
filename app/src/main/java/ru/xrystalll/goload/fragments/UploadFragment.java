@@ -56,6 +56,7 @@ public class UploadFragment extends Fragment {
     private String jsonResponse;
     private SharedPreferences sharedPref;
     private String storageValue = "10";
+    private String userId = "0";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,6 +72,10 @@ public class UploadFragment extends Fragment {
         String user = sharedPref.getString("UserName", "");
         if (!user.equalsIgnoreCase("")) {
             userName.setText(user);
+        }
+        String sharedUserId = sharedPref.getString("UserId", "");
+        if (!user.equalsIgnoreCase("")) {
+            userId = sharedUserId;
         }
 
         fileInput.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +187,7 @@ public class UploadFragment extends Fragment {
             conn.setRequestProperty("ENCTYPE", "multipart/form-data");
             conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
             conn.setRequestProperty("filename", nameFile);
+            conn.setRequestProperty("userid", userId);
             conn.setRequestProperty("username", user);
             conn.setRequestProperty("del", storageValue);
 
@@ -194,6 +200,16 @@ public class UploadFragment extends Fragment {
             dos.writeBytes(lineEnd);
 
             dos.write(storageValue.getBytes());
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+
+            // UserId
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"userid\";" + lineEnd);
+            dos.writeBytes(lineEnd);
+
+            dos.write(userId.getBytes());
             dos.writeBytes(lineEnd);
             dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 

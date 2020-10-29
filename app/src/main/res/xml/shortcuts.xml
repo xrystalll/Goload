@@ -1,0 +1,20 @@
+<shortcuts xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:shortcutId="search"
+        android:icon="@drawable/ic_search_shortcut"
+        android:shortcutShortLabel="@string/search_title"
+        android:shortcutLongLabel="@string/search_title"
+        tools:ignore="UnusedAttribute">
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetPackage="ru.xrystalll.goload"
+            android:targetClass="ru.xrystalll.goload.MainActivity" />
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="ru.xrystalll.goload"
+            android:targetClass="ru.xrystalll.goload.SearchActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

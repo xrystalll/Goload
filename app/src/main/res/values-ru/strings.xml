@@ -89,5 +89,6 @@
     <!-- Login Strings -->
     <string name="enter_login_error">Введите логин</string>
     <string name="enter_password_error">Введите пароль</string>
+    <string name="register_now">Нет аккаунта? Зарегистрируйтесь здесь</string>
 
 </resources>

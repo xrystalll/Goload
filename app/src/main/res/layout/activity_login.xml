@@ -160,7 +160,20 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorText"
+                android:text="@string/register_now"
+                android:layout_gravity="center"
+                android:layout_marginBottom="24dp"
+                android:singleLine="true"
+                android:textSize="15sp"
+                android:alpha="0.8" />
+
         </LinearLayout>
+
     </ScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

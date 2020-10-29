@@ -54,6 +54,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
             Picasso.get()
                     .load(file)
+                    .error(R.drawable.placeholder)
                     .into(imageView);
         } else if (getIntent().hasExtra("passingVideo")) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

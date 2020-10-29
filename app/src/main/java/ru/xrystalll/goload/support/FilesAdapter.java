@@ -81,6 +81,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
             Picasso.get()
                     .load(listItem.getFilePreview())
                     .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder)
                     .into(holder.imageViewImagePreview);
         } else if (listItem.getFormat().contains("mp4") ||
             listItem.getFormat().contains("webm")) {
@@ -89,6 +90,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
             Picasso.get()
                     .load(listItem.getThumbnail())
                     .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder)
                     .into(holder.imageViewImagePreview);
         } else {
             holder.fakePlay.setVisibility(View.GONE);

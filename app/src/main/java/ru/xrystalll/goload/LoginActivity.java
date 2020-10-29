@@ -5,14 +5,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -60,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         loginInput = findViewById(R.id.login_input);
         passwordInput = findViewById(R.id.password_input);
         Button btn = findViewById(R.id.auth);
+        TextView registration = findViewById(R.id.reg);
         loader = findViewById(R.id.authLoader);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +83,18 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), getString(R.string.check_connection_error), Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });
+
+        registration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                CustomTabsIntent customTabsIntent = builder.build();
+                builder.setShowTitle(true);
+                builder.setToolbarColor(getResources().getColor(R.color.colorAccent));
+                customTabsIntent.intent.setPackage("com.android.chrome");
+                customTabsIntent.launchUrl(LoginActivity.this, Uri.parse(BASE_API_URL + "/sign_up"));
             }
         });
     }

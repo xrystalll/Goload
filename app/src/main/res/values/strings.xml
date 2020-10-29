@@ -96,5 +96,6 @@
     <!-- Login Strings -->
     <string name="enter_login_error">Enter login</string>
     <string name="enter_password_error">Enter password</string>
+    <string name="register_now">Not registered yet? Register now</string>
 
 </resources>
